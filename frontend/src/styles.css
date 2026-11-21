@@ -346,8 +346,8 @@ input:not([type='checkbox']):focus { border-color: rgba(34, 211, 238, 0.6); box-
 
 /* ---------- toasts ---------- */
 .toasts { position: fixed; right: 24px; bottom: 24px; display: flex; flex-direction: column; gap: 10px; z-index: 100; }
-.toast { padding: 13px 18px 13px 16px; border-radius: 15px; font-size: 14px; font-weight: 500; border-left: 3px solid var(--up); animation: toast-in 0.4s cubic-bezier(0.2, 0.9, 0.3, 1.2); max-width: 360px; }
-.toast-err { border-left-color: var(--down); }
+.toast { padding: 13px 18px; border-radius: 15px; font-size: 14px; font-weight: 500; animation: toast-in 0.4s cubic-bezier(0.2, 0.9, 0.3, 1.2); max-width: 360px; border-color: rgba(52, 211, 153, 0.35); background: linear-gradient(145deg, rgba(52, 211, 153, 0.16), rgba(255, 255, 255, 0.03)); }
+.toast-err { border-color: rgba(251, 113, 133, 0.45); background: linear-gradient(145deg, rgba(251, 113, 133, 0.2), rgba(255, 255, 255, 0.03)); }
 @keyframes toast-in { from { opacity: 0; transform: translateX(30px) scale(0.95); } }
 
 /* ---------- responsive ---------- */
