@@ -76,6 +76,17 @@ typography:
     fontSize: "13px"
     fontWeight: 500
     lineHeight: 1.35
+  public-headline:
+    fontFamily: "Inter, -apple-system, BlinkMacSystemFont, system-ui, sans-serif"
+    fontSize: "18px"
+    fontWeight: 600
+    lineHeight: 1.2
+    letterSpacing: "-0.015em"
+  public-body:
+    fontFamily: "Inter, -apple-system, BlinkMacSystemFont, system-ui, sans-serif"
+    fontSize: "14px"
+    fontWeight: 500
+    lineHeight: 1.3
   mono:
     fontFamily: "ui-monospace, SF Mono, Cascadia Mono, Menlo, Consolas, monospace"
     fontSize: "12.5px"
@@ -251,7 +262,7 @@ The Monitors section head sets the headline left and the ledger right, wrapping 
 
 Monitor detail is an in-page view at the same 1320px measure (Escape or Back returns), stacking back link, title with actions, state line, optional red alert strip, a glass ledger, the tide chart panel, then two equal panels (recent checks, incidents) from 900px up.
 
-The public page is an 880px reading column: 68px masthead, verdict card, services card, incidents card, footer, separated by 20px.
+The public page is a 720px reading column: 68px masthead, verdict card, services card, incidents card, footer, separated by 20px.
 
 Spacing steps in practice are 8 / 12 / 16 / 20 / 24 / 32px, with 4–6px gaps inside controls.
 
@@ -323,7 +334,7 @@ Forty 3px ticks, 2px apart, 22px tall, one per check. Up ticks are graded by res
 The response-time chart, carried from the almanac. A 240px plot on a banded, non-linear scale: depth bands under 100ms, 100–300ms, 300ms–1s and above get fixed shares of the height, shaded in faint blue (0 / 7% / 13%) with a slate top band. Dashed 14% white contours mark 100ms, 300ms and 1s, labelled at left as italic serif "soundings". The curve is a 2px light-blue line; the peak is labelled with an italic serif crest. Outages are red 45° hatching over the full height. Pointer or tap shows a dashed cursor, a light-blue dot and a readout in the caption. When every check failed, the bands drop and a capsule reads "No successful checks in this range" in red-ink italic serif.
 
 ### Day Strip (public)
-Thirty equal cells, 22px tall, 2px gaps, 2px corners, per service: 80% green at 99.9%+, 45% green at 99–99.9%, orange at 95–99%, red under 95%, fill when empty. Hover brightens a cell and shows a blurred glass-strong tooltip with date and uptime. One "30 days ago … Today" axis closes the card; no per-row dates, no legend.
+Thirty equal cells, 32px tall, 3px gaps, 2px corners, per service: 80% green at 99.9%+, 45% green at 99–99.9%, orange at 95–99%, red under 95%, fill when empty. Hover brightens a cell and shows a blurred glass-strong tooltip with date and uptime. One "30 days ago … Today" axis closes the card; no per-row dates, no legend.
 
 ### Public page
 Hosted-status-page layout, set entirely in Inter (variable, self-hosted; `.public` overrides --serif and --sans, so the dashboard keeps Source Serif 4 / Public Sans). Header: logo, 17px wordmark, hairline-divided "Status", and "Updated …" at right (hidden on phones). A glass verdict card with a 40px solid circle (green check, red alert, grey while loading), an 18px/600 headline and one ink-3 line; outages add a red 30% ring. "System status" card with the date range at right; each row is name + 7px dot, ink-3 state (only down is coloured), "100% uptime", then 32px day cells. Section titles 15px/600; table heads 12px sans.
