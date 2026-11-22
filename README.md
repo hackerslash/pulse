@@ -77,8 +77,9 @@ The Playwright suite starts its own backend and frontend with a temporary databa
 
 - Every second the scheduler picks monitors that are due (interval 10 s – 24 h) and probes each on a virtual thread.
 - `GET` with a 10 s timeout, following redirects. Status below 400 = **up**; anything else, a timeout, or a DNS/TLS/connect error = **down**.
+- A failed scheduled check is probed again 20 s later (`pulse.retry`, `0s` turns it off) and counts only if that fails too, so a restart or one dropped request is no outage. **Check now** reports at once.
 - With a token set, the request carries `Authorization: Bearer <token>`. The token is never returned by the API.
-- A JSON reply with integer `up` and `total` fields is scored: under 20% working is **down**, 20–70% is **degraded** (shown yellow, no incident or webhook), 70% or more is **up**. The public page shows the `up/total` count.
+- A JSON reply with integer `up` and `total` fields is scored: under 20% working is **down**, 20–70% is **degraded** (shown yellow, no incident or webhook), 70% or more is **up**; `total` 0 counts as up with no information. The public page shows the `up/total` count.
 - An outage opens an incident and a recovery resolves it. Each transition triggers enabled webhooks.
 
 ## Webhooks

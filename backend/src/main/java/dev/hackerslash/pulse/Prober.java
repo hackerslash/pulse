@@ -19,7 +19,7 @@ import tools.jackson.databind.json.JsonMapper;
 @Component
 public class Prober {
 
-    /** degraded: up, but a JSON {"up": n, "total": m} reply says fewer than 70% of its items work. */
+    /** degraded: up, but a JSON {"up": n, "total": m} reply says fewer than 70% of its items work (0 items: no information). */
     public record Result(boolean up, int latencyMs, Integer statusCode, String error, boolean degraded, String detail) {
         Result(boolean up, int latencyMs, Integer statusCode, String error) {
             this(up, latencyMs, statusCode, error, false, null);
@@ -75,7 +75,7 @@ public class Prober {
         }
         if (n == null || !n.path("up").isIntegralNumber() || !n.path("total").isIntegralNumber()) return new Result(true, ms, code, null);
         int up = n.get("up").asInt(), total = n.get("total").asInt();
-        if (total <= 0) return new Result(true, ms, code, null, true, "Nothing checked yet");
+        if (total <= 0) return new Result(true, ms, code, null, false, "Nothing checked yet");
         String detail = up + "/" + total + " up";
         double share = (double) up / total;
         if (share >= 0.7) return new Result(true, ms, code, null, false, detail);

@@ -8,6 +8,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,16 +25,19 @@ public class MonitorService {
     private final Prober prober;
     private final Notifier notifier;
     private final TransactionTemplate tx;
+    private final Duration retry;
     private final ExecutorService pool = Executors.newVirtualThreadPerTaskExecutor();
     private final Set<Long> inFlight = ConcurrentHashMap.newKeySet();
 
-    MonitorService(MonitorRepo monitors, CheckRepo checks, IncidentRepo incidents, Prober prober, Notifier notifier, TransactionTemplate tx) {
+    MonitorService(MonitorRepo monitors, CheckRepo checks, IncidentRepo incidents, Prober prober, Notifier notifier, TransactionTemplate tx,
+                   @Value("${pulse.retry:20s}") Duration retry) {
         this.monitors = monitors;
         this.checks = checks;
         this.incidents = incidents;
         this.prober = prober;
         this.notifier = notifier;
         this.tx = tx;
+        this.retry = retry;
     }
 
     @Scheduled(fixedDelayString = "${pulse.tick:1s}")
@@ -48,7 +52,9 @@ public class MonitorService {
         if (!inFlight.add(id)) return;
         pool.submit(() -> {
             try {
-                check(id);
+                check(id, true);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
             } catch (Exception e) {
                 log.error("check failed for monitor {}", id, e);
             } finally {
@@ -58,9 +64,23 @@ public class MonitorService {
     }
 
     public void check(Long id) {
+        try {
+            check(id, false);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+    }
+
+    /** confirm: a failure is probed again after pulse.retry before it counts, so a restart or one dropped request is no outage. */
+    void check(Long id, boolean confirm) throws InterruptedException {
         Monitor m = monitors.findById(id).orElse(null);
         if (m == null) return;
-        Prober.Result r = prober.probe(m.url, m.secret);
+        Prober.Result probed = prober.probe(m.url, m.secret);
+        if (confirm && !probed.up() && !retry.isZero()) {
+            Thread.sleep(retry);
+            probed = prober.probe(m.url, m.secret);
+        }
+        Prober.Result r = probed;
         Instant now = Instant.now();
         Monitor.Status next = r.up() ? Monitor.Status.UP : Monitor.Status.DOWN;
         boolean changed = next != m.status;

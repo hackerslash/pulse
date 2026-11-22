@@ -15,7 +15,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
-@SpringBootTest(properties = {"spring.datasource.url=jdbc:h2:mem:flow", "pulse.tick=1h", "pulse.password=pw", "pulse.title= LinkGenie "})
+@SpringBootTest(properties = {"spring.datasource.url=jdbc:h2:mem:flow", "pulse.tick=1h", "pulse.password=pw", "pulse.title= LinkGenie ", "pulse.retry=300ms"})
 @AutoConfigureMockMvc
 class MonitorFlowTest {
 
@@ -30,6 +30,7 @@ class MonitorFlowTest {
     @Autowired MockMvc mvc;
     @Autowired MonitorRepo monitors;
     @Autowired IncidentRepo incidents;
+    @Autowired MonitorService service;
 
     @Test
     void upDownRecoverLifecycle() throws Exception {
@@ -117,6 +118,32 @@ class MonitorFlowTest {
             mvc.perform(post("/api/monitors/" + id + "/check"))
                     .andExpect(jsonPath("$.status").value("DOWN"))
                     .andExpect(jsonPath("$.lastError").value("1/10 up"));
+            mvc.perform(delete("/api/monitors/" + id));
+        }
+    }
+
+    @Test
+    void scheduledFailureIsConfirmedBeforeItCounts() throws Exception {
+        try (var site = new TestServer()) {
+            String body = mvc.perform(post("/api/monitors").contentType(MediaType.APPLICATION_JSON)
+                            .content("{\"name\":\"Blip\",\"url\":\"" + site.url("/") + "\",\"intervalSeconds\":60}"))
+                    .andReturn().getResponse().getContentAsString();
+            long id = Long.parseLong(body.replaceAll(".*\"id\":(\\d+).*", "$1"));
+            awaitChecked(id);
+
+            site.status = 502;
+            Thread.ofVirtual().start(() -> {
+                try { Thread.sleep(100); } catch (InterruptedException ignored) {}
+                site.status = 200;
+            });
+            service.check(id, true);
+            assertThat(monitors.findById(id).orElseThrow().status).isEqualTo(Monitor.Status.UP);
+            assertThat(incidents.findAll()).isEmpty();
+
+            service.check(id, true);
+            site.status = 502;
+            service.check(id, true);
+            assertThat(monitors.findById(id).orElseThrow().status).isEqualTo(Monitor.Status.DOWN);
             mvc.perform(delete("/api/monitors/" + id));
         }
     }

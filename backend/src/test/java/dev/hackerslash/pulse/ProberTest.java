@@ -39,7 +39,10 @@ class ProberTest {
         var red = Prober.score("{\"up\":1,\"total\":10}".getBytes(), 5, 200);
         assertThat(red.up()).isFalse();
         assertThat(red.error()).isEqualTo("1/10 up");
-        assertThat(Prober.score("{\"up\":0,\"total\":0}".getBytes(), 5, 200).degraded()).isTrue();
+        var empty = Prober.score("{\"up\":0,\"total\":0}".getBytes(), 5, 200);
+        assertThat(empty.up()).isTrue();
+        assertThat(empty.degraded()).isFalse();
+        assertThat(empty.detail()).isEqualTo("Nothing checked yet");
         var plain = Prober.score("{\"ok\":true}".getBytes(), 5, 200);
         assertThat(plain.up()).isTrue();
         assertThat(plain.detail()).isNull();
