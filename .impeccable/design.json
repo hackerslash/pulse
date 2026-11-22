@@ -416,11 +416,11 @@
       },
       "public-headline": {
         "displayName": "Public Headline",
-        "purpose": "Public status page verdict headline (Inter 600, 18px); the page is set entirely in Inter via the .public override."
+        "purpose": "Public status page verdict headline (Public Sans 600, 18px); the page is set entirely in Public Sans via the .public override."
       },
       "public-body": {
         "displayName": "Public Body",
-        "purpose": "Public status page service names, states and controls (Inter 500, 14px)."
+        "purpose": "Public status page service names, states and controls (Public Sans 500, 14px)."
       },
       "mono": {
         "displayName": "Mono",
@@ -615,15 +615,15 @@
       "name": "Public Verdict Card",
       "kind": "card",
       "refersTo": "glass-card-public",
-      "description": "Inter-set verdict block on the public page: 40px state circle, 18px 600 headline, one ink-3 line.",
+      "description": "Verdict block on the public page: 40px state circle, 18px 600 headline, one ink-3 line.",
       "html": "<section class=\"ds-verdict\"><span class=\"ds-vicon\"><svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"m5 12 5 5 9-10\"/></svg></span><div><h1>All systems operational</h1><p>Every service is responding normally.</p></div></section>",
-      "css": ":host{--ink:#eceff4;--ink-3:#8a93a3;--hair:rgba(255,255,255,.07);--glass:rgba(26,31,40,.58);--green:#30d158;--inter:'Inter',-apple-system,BlinkMacSystemFont,system-ui,sans-serif} .ds-verdict{display:flex;align-items:center;gap:16px;width:420px;padding:20px;border-radius:16px;background:var(--glass);box-shadow:inset 0 1px 0 rgba(255,255,255,.06),0 0 0 1px var(--hair);color:var(--ink);font-family:var(--inter);letter-spacing:-.006em} .ds-vicon{flex:none;display:grid;place-items:center;width:40px;height:40px;border-radius:50%;background:var(--green);color:#0a0d12} .ds-verdict h1{margin:0;font:600 18px/1.2 var(--inter);letter-spacing:-.015em} .ds-verdict p{margin:2px 0 0;font:14px/1.3 var(--inter);color:var(--ink-3)}"
+      "css": ":host{--ink:#eceff4;--ink-3:#8a93a3;--hair:rgba(255,255,255,.07);--glass:rgba(26,31,40,.58);--green:#30d158;--public-font:'Public Sans',-apple-system,BlinkMacSystemFont,system-ui,sans-serif} .ds-verdict{display:flex;align-items:center;gap:16px;width:420px;padding:20px;border-radius:16px;background:var(--glass);box-shadow:inset 0 1px 0 rgba(255,255,255,.06),0 0 0 1px var(--hair);color:var(--ink);font-family:var(--public-font);letter-spacing:-.006em} .ds-vicon{flex:none;display:grid;place-items:center;width:40px;height:40px;border-radius:50%;background:var(--green);color:#0a0d12} .ds-verdict h1{margin:0;font:600 18px/1.2 var(--public-font);letter-spacing:-.015em} .ds-verdict p{margin:2px 0 0;font:14px/1.3 var(--public-font);color:var(--ink-3)}"
     },
     {
       "name": "Public Day Strip",
       "kind": "custom",
       "refersTo": "",
-      "description": "Thirty daily uptime cells per service on the Inter-set public page, 32px tall.",
+      "description": "Thirty daily uptime cells per service on the public page, 32px tall.",
       "html": "<div class=\"ds-days\"><span class=\"ds-day ds-e\"></span><span class=\"ds-day ds-e\"></span><span class=\"ds-day ds-e\"></span><span class=\"ds-day ds-e\"></span><span class=\"ds-day ds-e\"></span><span class=\"ds-day ds-e\"></span><span class=\"ds-day ds-e\"></span><span class=\"ds-day ds-e\"></span><span class=\"ds-day ds-e\"></span><span class=\"ds-day ds-e\"></span><span class=\"ds-day ds-e\"></span><span class=\"ds-day ds-e\"></span><span class=\"ds-day ds-e\"></span><span class=\"ds-day ds-e\"></span><span class=\"ds-day ds-e\"></span><span class=\"ds-day ds-e\"></span><span class=\"ds-day ds-e\"></span><span class=\"ds-day ds-e\"></span><span class=\"ds-day ds-e\"></span><span class=\"ds-day ds-e\"></span><span class=\"ds-day ds-u\"></span><span class=\"ds-day ds-u\"></span><span class=\"ds-day ds-u\"></span><span class=\"ds-day ds-u\"></span><span class=\"ds-day ds-u\"></span><span class=\"ds-day ds-m\"></span><span class=\"ds-day ds-w\"></span><span class=\"ds-day ds-u\"></span><span class=\"ds-day ds-x\"></span><span class=\"ds-day ds-u\"></span></div>",
       "css": ":host{--bg:#0a0d12;--ink:#eceff4;--ink-2:#b4bcc8;--ink-3:#8a93a3;--hair:rgba(255,255,255,.07);--hair-2:rgba(255,255,255,.12);--fill:rgba(255,255,255,.06);--fill-2:rgba(255,255,255,.1);--fill-3:rgba(255,255,255,.14);--glass:rgba(26,31,40,.58);--blue:#0a84ff;--blue-2:#409cff;--green:#30d158;--green-tint:rgba(48,209,88,.14);--red:#ff453a;--red-ink:#ff6b62;--red-tint:rgba(255,69,58,.16);--red-wash:rgba(255,69,58,.07);--r-s:8px;--r-m:12px;--r-l:16px;--ease:cubic-bezier(.22,.8,.24,1);--sans:'Public Sans',-apple-system,system-ui,sans-serif;--serif:'Source Serif 4',Georgia,serif;--mono:ui-monospace,'SF Mono',Menlo,monospace} .ds-days{display:grid;grid-template-columns:repeat(30,minmax(0,1fr));gap:3px;width:560px} .ds-day{height:32px;border-radius:2px;transition:filter 160ms var(--ease)} .ds-day:hover{filter:brightness(1.25)} .ds-u{background:rgba(48,209,88,.8)} .ds-m{background:rgba(48,209,88,.45)} .ds-w{background:#ff9f0a} .ds-x{background:var(--red)} .ds-e{background:var(--fill)}"
     }

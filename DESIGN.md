@@ -77,13 +77,13 @@ typography:
     fontWeight: 500
     lineHeight: 1.35
   public-headline:
-    fontFamily: "Inter, -apple-system, BlinkMacSystemFont, system-ui, sans-serif"
+    fontFamily: "Public Sans, -apple-system, BlinkMacSystemFont, system-ui, sans-serif"
     fontSize: "18px"
     fontWeight: 600
     lineHeight: 1.2
     letterSpacing: "-0.015em"
   public-body:
-    fontFamily: "Inter, -apple-system, BlinkMacSystemFont, system-ui, sans-serif"
+    fontFamily: "Public Sans, -apple-system, BlinkMacSystemFont, system-ui, sans-serif"
     fontSize: "14px"
     fontWeight: 500
     lineHeight: 1.3
@@ -337,7 +337,7 @@ The response-time chart, carried from the almanac. A 240px plot on a banded, non
 Thirty equal cells, 32px tall, 3px gaps, 2px corners, per service: 80% green at 99.9%+, 45% green at 99–99.9%, orange at 95–99%, red under 95%, fill when empty. Hover brightens a cell and shows a blurred glass-strong tooltip with date and uptime. One "30 days ago … Today" axis closes the card; no per-row dates, no legend.
 
 ### Public page
-Hosted-status-page layout, set entirely in Inter (variable, self-hosted; `.public` overrides --serif and --sans, so the dashboard keeps Source Serif 4 / Public Sans). Header: logo, 17px wordmark, hairline-divided "Status", and "Updated …" at right (hidden on phones). A glass verdict card with a 40px solid circle (green check, red alert, grey while loading), an 18px/600 headline and one ink-3 line; outages add a red 30% ring. "System status" card with the date range at right; each row is name + 7px dot, ink-3 state (only down is coloured), "100% uptime", then 32px day cells. Section titles 15px/600; table heads 12px sans.
+Hosted-status-page layout, set entirely in Public Sans (`.public` points --serif at --sans, so headings drop the serif here while the dashboard keeps Source Serif 4). Header: logo, 17px wordmark, hairline-divided "Status", and "Updated …" at right (hidden on phones). A glass verdict card with a 40px solid circle (green check, red alert, grey while loading), an 18px/600 headline and one ink-3 line; outages add a red 30% ring. "System status" card with the date range at right; each row is name + 7px dot, ink-3 state (only down is coloured), "100% uptime", then 32px day cells. Section titles 15px/600; table heads 12px sans.
 
 ### Disclosure
 The webhook payload `<details>` hides the native marker and leads its summary (ink-2, 500) with a drawn 14px chevron that rotates 90° over 200ms when open; the sample sits in a 12px-corner, 30% black inset block in 12.5px mono.
