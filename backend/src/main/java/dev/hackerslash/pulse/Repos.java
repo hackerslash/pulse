@@ -13,8 +13,10 @@ interface MonitorRepo extends JpaRepository<Monitor, Long> {
     @Modifying
     @Query("""
         update Monitor m set m.status = :status, m.statusSince = :since, m.lastCheckedAt = :at,
-        m.lastLatencyMs = :ms, m.lastStatusCode = :code, m.lastError = :error where m.id = :id""")
-    void recordCheck(Long id, Monitor.Status status, Instant since, Instant at, Integer ms, Integer code, String error);
+        m.lastLatencyMs = :ms, m.lastStatusCode = :code, m.lastError = :error, m.degraded = :degraded, m.lastDetail = :detail
+        where m.id = :id""")
+    void recordCheck(Long id, Monitor.Status status, Instant since, Instant at, Integer ms, Integer code, String error,
+                     boolean degraded, String detail);
 }
 
 interface CheckRepo extends JpaRepository<Check, Long> {
@@ -27,8 +29,8 @@ interface CheckRepo extends JpaRepository<Check, Long> {
     List<Object[]> stats(Long id, Instant after);
 
     @Query(value = """
-            select monitor_id, b, count(*), sum(case when up then 1 else 0 end)
-            from (select monitor_id, up, cast(floor(extract(epoch from checked_at) / :size) as bigint) as b
+            select monitor_id, b, count(*), sum(case when up then 1 else 0 end), sum(case when degraded then 1 else 0 end)
+            from (select monitor_id, up, degraded, cast(floor(extract(epoch from checked_at) / :size) as bigint) as b
                   from checks where checked_at >= :since) t
             group by monitor_id, b""", nativeQuery = true)
     List<Object[]> buckets(Instant since, long size);

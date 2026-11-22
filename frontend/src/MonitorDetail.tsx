@@ -45,7 +45,7 @@ export function MonitorDetail({ view, incidents, now, onClose, onEdit, onChanged
   const uptime = history?.length ? (100 * history.filter(b => b.up).length) / history.length : null
   const avg = ups.length ? ups.reduce((a, b) => a + b, 0) / ups.length : null
   const mine = incidents.filter(i => i.monitorId === m.id).slice(0, 6)
-  const state = m.paused ? 'paused' : m.status.toLowerCase()
+  const state = m.paused ? 'paused' : m.status === 'UP' && m.degraded ? 'degraded' : m.status.toLowerCase()
   const range = RANGES.find(r => r.h === hours)!.label
 
   return (
@@ -54,7 +54,7 @@ export function MonitorDetail({ view, incidents, now, onClose, onEdit, onChanged
 
       <header className="detail-head">
         <div className="detail-title">
-          <StatusMark status={m.status} paused={m.paused} />
+          <StatusMark status={m.status} degraded={m.degraded} paused={m.paused} />
           <div>
             <h2>{m.name}</h2>
             <a href={m.url} target="_blank" rel="noreferrer" className="url">{m.url} <Icon name="external" size={12} /></a>
@@ -74,8 +74,9 @@ export function MonitorDetail({ view, incidents, now, onClose, onEdit, onChanged
 
       <p className={`state-line state-${state}`}>
         <span className={`badge badge-${state}`}>
-          {m.paused ? 'Paused' : m.status === 'PENDING' ? 'Waiting for first check' : `${m.status === 'UP' ? 'Up' : 'Down'} for ${since(m.statusSince, now)}`}
+          {m.paused ? 'Paused' : m.status === 'PENDING' ? 'Waiting for first check' : `${m.status === 'UP' ? (m.degraded ? 'Degraded' : 'Up') : 'Down'} for ${since(m.statusSince, now)}`}
         </span>
+        {m.lastDetail && <span>{m.lastDetail}</span>}
         <span>Checked {ago(m.lastCheckedAt, now)}, every {interval(m.intervalSeconds)}</span>
         {!m.isPublic && <span><Icon name="lock" size={12} /> Private</span>}
       </p>

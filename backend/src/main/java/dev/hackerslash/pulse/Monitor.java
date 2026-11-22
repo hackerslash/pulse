@@ -1,5 +1,6 @@
 package dev.hackerslash.pulse;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.time.Instant;
 
@@ -26,7 +27,17 @@ public class Monitor {
     public Integer lastStatusCode;
     @Column(length = 500)
     public String lastError;
+    @Column(columnDefinition = "boolean default false not null")
+    public boolean degraded;
+    @Column(length = 200)
+    public String lastDetail;
+    @JsonIgnore @Column(length = 200)
+    public String secret;
     public Instant createdAt = Instant.now();
+
+    public boolean getHasSecret() {
+        return secret != null;
+    }
 
     boolean isDue(Instant now) {
         return !paused && (lastCheckedAt == null || lastCheckedAt.plusSeconds(intervalSeconds).isBefore(now));

@@ -85,6 +85,42 @@ class MonitorFlowTest {
     }
 
     @Test
+    void groupMonitorIsDegradedNotDownAndKeepsItsSecret() throws Exception {
+        try (var site = new TestServer()) {
+            site.json = "{\"up\":4,\"total\":10}";
+            String body = mvc.perform(post("/api/monitors").contentType(MediaType.APPLICATION_JSON)
+                            .content("{\"name\":\"Hosters\",\"url\":\"" + site.url("/") + "\",\"intervalSeconds\":60,\"secret\":\"s3cret\"}"))
+                    .andExpect(status().isCreated())
+                    .andExpect(jsonPath("$.secret").doesNotExist())
+                    .andExpect(jsonPath("$.hasSecret").value(true))
+                    .andReturn().getResponse().getContentAsString();
+            long id = Long.parseLong(body.replaceAll(".*\"id\":(\\d+).*", "$1"));
+            awaitChecked(id);
+
+            mvc.perform(post("/api/monitors/" + id + "/check"))
+                    .andExpect(jsonPath("$.status").value("UP"))
+                    .andExpect(jsonPath("$.degraded").value(true))
+                    .andExpect(jsonPath("$.lastDetail").value("4/10 up"));
+            assertThat(site.authorization).isEqualTo("Bearer s3cret");
+            assertThat(incidents.findAll()).isEmpty();
+            String mine = "$.monitors[?(@.id == " + id + ")]";
+            mvc.perform(get("/api/public/status"))
+                    .andExpect(jsonPath(mine + ".degraded", contains(true)))
+                    .andExpect(jsonPath(mine + ".detail", contains("4/10 up")))
+                    .andExpect(jsonPath(mine + ".buckets[-1:].degraded", contains(100.0)));
+
+            mvc.perform(put("/api/monitors/" + id).contentType(MediaType.APPLICATION_JSON)
+                    .content("{\"name\":\"Hosters\",\"url\":\"" + site.url("/") + "\",\"intervalSeconds\":60}"));
+            assertThat(monitors.findById(id).orElseThrow().secret).isEqualTo("s3cret");
+            site.json = "{\"up\":1,\"total\":10}";
+            mvc.perform(post("/api/monitors/" + id + "/check"))
+                    .andExpect(jsonPath("$.status").value("DOWN"))
+                    .andExpect(jsonPath("$.lastError").value("1/10 up"));
+            mvc.perform(delete("/api/monitors/" + id));
+        }
+    }
+
+    @Test
     void webhookTestAndFailureAreRecorded() throws Exception {
         try (var hook = new TestServer()) {
             String body = mvc.perform(post("/api/webhooks").contentType(MediaType.APPLICATION_JSON)

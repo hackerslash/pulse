@@ -11,6 +11,8 @@ final class TestServer implements AutoCloseable {
 
     final HttpServer server;
     volatile int status = 200;
+    volatile String json;
+    volatile String authorization;
     final List<String> received = new CopyOnWriteArrayList<>();
 
     TestServer() throws IOException {
@@ -22,7 +24,15 @@ final class TestServer implements AutoCloseable {
             if (ex.getRequestURI().getPath().equals("/slow")) {
                 try { Thread.sleep(2000); } catch (InterruptedException ignored) {}
             }
-            ex.sendResponseHeaders(status, -1);
+            authorization = ex.getRequestHeaders().getFirst("Authorization");
+            if (json != null) {
+                byte[] b = json.getBytes(StandardCharsets.UTF_8);
+                ex.getResponseHeaders().set("Content-Type", "application/json");
+                ex.sendResponseHeaders(status, b.length);
+                ex.getResponseBody().write(b);
+            } else {
+                ex.sendResponseHeaders(status, -1);
+            }
             ex.close();
         });
         server.start();

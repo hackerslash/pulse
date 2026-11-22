@@ -10,6 +10,7 @@ export function MonitorForm({ initial, onDone, onCancel }: { initial?: Monitor; 
   const [url, setUrl] = useState(initial?.url ?? 'https://')
   const [every, setEvery] = useState(initial?.intervalSeconds ?? 60)
   const [isPublic, setIsPublic] = useState(initial?.isPublic ?? true)
+  const [secret, setSecret] = useState('')
   const [error, setError] = useState<string | null>(null)
   const [busy, setBusy] = useState(false)
 
@@ -18,7 +19,7 @@ export function MonitorForm({ initial, onDone, onCancel }: { initial?: Monitor; 
     setBusy(true)
     setError(null)
     try {
-      const form = { name: name.trim() || hostGuess(url), url: url.trim(), intervalSeconds: every, isPublic }
+      const form = { name: name.trim() || hostGuess(url), url: url.trim(), intervalSeconds: every, isPublic, ...(secret ? { secret } : {}) }
       onDone(initial ? await api.updateMonitor(initial.id, form) : await api.createMonitor(form))
     } catch (err) {
       setError((err as Error).message)
@@ -44,6 +45,12 @@ export function MonitorForm({ initial, onDone, onCancel }: { initial?: Monitor; 
       <label className="field">
         <span>Name <em>optional</em></span>
         <input name="name" value={name} maxLength={80} onChange={e => setName(e.target.value)} placeholder={hostGuess(url) || 'My API'} />
+      </label>
+      <label className="field">
+        <span>Bearer token <em>optional</em></span>
+        <input name="secret" type="password" autoComplete="off" maxLength={200} value={secret} onChange={e => setSecret(e.target.value)}
+          placeholder={initial?.hasSecret ? 'Saved — type to replace' : 'Sent as Authorization: Bearer …'} className="mono" />
+        <small className="muted">A JSON reply with <code>up</code> and <code>total</code> counts is scored: 70% or more working is up, 20–70% degraded, under 20% down.</small>
       </label>
       <div className="field">
         <span>Check every</span>

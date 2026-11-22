@@ -21,6 +21,7 @@ Pulse checks your URLs on a schedule, records uptime and latency, and sends webh
 ## Features
 
 - **HTTP monitoring** with per-service intervals from 10 seconds to 24 hours, manual checks, and pause controls.
+- **Group health**: a monitor can send a Bearer token, and a JSON reply with `up` and `total` counts is scored, so one monitor covers a whole group of components (70% or more working is up, 20–70% degraded, under 20% down).
 - **Admin dashboard** at `/admin` with password sign-in, recent checks, latency, uptime, and incident history.
 - **Public status page** at `/` with uptime bars and recent incidents for published, unpaused monitors. It shows service names and status while keeping monitored URLs and error details private.
 - **Outage and recovery webhooks** with delivery status and a test button. Payloads include fields for Slack and Discord.
@@ -76,6 +77,8 @@ The Playwright suite starts its own backend and frontend with a temporary databa
 
 - Every second the scheduler picks monitors that are due (interval 10 s – 24 h) and probes each on a virtual thread.
 - `GET` with a 10 s timeout, following redirects. Status below 400 = **up**; anything else, a timeout, or a DNS/TLS/connect error = **down**.
+- With a token set, the request carries `Authorization: Bearer <token>`. The token is never returned by the API.
+- A JSON reply with integer `up` and `total` fields is scored: under 20% working is **down**, 20–70% is **degraded** (shown yellow, no incident or webhook), 70% or more is **up**. The public page shows the `up/total` count.
 - An outage opens an incident and a recovery resolves it. Each transition triggers enabled webhooks.
 
 ## Webhooks
@@ -107,7 +110,7 @@ Send a session cookie or HTTP Basic credentials for admin API calls. For HTTP Ba
 | POST | `/api/logout` | Clear the session cookie |
 | GET | `/api/me` | Verify the current admin session or HTTP Basic credentials |
 | GET | `/api/monitors` | monitors + 24h/30d uptime, avg latency, last 60 checks |
-| POST/PUT/DELETE | `/api/monitors[/{id}]` | `{name, url, intervalSeconds, isPublic}` |
+| POST/PUT/DELETE | `/api/monitors[/{id}]` | `{name, url, intervalSeconds, isPublic, secret?}` (omit `secret` to keep it, `""` to clear it) |
 | POST | `/api/monitors/{id}/check` | check now |
 | POST | `/api/monitors/{id}/pause?paused=true` | pause / resume |
 | GET | `/api/monitors/{id}/checks?hours=24` | history (max 720h) |

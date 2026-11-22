@@ -13,6 +13,9 @@ export interface Monitor {
   lastLatencyMs: number | null
   lastStatusCode: number | null
   lastError: string | null
+  degraded: boolean
+  lastDetail: string | null
+  hasSecret: boolean
   createdAt: string
 }
 
@@ -50,14 +53,14 @@ export interface Webhook {
   lastError: string | null
 }
 
-export type MonitorForm = Pick<Monitor, 'name' | 'url' | 'intervalSeconds' | 'isPublic'>
+export type MonitorForm = Pick<Monitor, 'name' | 'url' | 'intervalSeconds' | 'isPublic'> & { secret?: string }
 
 export type Granularity = 'day' | 'week' | 'month'
 
 export interface PublicStatus {
   granularity: Granularity
   bucketSeconds: number
-  monitors: { id: number; name: string; status: Status; statusSince: string; uptime: number | null; buckets: { start: string; uptime: number | null }[] }[]
+  monitors: { id: number; name: string; status: Status; degraded: boolean; detail: string | null; statusSince: string; uptime: number | null; buckets: { start: string; uptime: number | null; degraded: number | null }[] }[]
   incidents: { id: number; monitor: string; startedAt: string; resolvedAt: string | null }[]
 }
 export type WebhookForm = Pick<Webhook, 'name' | 'url' | 'enabled'>

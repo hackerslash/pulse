@@ -28,6 +28,39 @@ class ProberTest {
     }
 
     @Test
+    void scoresUpTotalReplies() {
+        var green = Prober.score("{\"up\":7,\"total\":10}".getBytes(), 5, 200);
+        assertThat(green.up()).isTrue();
+        assertThat(green.degraded()).isFalse();
+        assertThat(green.detail()).isEqualTo("7/10 up");
+        var yellow = Prober.score("{\"up\":2,\"total\":10}".getBytes(), 5, 200);
+        assertThat(yellow.up()).isTrue();
+        assertThat(yellow.degraded()).isTrue();
+        var red = Prober.score("{\"up\":1,\"total\":10}".getBytes(), 5, 200);
+        assertThat(red.up()).isFalse();
+        assertThat(red.error()).isEqualTo("1/10 up");
+        assertThat(Prober.score("{\"up\":0,\"total\":0}".getBytes(), 5, 200).degraded()).isTrue();
+        var plain = Prober.score("{\"ok\":true}".getBytes(), 5, 200);
+        assertThat(plain.up()).isTrue();
+        assertThat(plain.detail()).isNull();
+        assertThat(Prober.score("not json".getBytes(), 5, 200).up()).isTrue();
+    }
+
+    @Test
+    void sendsTheSecretAndReadsJson() throws Exception {
+        try (var s = new TestServer()) {
+            s.json = "{\"up\":3,\"total\":10,\"items\":[]}";
+            var r = prober.probe(s.url("/"), "k3y");
+            assertThat(s.authorization).isEqualTo("Bearer k3y");
+            assertThat(r.up()).isTrue();
+            assertThat(r.degraded()).isTrue();
+            assertThat(r.detail()).isEqualTo("3/10 up");
+            prober.probe(s.url("/"));
+            assertThat(s.authorization).isNull();
+        }
+    }
+
+    @Test
     void reportsConnectionRefused() throws Exception {
         int port;
         try (var sock = new ServerSocket(0)) { port = sock.getLocalPort(); }

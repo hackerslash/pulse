@@ -18,7 +18,8 @@ public class MonitorController {
             @NotBlank @Size(max = 80) String name,
             @NotBlank @Size(max = 2048) @Pattern(regexp = "^https?://\\S+$", message = "must start with http:// or https://") String url,
             @Min(10) @Max(86400) int intervalSeconds,
-            Boolean isPublic) {}
+            Boolean isPublic,
+            @Size(max = 200) String secret) {}
 
     record Beat(Instant t, boolean up, int ms, Integer code, String error) {
         static Beat of(Check c) { return new Beat(c.checkedAt, c.up, c.latencyMs, c.statusCode, c.error); }
@@ -70,10 +71,10 @@ public class MonitorController {
     @PutMapping("/monitors/{id}")
     Monitor update(@PathVariable Long id, @Valid @RequestBody MonitorForm f) {
         Monitor m = find(id);
-        boolean urlChanged = !m.url.equals(f.url());
+        boolean probeChanged = !m.url.equals(f.url()) || f.secret() != null;
         apply(m, f);
         m = monitors.save(m);
-        if (urlChanged) service.checkAsync(id);
+        if (probeChanged) service.checkAsync(id);
         return m;
     }
 
@@ -112,6 +113,7 @@ public class MonitorController {
         m.url = f.url().strip();
         m.intervalSeconds = f.intervalSeconds();
         if (f.isPublic() != null) m.isPublic = f.isPublic();
+        if (f.secret() != null) m.secret = f.secret().isBlank() ? null : f.secret().strip();  // null keeps it, "" clears it
     }
 
     private static Double uptime(Object[] row) {

@@ -60,7 +60,7 @@ public class MonitorService {
     public void check(Long id) {
         Monitor m = monitors.findById(id).orElse(null);
         if (m == null) return;
-        Prober.Result r = prober.probe(m.url);
+        Prober.Result r = prober.probe(m.url, m.secret);
         Instant now = Instant.now();
         Monitor.Status next = r.up() ? Monitor.Status.UP : Monitor.Status.DOWN;
         boolean changed = next != m.status;
@@ -68,7 +68,8 @@ public class MonitorService {
         tx.executeWithoutResult(s -> {
             if (!monitors.existsById(id)) return;
             checks.save(new Check(id, now, r));
-            monitors.recordCheck(id, next, changed ? now : m.statusSince, now, r.latencyMs(), r.statusCode(), r.error());
+            monitors.recordCheck(id, next, changed ? now : m.statusSince, now, r.latencyMs(), r.statusCode(), r.error(),
+                    r.degraded(), r.detail());
             if (!changed) return;
             if (next == Monitor.Status.DOWN) {
                 incidents.save(new Incident(id, now, r.error()));

@@ -12,6 +12,8 @@ public class Check {
     public Long monitorId;
     public Instant checkedAt;
     public boolean up;
+    @Column(columnDefinition = "boolean default false not null")
+    public boolean degraded;
     public int latencyMs;
     public Integer statusCode;
     @Column(length = 500)
@@ -23,6 +25,7 @@ public class Check {
         this.monitorId = monitorId;
         this.checkedAt = checkedAt;
         this.up = r.up();
+        this.degraded = r.degraded();
         this.latencyMs = r.latencyMs();
         this.statusCode = r.statusCode();
         this.error = r.error();

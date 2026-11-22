@@ -20,9 +20,10 @@ export function StatusPage() {
 
   const monitors = data?.monitors ?? []
   const down = monitors.filter(m => m.status === 'DOWN').length
-  const operational = monitors.filter(m => m.status === 'UP').length
-  const level = !data ? 'idle' : down === 0 ? 'up' : down * 2 >= monitors.length ? 'major' : 'partial'
-  const headline = { idle: 'Checking status…', up: 'All systems operational', partial: 'Partial outage', major: 'Major outage' }[level]
+  const degraded = monitors.filter(m => m.status === 'UP' && m.degraded).length
+  const operational = monitors.filter(m => m.status === 'UP' && !m.degraded).length
+  const level = !data ? 'idle' : down > 0 ? (down * 2 >= monitors.length ? 'major' : 'partial') : degraded > 0 ? 'degraded' : 'up'
+  const headline = { idle: 'Checking status…', up: 'All systems operational', degraded: 'Degraded performance', partial: 'Partial outage', major: 'Major outage' }[level]
   const option = OPTIONS.find(o => o.id === data?.granularity) ?? OPTIONS[0]
   const active = data?.incidents.filter(i => !i.resolvedAt) ?? []
   const past = data?.incidents.filter(i => i.resolvedAt) ?? []
@@ -36,7 +37,7 @@ export function StatusPage() {
         </div>
       </header>
 
-      <section className={`hero hero-${level === 'up' || level === 'idle' ? level : 'down'}`} data-testid="status-banner">
+      <section className={`hero hero-${level === 'up' || level === 'idle' || level === 'degraded' ? level : 'down'}`} data-testid="status-banner">
         <div className="public-in">
           <div className="hero-line">
             <span className="hero-ico" aria-hidden />
@@ -93,14 +94,14 @@ export function StatusPage() {
             <>
               <div className="pcard">
                 {monitors.map(m => (
-                  <article className="svc" key={m.id} data-testid="service" data-status={m.status}>
-                    <span className={`svc-ico svc-ico-${m.status.toLowerCase()}`} aria-hidden />
-                    <h3>{m.name}</h3>
-                    <span className="sr-only">{m.status === 'UP' ? 'Operational' : m.status === 'DOWN' ? `Down for ${since(m.statusSince, now)}` : 'Checking'}</span>
+                  <article className="svc" key={m.id} data-testid="service" data-status={m.degraded && m.status === 'UP' ? 'DEGRADED' : m.status}>
+                    <span className={`svc-ico svc-ico-${m.degraded && m.status === 'UP' ? 'degraded' : m.status.toLowerCase()}`} aria-hidden />
+                    <h3>{m.name}{m.detail && <small className="svc-detail">{m.detail}</small>}</h3>
+                    <span className="sr-only">{m.status === 'UP' ? (m.degraded ? 'Degraded' : 'Operational') : m.status === 'DOWN' ? `Down for ${since(m.statusSince, now)}` : 'Checking'}</span>
                     <div className="segs" role="img" aria-label={`${m.name}: uptime over the last ${option.span}`}>
                       {m.buckets.map(b => (
-                        <span key={b.start} className={`seg ${segClass(b.uptime)}`}>
-                          <span className="seg-tip">{rangeLabel(b.start, data!.bucketSeconds)} · {b.uptime == null ? 'No data' : pct(b.uptime)}</span>
+                        <span key={b.start} className={`seg ${segClass(b.uptime, b.degraded)}`}>
+                          <span className="seg-tip">{rangeLabel(b.start, data!.bucketSeconds)} · {b.uptime == null ? 'No data' : pct(b.uptime)}{b.degraded ? ` · degraded ${pct(b.degraded)}` : ''}</span>
                         </span>
                       ))}
                     </div>
@@ -156,8 +157,9 @@ function rangeLabel(startIso: string, seconds: number) {
   return sameDay ? `${date(a)}, ${time(a)} – ${time(b)}` : `${date(a)}, ${time(a)} – ${date(b)}, ${time(b)}`
 }
 
-function segClass(u: number | null) {
+function segClass(u: number | null, degraded: number | null) {
   if (u == null) return 'seg-empty'
+  if (u >= 95 && (degraded ?? 0) >= 50) return 'seg-degraded'
   if (u >= 99.9) return 'seg-up'
   if (u >= 99) return 'seg-minor'
   if (u >= 95) return 'seg-warn'

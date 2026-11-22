@@ -2,8 +2,8 @@ import { useEffect, useMemo, useRef, useState, type ReactNode } from 'react'
 import type { Beat, Status } from './api'
 import { bucket, ms } from './format'
 
-export function StatusMark({ status, paused }: { status: Status; paused?: boolean }) {
-  const kind = paused ? 'paused' : status.toLowerCase()
+export function StatusMark({ status, degraded, paused }: { status: Status; degraded?: boolean; paused?: boolean }) {
+  const kind = paused ? 'paused' : status === 'UP' && degraded ? 'degraded' : status.toLowerCase()
   return <span className={`mark mark-${kind}`} aria-hidden />
 }
 

@@ -25,9 +25,10 @@ public class PublicController {
         }
     }
 
-    record Bucket(Instant start, Double uptime) {}
+    record Bucket(Instant start, Double uptime, Double degraded) {}
 
-    record PublicMonitor(Long id, String name, Monitor.Status status, Instant statusSince, Double uptime, List<Bucket> buckets) {}
+    record PublicMonitor(Long id, String name, Monitor.Status status, boolean degraded, String detail, Instant statusSince, Double uptime,
+                         List<Bucket> buckets) {}
 
     record PublicIncident(Long id, String monitor, Instant startedAt, Instant resolvedAt) {}
 
@@ -62,9 +63,10 @@ public class PublicController {
         for (Object[] r : checks.buckets(Instant.ofEpochSecond(first * g.seconds), g.seconds)) {
             long i = ((Number) r[1]).longValue() - first;
             if (i < 0 || i >= g.cells) continue;
-            long[] cell = sums.computeIfAbsent(((Number) r[0]).longValue(), k -> new long[g.cells][2])[(int) i];
+            long[] cell = sums.computeIfAbsent(((Number) r[0]).longValue(), k -> new long[g.cells][3])[(int) i];
             cell[0] += ((Number) r[2]).longValue();
             cell[1] += ((Number) r[3]).longValue();
+            cell[2] += ((Number) r[4]).longValue();
         }
 
         List<Monitor> shown = monitors.findAll().stream().filter(m -> m.isPublic && !m.paused)
@@ -72,15 +74,16 @@ public class PublicController {
         Map<Long, String> names = new HashMap<>();
         List<PublicMonitor> list = shown.stream().map(m -> {
             names.put(m.id, m.name);
-            long[][] cells = sums.getOrDefault(m.id, new long[g.cells][2]);
+            long[][] cells = sums.getOrDefault(m.id, new long[g.cells][3]);
             long total = 0, up = 0;
             List<Bucket> buckets = new ArrayList<>();
             for (int i = 0; i < g.cells; i++) {
                 total += cells[i][0];
                 up += cells[i][1];
-                buckets.add(new Bucket(Instant.ofEpochSecond((first + i) * g.seconds), cells[i][0] == 0 ? null : 100.0 * cells[i][1] / cells[i][0]));
+                buckets.add(new Bucket(Instant.ofEpochSecond((first + i) * g.seconds), cells[i][0] == 0 ? null : 100.0 * cells[i][1] / cells[i][0],
+                        cells[i][0] == 0 ? null : 100.0 * cells[i][2] / cells[i][0]));
             }
-            return new PublicMonitor(m.id, m.name, m.status, m.statusSince, total == 0 ? null : 100.0 * up / total, buckets);
+            return new PublicMonitor(m.id, m.name, m.status, m.degraded, m.lastDetail, m.statusSince, total == 0 ? null : 100.0 * up / total, buckets);
         }).toList();
 
         List<PublicIncident> recent = incidents.findAllByOrderByStartedAtDesc(Limit.of(100)).stream()
