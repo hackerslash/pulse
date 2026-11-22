@@ -43,7 +43,7 @@ function Login({ onIn }: { onIn: () => void }) {
       <form className="login" onSubmit={submit}>
         <span className="brand"><Logo /><span className="wordmark">Pulse</span></span>
         <h1>Sign in to Pulse</h1>
-        <p>Enter the admin password set in <code>PULSE_PASSWORD</code> to manage monitors and webhooks.</p>
+        <p>Enter your password to manage monitors and webhooks.</p>
         <label className="field">
           <span>Password</span>
           <input type="password" name="password" autoComplete="current-password" autoFocus required value={password}

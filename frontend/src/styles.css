@@ -469,7 +469,6 @@ input.mono { font: 14px var(--mono); }
 .login .brand { margin-bottom: 28px; }
 .login h1 { font-size: 28px; margin-bottom: 6px; }
 .login p { color: var(--ink-2); font-size: 14px; margin-bottom: 22px; }
-.login code { padding: 1px 5px; border-radius: 5px; background: var(--fill-2); }
 .login .form-error { margin-top: -4px; color: #ffd4d1; }
 .login-alt { display: inline-flex; align-items: center; gap: 6px; margin-top: 18px; font-size: 13.5px; color: var(--ink-2); }
 
