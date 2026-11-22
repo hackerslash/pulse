@@ -168,12 +168,7 @@ export function useToasts() {
 }
 
 export function Logo() {
-  return (
-    <svg className="logo" viewBox="0 0 32 32" aria-hidden>
-      <rect x="1.5" y="1.5" width="29" height="29" rx="7" />
-      <path d="M5 17h6l2.5-7 5 14 2.5-7H27" />
-    </svg>
-  )
+  return <img className="logo" src="/logo.png" width="28" height="28" alt="" />
 }
 
 export function Icon({ name, size = 16 }: { name: keyof typeof ICONS; size?: number }) {

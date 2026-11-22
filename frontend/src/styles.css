@@ -187,9 +187,7 @@ kbd {
   border-bottom: 1px solid var(--hair);
 }
 .brand { display: inline-flex; align-items: center; gap: 10px; color: var(--ink); text-decoration: none; }
-.logo { width: 26px; height: 26px; fill: rgba(255, 255, 255, 0.06); stroke: var(--ink); stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
-.logo rect { stroke: var(--hair-2); }
-.logo path { fill: none; stroke: var(--green); stroke-width: 2.4; }
+.logo { width: 28px; height: 28px; display: block; border-radius: 7px; }
 .wordmark { font: 600 21px/1 var(--serif); letter-spacing: -0.015em; }
 .verdict { display: inline-flex; align-items: center; gap: 9px; font-size: 14px; font-weight: 500; color: var(--ink-2); }
 .verdict-down { color: var(--red-ink); font-weight: 600; }
@@ -491,7 +489,7 @@ input.mono { font: 14px var(--mono); }
   animation: enter 240ms var(--ease);
 }
 .public-mast { display: flex; align-items: center; gap: 12px; height: 76px; }
-.public-mast .logo { width: 24px; height: 24px; }
+.public-mast .logo { width: 26px; height: 26px; }
 .public-mast .wordmark { font-size: 17px; letter-spacing: -0.02em; }
 .public-kind { padding-left: 12px; border-left: 1px solid var(--hair-2); font-size: 14px; color: var(--ink-3); line-height: 18px; }
 .mast-stamp { margin-left: auto; font-size: 13px; color: var(--ink-3); }
