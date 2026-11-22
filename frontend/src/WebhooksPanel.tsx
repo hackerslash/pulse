@@ -50,12 +50,12 @@ export function WebhooksPanel({ onClose, toast, now }: { onClose: () => void; to
 
   return (
     <div>
-      <header className="modal-head">
+      <header className="dialog-head">
         <div>
           <h2>Outage webhooks</h2>
           <p className="muted">Every enabled webhook gets a JSON <code>POST</code> when a monitor goes down or recovers.</p>
         </div>
-        <button className="icon-btn" onClick={onClose} aria-label="Close"><Icon name="close" /></button>
+        <button className="btn btn-icon" onClick={onClose} aria-label="Close"><Icon name="close" /></button>
       </header>
 
       <ul className="hook-list">
@@ -74,11 +74,13 @@ export function WebhooksPanel({ onClose, toast, now }: { onClose: () => void; to
               <strong>{w.name}</strong>
               <span className="mono muted ellipsis">{w.url}</span>
               <span className={`hook-status ${w.lastError ? 'err' : w.lastSentAt ? 'ok' : ''}`}>
-                {w.lastSentAt ? `${w.lastError ? '✕ ' + w.lastError : '✓ Delivered'} · ${ago(w.lastSentAt, now)}` : 'Never sent'}
+                {w.lastSentAt
+                  ? <><Icon name={w.lastError ? 'alert' : 'check'} size={13} /> {w.lastError ?? 'Delivered'} · {ago(w.lastSentAt, now)}</>
+                  : 'Never sent'}
               </span>
             </div>
-            <button className="btn ghost small" disabled={busy === w.id} onClick={() => test(w)}><Icon name="send" size={14} /> {busy === w.id ? 'Sending…' : 'Test'}</button>
-            <button className="icon-btn danger-text" disabled={busy === w.id} onClick={() => act(w.id, () => api.deleteWebhook(w.id), 'Webhook removed')} aria-label={`Delete ${w.name}`}><Icon name="trash" /></button>
+            <button className="btn btn-small" disabled={busy === w.id} onClick={() => test(w)}><Icon name="send" size={14} /> {busy === w.id ? 'Sending…' : 'Test'}</button>
+            <button className="btn btn-icon btn-danger-quiet" disabled={busy === w.id} onClick={() => act(w.id, () => api.deleteWebhook(w.id), 'Webhook removed')} aria-label={`Delete ${w.name}`}><Icon name="trash" /></button>
           </li>
         ))}
         {hooks?.length === 0 && <li className="hook-empty muted">No webhooks yet. Add one below to get pinged on outages.</li>}
@@ -87,7 +89,7 @@ export function WebhooksPanel({ onClose, toast, now }: { onClose: () => void; to
       <form className="hook-form" onSubmit={add}>
         <input aria-label="Webhook name" placeholder="Name (e.g. Slack #ops)" value={name} maxLength={80} onChange={e => setName(e.target.value)} />
         <input aria-label="Webhook URL" type="url" required placeholder="https://hooks.slack.com/services/…" className="mono" value={url} onChange={e => setUrl(e.target.value)} />
-        <button className="btn primary" disabled={busy === 'new'}><Icon name="plus" /> Add</button>
+        <button className="btn btn-primary" disabled={busy === 'new'}><Icon name="plus" /> Add</button>
       </form>
       {error && <p className="form-error" role="alert">{error}</p>}
 

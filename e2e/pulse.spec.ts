@@ -71,7 +71,7 @@ test('full lifecycle: add, alert via webhook, recover, pause, delete', async ({ 
   await expect(page.getByTestId('webhook')).toContainText('Ops channel')
   await page.getByRole('button', { name: 'Test' }).click()
   await expect(page.getByText('Test delivered (HTTP 200)')).toBeVisible()
-  await expect(page.getByTestId('webhook')).toContainText('✓ Delivered')
+  await expect(page.getByTestId('webhook')).toContainText('Delivered')
   expect(hooks.at(-1)).toMatchObject({ event: 'test' })
   await page.screenshot({ path: 'screenshots/03-webhooks.png' })
   await page.keyboard.press('Escape')

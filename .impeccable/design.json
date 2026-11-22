@@ -1,0 +1,588 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-22T06:18:50+00:00",
+  "title": "Design System: Pulse",
+  "extensions": {
+    "colorMeta": {
+      "paper": {
+        "role": "neutral",
+        "displayName": "Chart Paper",
+        "canonical": "#f7f5ef",
+        "tonalRamp": [
+          "#2a2822",
+          "#4a463c",
+          "#6e685a",
+          "#948d7c",
+          "#bab3a1",
+          "#d9d3c3",
+          "#ece8dd",
+          "#f7f5ef"
+        ]
+      },
+      "paper-hover": {
+        "role": "neutral",
+        "displayName": "Paper Hover",
+        "canonical": "#eeeadf",
+        "tonalRamp": [
+          "#2a2822",
+          "#4a463c",
+          "#6e685a",
+          "#948d7c",
+          "#bab3a1",
+          "#d9d3c3",
+          "#ece8dd",
+          "#f7f5ef"
+        ]
+      },
+      "land": {
+        "role": "neutral",
+        "displayName": "Buff Land",
+        "canonical": "#ece5d3",
+        "tonalRamp": [
+          "#2b2618",
+          "#4a422c",
+          "#6d6243",
+          "#93865f",
+          "#b8aa82",
+          "#d6caa7",
+          "#ece5d3",
+          "#f6f2e8"
+        ]
+      },
+      "land-2": {
+        "role": "neutral",
+        "displayName": "Deep Land",
+        "canonical": "#e2d9c2",
+        "tonalRamp": [
+          "#2b2618",
+          "#4a422c",
+          "#6d6243",
+          "#93865f",
+          "#b8aa82",
+          "#d6caa7",
+          "#ece5d3",
+          "#f6f2e8"
+        ]
+      },
+      "field-white": {
+        "role": "neutral",
+        "displayName": "Field White",
+        "canonical": "#ffffff",
+        "tonalRamp": [
+          "#3a3a3a",
+          "#5c5c5c",
+          "#808080",
+          "#a3a3a3",
+          "#c6c6c6",
+          "#e0e0e0",
+          "#f2f2f2",
+          "#ffffff"
+        ]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Iron Ink",
+        "canonical": "#1b1d1f",
+        "tonalRamp": [
+          "#1b1d1f",
+          "#2e3134",
+          "#45484b",
+          "#64676a",
+          "#86898c",
+          "#a9abad",
+          "#cdcfd0",
+          "#eceded"
+        ]
+      },
+      "ink-2": {
+        "role": "neutral",
+        "displayName": "Ink 2",
+        "canonical": "#45484b",
+        "tonalRamp": [
+          "#1b1d1f",
+          "#2e3134",
+          "#45484b",
+          "#64676a",
+          "#86898c",
+          "#a9abad",
+          "#cdcfd0",
+          "#eceded"
+        ]
+      },
+      "ink-3": {
+        "role": "neutral",
+        "displayName": "Ink 3",
+        "canonical": "#64676a",
+        "tonalRamp": [
+          "#1b1d1f",
+          "#2e3134",
+          "#45484b",
+          "#64676a",
+          "#86898c",
+          "#a9abad",
+          "#cdcfd0",
+          "#eceded"
+        ]
+      },
+      "rule": {
+        "role": "neutral",
+        "displayName": "Rule",
+        "canonical": "#e0d9c9",
+        "tonalRamp": [
+          "#2e2a20",
+          "#4f4838",
+          "#736a55",
+          "#9a8f76",
+          "#c7bea9",
+          "#e0d9c9",
+          "#ece7dc",
+          "#f6f3ec"
+        ]
+      },
+      "rule-2": {
+        "role": "neutral",
+        "displayName": "Rule 2",
+        "canonical": "#c7bea9",
+        "tonalRamp": [
+          "#2e2a20",
+          "#4f4838",
+          "#736a55",
+          "#9a8f76",
+          "#c7bea9",
+          "#e0d9c9",
+          "#ece7dc",
+          "#f6f3ec"
+        ]
+      },
+      "sea-1": {
+        "role": "primary",
+        "displayName": "Surface Water",
+        "canonical": "#e4eff2",
+        "tonalRamp": [
+          "#0f2f3b",
+          "#1f5568",
+          "#2e6a80",
+          "#3d7c93",
+          "#7fb0c2",
+          "#a6c9d6",
+          "#c3dce4",
+          "#e4eff2"
+        ]
+      },
+      "sea-2": {
+        "role": "primary",
+        "displayName": "Shallows",
+        "canonical": "#c3dce4",
+        "tonalRamp": [
+          "#0f2f3b",
+          "#1f5568",
+          "#2e6a80",
+          "#3d7c93",
+          "#7fb0c2",
+          "#a6c9d6",
+          "#c3dce4",
+          "#e4eff2"
+        ]
+      },
+      "sea-3": {
+        "role": "primary",
+        "displayName": "Shoal Blue",
+        "canonical": "#7fb0c2",
+        "tonalRamp": [
+          "#0f2f3b",
+          "#1f5568",
+          "#2e6a80",
+          "#3d7c93",
+          "#7fb0c2",
+          "#a6c9d6",
+          "#c3dce4",
+          "#e4eff2"
+        ]
+      },
+      "sea-4": {
+        "role": "primary",
+        "displayName": "Deep Chart Water",
+        "canonical": "#3d7c93",
+        "tonalRamp": [
+          "#0f2f3b",
+          "#1f5568",
+          "#2e6a80",
+          "#3d7c93",
+          "#7fb0c2",
+          "#a6c9d6",
+          "#c3dce4",
+          "#e4eff2"
+        ]
+      },
+      "sea-5": {
+        "role": "primary",
+        "displayName": "Abyss Blue",
+        "canonical": "#1f5568",
+        "tonalRamp": [
+          "#0f2f3b",
+          "#1f5568",
+          "#2e6a80",
+          "#3d7c93",
+          "#7fb0c2",
+          "#a6c9d6",
+          "#c3dce4",
+          "#e4eff2"
+        ]
+      },
+      "hazard": {
+        "role": "secondary",
+        "displayName": "Chart Magenta",
+        "canonical": "#b8124f",
+        "tonalRamp": [
+          "#4a0620",
+          "#6e0930",
+          "#8e0c3c",
+          "#b8124f",
+          "#d4517f",
+          "#e895b1",
+          "#f8e6ec",
+          "#fbf2f5"
+        ]
+      },
+      "hazard-ink": {
+        "role": "secondary",
+        "displayName": "Deep Magenta",
+        "canonical": "#8e0c3c",
+        "tonalRamp": [
+          "#4a0620",
+          "#6e0930",
+          "#8e0c3c",
+          "#b8124f",
+          "#d4517f",
+          "#e895b1",
+          "#f8e6ec",
+          "#fbf2f5"
+        ]
+      },
+      "hazard-tint": {
+        "role": "secondary",
+        "displayName": "Magenta Tint",
+        "canonical": "#f8e6ec",
+        "tonalRamp": [
+          "#4a0620",
+          "#6e0930",
+          "#8e0c3c",
+          "#b8124f",
+          "#d4517f",
+          "#e895b1",
+          "#f8e6ec",
+          "#fbf2f5"
+        ]
+      },
+      "hazard-wash": {
+        "role": "secondary",
+        "displayName": "Magenta Wash",
+        "canonical": "#f9ecef",
+        "tonalRamp": [
+          "#4a0620",
+          "#6e0930",
+          "#8e0c3c",
+          "#b8124f",
+          "#d4517f",
+          "#e895b1",
+          "#f8e6ec",
+          "#fbf2f5"
+        ]
+      },
+      "amber": {
+        "role": "tertiary",
+        "displayName": "Lamp Amber",
+        "canonical": "#e0a43a",
+        "tonalRamp": [
+          "#3d2803",
+          "#5e3e06",
+          "#8a5a08",
+          "#b6801c",
+          "#e0a43a",
+          "#ecc47c",
+          "#f8ecd4",
+          "#fcf6ea"
+        ]
+      },
+      "amber-ink": {
+        "role": "tertiary",
+        "displayName": "Amber Ink",
+        "canonical": "#8a5a08",
+        "tonalRamp": [
+          "#3d2803",
+          "#5e3e06",
+          "#8a5a08",
+          "#b6801c",
+          "#e0a43a",
+          "#ecc47c",
+          "#f8ecd4",
+          "#fcf6ea"
+        ]
+      },
+      "amber-tint": {
+        "role": "tertiary",
+        "displayName": "Amber Tint",
+        "canonical": "#f8ecd4",
+        "tonalRamp": [
+          "#3d2803",
+          "#5e3e06",
+          "#8a5a08",
+          "#b6801c",
+          "#e0a43a",
+          "#ecc47c",
+          "#f8ecd4",
+          "#fcf6ea"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "Public verdict line only."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Page, detail and dialog headings."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Panel and section headings."
+      },
+      "figure": {
+        "displayName": "Figure",
+        "purpose": "Ledger values and serif figures; lead figure runs 32px."
+      },
+      "column-head": {
+        "displayName": "Column Head",
+        "purpose": "Small-caps table column heads and ledger labels."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Default UI text; 14px for secondary lines and cells."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Buttons, tabs, segmented options, badges."
+      },
+      "mono": {
+        "displayName": "Mono",
+        "purpose": "Hosts, URLs, errors, payloads."
+      }
+    },
+    "shadows": [
+      {
+        "name": "overlay",
+        "value": "0 2px 6px rgba(27,29,31,0.08), 0 20px 48px -12px rgba(27,29,31,0.3)",
+        "purpose": "Modal dialogs, over a rgba(27,29,31,0.36) backdrop."
+      },
+      {
+        "name": "toast",
+        "value": "0 10px 28px -10px rgba(27,29,31,0.5)",
+        "purpose": "Toast stack."
+      },
+      {
+        "name": "switch-knob",
+        "value": "0 1px 2px rgba(27,29,31,0.3)",
+        "purpose": "Switch knob lift."
+      },
+      {
+        "name": "field-focus",
+        "value": "0 0 0 3px rgba(61,124,147,0.18)",
+        "purpose": "Focus halo on inputs and search."
+      }
+    ],
+    "motion": [
+      {
+        "name": "ease",
+        "value": "cubic-bezier(0.2, 0.7, 0.2, 1)",
+        "purpose": "All state transitions and entrances."
+      },
+      {
+        "name": "state",
+        "value": "150ms",
+        "purpose": "Hover/press colour, border and shadow changes."
+      },
+      {
+        "name": "enter",
+        "value": "180ms",
+        "purpose": "Dialog rise (6px) and toast slide (8px); switch knob."
+      },
+      {
+        "name": "beacon",
+        "value": "1.6s ease-in-out infinite",
+        "purpose": "Down mark pulse to 35% opacity."
+      },
+      {
+        "name": "sweep",
+        "value": "1.4s linear infinite",
+        "purpose": "Skeleton row and chart loading sweep."
+      },
+      {
+        "name": "reduced-motion",
+        "value": "none",
+        "purpose": "All animation and transition removed under prefers-reduced-motion."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "mobile",
+        "value": "720px"
+      },
+      {
+        "name": "row-stack",
+        "value": "900px"
+      },
+      {
+        "name": "incident-column",
+        "value": "1280px"
+      },
+      {
+        "name": "container",
+        "value": "1320px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Default Button",
+      "kind": "button",
+      "refersTo": "button",
+      "description": "Everyday action on paper with a hairline border.",
+      "html": "<button class=\"ds-btn\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M21 12a9 9 0 1 1-3-6.7L21 8\"/><path d=\"M21 3v5h-5\"/></svg>Check now</button>",
+      "css": ".ds-btn { display:inline-flex; align-items:center; gap:7px; height:34px; padding:0 12px; border:1px solid var(--rule-2,#c7bea9); border-radius:2px; background:var(--paper,#f7f5ef); color:var(--ink,#1b1d1f); font:500 14px/1 'Public Sans',system-ui,sans-serif; cursor:pointer; transition:background-color 150ms cubic-bezier(0.2, 0.7, 0.2, 1), border-color 150ms cubic-bezier(0.2, 0.7, 0.2, 1); } .ds-btn:hover { background:var(--paper-hover,#eeeadf); border-color:var(--ink-3,#64676a); } .ds-btn:active { background:var(--land,#ece5d3); } .ds-btn:focus-visible { outline:2px solid var(--sea-5,#1f5568); outline-offset:2px; }"
+    },
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "The one solid-ink action per view, with its keyboard hint.",
+      "html": "<button class=\"ds-btn-primary\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\"><path d=\"M12 5v14M5 12h14\"/></svg>New monitor<kbd class=\"ds-kbd\">N</kbd></button>",
+      "css": ".ds-btn-primary { display:inline-flex; align-items:center; gap:7px; height:34px; padding:0 12px; border:1px solid var(--ink,#1b1d1f); border-radius:2px; background:var(--ink,#1b1d1f); color:var(--paper,#f7f5ef); font:500 14px/1 'Public Sans',system-ui,sans-serif; cursor:pointer; transition:background-color 150ms cubic-bezier(0.2, 0.7, 0.2, 1); } .ds-btn-primary:hover { background:#000; border-color:#000; } .ds-btn-primary:active { background:var(--ink-2,#45484b); } .ds-btn-primary:focus-visible { outline:2px solid var(--sea-5,#1f5568); outline-offset:2px; } .ds-kbd { font:500 11px/1 'Public Sans',sans-serif; padding:3px 5px; border:1px solid rgba(251,250,246,0.35); border-radius:2px; color:rgba(251,250,246,0.8); }"
+    },
+    {
+      "name": "Danger Button",
+      "kind": "button",
+      "refersTo": "button-danger",
+      "description": "Destructive confirmation only.",
+      "html": "<button class=\"ds-btn-danger\">Delete monitor</button>",
+      "css": ".ds-btn-danger { height:34px; padding:0 12px; border:1px solid var(--hazard,#b8124f); border-radius:2px; background:var(--hazard,#b8124f); color:#fff; font:500 14px/1 'Public Sans',system-ui,sans-serif; cursor:pointer; transition:background-color 150ms cubic-bezier(0.2, 0.7, 0.2, 1); } .ds-btn-danger:hover { background:var(--hazard-ink,#8e0c3c); border-color:var(--hazard-ink,#8e0c3c); } .ds-btn-danger:focus-visible { outline:2px solid var(--sea-5,#1f5568); outline-offset:2px; }"
+    },
+    {
+      "name": "Text Field",
+      "kind": "input",
+      "refersTo": "input",
+      "description": "White field with label above; sea focus halo.",
+      "html": "<label class=\"ds-field\"><span>URL</span><input class=\"ds-input\" placeholder=\"https://example.com/health\"></label>",
+      "css": ".ds-field { display:flex; flex-direction:column; gap:6px; font-family:'Public Sans',system-ui,sans-serif; } .ds-field > span { font-size:13.5px; font-weight:600; color:var(--ink-2,#45484b); } .ds-input { height:38px; padding:0 12px; border:1px solid var(--rule-2,#c7bea9); border-radius:2px; background:#fff; color:var(--ink,#1b1d1f); font:15px 'Public Sans',sans-serif; transition:border-color 150ms cubic-bezier(0.2, 0.7, 0.2, 1), box-shadow 150ms cubic-bezier(0.2, 0.7, 0.2, 1); } .ds-input::placeholder { color:var(--ink-3,#64676a); } .ds-input:focus { outline:0; border-color:var(--sea-5,#1f5568); box-shadow:0 0 0 3px rgba(61,124,147,0.18); }"
+    },
+    {
+      "name": "Filter Tabs",
+      "kind": "nav",
+      "refersTo": "tabs",
+      "description": "Text tabs with a 2px ink underline on the selected one.",
+      "html": "<div class=\"ds-tabs\" role=\"tablist\"><button aria-selected=\"true\">All</button><button>Up</button><button>Down</button><button>Paused</button></div>",
+      "css": ".ds-tabs { display:flex; gap:2px; } .ds-tabs button { height:34px; padding:0 10px; border:0; background:none; cursor:pointer; font:500 14px 'Public Sans',sans-serif; color:var(--ink-3,#64676a); box-shadow:inset 0 -2px 0 transparent; transition:color 150ms cubic-bezier(0.2, 0.7, 0.2, 1), box-shadow 150ms cubic-bezier(0.2, 0.7, 0.2, 1); } .ds-tabs button:hover { color:var(--ink,#1b1d1f); } .ds-tabs button[aria-selected='true'] { color:var(--ink,#1b1d1f); font-weight:600; box-shadow:inset 0 -2px 0 var(--ink,#1b1d1f); } .ds-tabs button:focus-visible { outline:2px solid var(--sea-5,#1f5568); outline-offset:2px; }"
+    },
+    {
+      "name": "Incident Pills",
+      "kind": "chip",
+      "refersTo": "pill-up",
+      "description": "Resolved and Ongoing markers in incident tables.",
+      "html": "<span class=\"ds-pill ds-pill-up\">Resolved</span> <span class=\"ds-pill ds-pill-down\">Ongoing</span>",
+      "css": ".ds-pill { display:inline-block; min-width:40px; padding:2px 6px; border-radius:2px; font:600 12px 'Public Sans',sans-serif; text-align:center; } .ds-pill-up { background:var(--sea-1,#e4eff2); color:var(--sea-5,#1f5568); } .ds-pill-down { background:var(--hazard-tint,#f8e6ec); color:var(--hazard-ink,#8e0c3c); }"
+    },
+    {
+      "name": "Status Marks",
+      "kind": "custom",
+      "description": "Shape-coded status: up circle, down pulsing diamond, pending ring, paused square.",
+      "html": "<span class=\"ds-marks\"><i class=\"ds-mark ds-up\"></i>Up <i class=\"ds-mark ds-down\"></i>Down <i class=\"ds-mark ds-pending\"></i>Pending <i class=\"ds-mark ds-paused\"></i>Paused</span>",
+      "css": ".ds-marks { display:inline-flex; align-items:center; gap:8px; font:500 14px 'Public Sans',sans-serif; color:var(--ink-2,#45484b); } .ds-mark { display:inline-block; width:10px; height:10px; } .ds-up { border-radius:50%; background:var(--sea-4,#3d7c93); } .ds-down { background:var(--hazard,#b8124f); transform:rotate(45deg) scale(0.86); animation:ds-beacon 1.6s ease-in-out infinite; } .ds-pending { border-radius:50%; border:2px solid var(--amber,#e0a43a); } .ds-paused { border:2px solid var(--ink-3,#64676a); border-radius:1px; } @keyframes ds-beacon { 50% { opacity:0.35; } } @media (prefers-reduced-motion: reduce) { .ds-down { animation:none; } }"
+    },
+    {
+      "name": "Check Tick Strip",
+      "kind": "custom",
+      "description": "Whole-cell check history graded by response depth; hatched empty slots.",
+      "html": "<span class=\"ds-ticks\"><i class=\"t-none\"></i><i class=\"t-none\"></i><i class=\"d0\"></i><i class=\"d0\"></i><i class=\"d1\"></i><i class=\"d0\"></i><i class=\"d2\"></i><i class=\"d3\"></i><i class=\"d1\"></i><i class=\"t-down\"></i><i class=\"t-down\"></i><i class=\"d0\"></i><i class=\"d0\"></i><i class=\"d1\"></i><i class=\"d0\"></i></span>",
+      "css": ".ds-ticks { display:flex; gap:2px; height:22px; } .ds-ticks i { width:3px; height:100%; border-radius:1px; } .ds-ticks .d0 { background:var(--sea-5,#1f5568); } .ds-ticks .d1 { background:var(--sea-4,#3d7c93); } .ds-ticks .d2 { background:var(--sea-3,#7fb0c2); } .ds-ticks .d3 { background:repeating-linear-gradient(180deg, var(--sea-4,#3d7c93) 0 3px, transparent 3px 5px); } .ds-ticks .t-down { background:var(--hazard,#b8124f); } .ds-ticks .t-none { background:repeating-linear-gradient(180deg, var(--rule,#e0d9c9) 0 2px, transparent 2px 4px); }"
+    },
+    {
+      "name": "Ledger",
+      "kind": "custom",
+      "description": "Ruled line of serif figures under small-caps labels; never tiles.",
+      "html": "<dl class=\"ds-ledger\"><div><dt>24 h uptime</dt><dd class=\"lead\">99.98%</dd></div><div><dt>Monitors</dt><dd>6</dd></div><div class=\"alert\"><dt>Down</dt><dd>1</dd></div><div><dt>Avg response</dt><dd>194ms</dd></div></dl>",
+      "css": ".ds-ledger { display:flex; margin:0; } .ds-ledger > div { padding:0 18px; border-left:1px solid var(--rule-2,#c7bea9); } .ds-ledger > div:first-child { border-left:0; padding-left:0; } .ds-ledger dt { font:600 15.5px/1.2 'Source Serif 4',Georgia,serif; font-variant-caps:all-small-caps; letter-spacing:0.05em; color:var(--ink-2,#45484b); } .ds-ledger dd { margin:2px 0 0; font:600 20px/1.1 'Source Serif 4',Georgia,serif; font-variant-numeric:tabular-nums lining-nums; color:var(--ink,#1b1d1f); } .ds-ledger dd.lead { font-size:32px; line-height:1; letter-spacing:-0.02em; } .ds-ledger .alert dd { color:var(--hazard-ink,#8e0c3c); }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Tide Table",
+    "overview": "Pulse is set like a printed nautical almanac. Every monitored service is a row in a ruled table with fixed columns, tabular figures and a strip of whole-cell history marks. The ground is warm chart paper, ink is near-black, panels and the app bar take a buff land tint, and health is read in graded chart-water blues. Outages are the one loud thing: chart magenta, a diamond-shaped mark that pulses, and a washed row. Healthy screens are quiet; a down screen is unmissable.\n\nDensity is that of a reference table, not a dashboard of cards. Structure comes from 1px hairlines rather than boxes: a full-ink rule opens every table and list, a lighter rule separates rows, and a mid rule closes. Headings, large figures and column heads are in Source Serif 4; everything you operate is in Public Sans with tabular lining numerals. The signature device is the tide chart in the monitor detail: response time drawn as one deep-blue curve over tinted depth bands (100 / 300 / 1000 ms, each band a fixed share of the height), with its peak labelled in serif italic like a high-water figure.\n\nThe user rejected the earlier aurora world (gradient blobs, glassmorphism, purple-cyan gradients) and it may not return.",
+    "keyCharacteristics": [
+      "Warm chart-paper ground, iron ink, buff land panels; light scheme only.",
+      "Ruled tables, not cards: 1px hairlines, ink rule on top.",
+      "Status carried by mark shape plus colour: blue circle, magenta diamond, amber ring, grey square.",
+      "History as fixed whole cells, graded by response-time depth.",
+      "Serif for headings, figures and small-caps column heads; sans for UI, tabular numerals everywhere.",
+      "Flat paper. Shadow only on overlays and the focus halo."
+    ],
+    "rules": [
+      {
+        "name": "The Magenta Means Act Rule",
+        "body": "Hazard magenta appears only where something is down, failing or destructive. A healthy screen contains none of it.",
+        "section": "colors"
+      },
+      {
+        "name": "The Depth Grading Rule",
+        "body": "Healthy history is graded, never flat green: checks under 100 ms are sea-4, under 300 ms sea-3, under 1 s sea-2, 1 s or slower amber. Public day cells follow the same ladder by uptime: 99.9%+ sea-4, 99-99.9% sea-3, 95-99% amber, under 95% hazard; missing data is a hatched empty cell.",
+        "section": "colors"
+      },
+      {
+        "name": "The Ink Is for Doing Rule",
+        "body": "Solid ink fill marks the primary action and the selected state. The only other ink surfaces are transient overlays (toast, day tooltip).",
+        "section": "colors"
+      },
+      {
+        "name": "The Tabular Figures Rule",
+        "body": "Every number is tabular and lining, and every numeric column is right-aligned, so polling changes values without moving anything.",
+        "section": "typography"
+      },
+      {
+        "name": "The Two Voices Rule",
+        "body": "Serif is for reading (headings, figures, column heads); sans is for operating. Public service names are the one sans heading (600, 16px), because they read as row labels.",
+        "section": "typography"
+      },
+      {
+        "name": "The Flat Paper Rule",
+        "body": "Nothing resting on the page casts a shadow. A surface earns a shadow only by floating over the page (dialog, toast).",
+        "section": "elevation"
+      },
+      {
+        "name": "The Hairline Rule",
+        "body": "Every table and list opens with a 1px ink rule, separates rows with 1px rule, and closes with 1px rule-2. No boxed cards.",
+        "section": "shapes"
+      },
+      {
+        "name": "The Whole Cell Rule",
+        "body": "History is a fixed count of discrete cells (40 checks at 3px with 2px gaps; 30 days in a 30-column grid with 3px gaps). Empty slots are hatched placeholders; the count never changes and cells never merge into a line.",
+        "section": "shapes"
+      }
+    ],
+    "dos": [
+      "Do open every table and list with a 1px ink rule and separate rows with 1px rule hairlines.",
+      "Do pair every status colour with its mark shape: sea circle, magenta diamond, amber ring, grey square.",
+      "Do grade healthy history by depth (sea-4, sea-3, sea-2, amber) instead of a single green.",
+      "Do set every number in tabular lining figures and right-align numeric columns.",
+      "Do keep corners at 2px (1px on cells, 3px on dialogs).",
+      "Do use Source Serif 4 for headings, figures and small-caps column heads, and Public Sans for controls and body.",
+      "Do keep motion short and eased (150-180ms, `cubic-bezier(0.2, 0.7, 0.2, 1)`), and drop all of it under reduced motion."
+    ],
+    "donts": [
+      "Don't bring back aurora gradient blobs, glassmorphism or purple-cyan gradients.",
+      "Don't use hazard magenta for anything that is not down, failing or destructive.",
+      "Don't put resting content in shadowed or rounded cards; shadows belong to dialogs and toasts only.",
+      "Don't fill a surface with solid ink unless it is the primary action, a selected state, or a transient overlay.",
+      "Don't merge or smooth history marks into sparklines or area charts; the cell count is fixed.",
+      "Don't use field white as a page or panel surface; it belongs inside inputs only.",
+      "Don't let polling move layout: columns and row heights stay fixed while values change."
+    ]
+  }
+}

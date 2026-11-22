@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react'
 import { api, type Beat, type Incident, type MonitorView } from './api'
 import { ago, duration, interval, ms, pct, percentile, since } from './format'
-import { Icon, LatencyChart, StatusDot } from './ui'
+import { Icon, StatusMark, TideChart } from './ui'
 
-const RANGES = [{ h: 1, label: '1h' }, { h: 24, label: '24h' }, { h: 168, label: '7d' }, { h: 720, label: '30d' }]
+const RANGES = [{ h: 1, label: '1 h' }, { h: 24, label: '24 h' }, { h: 168, label: '7 d' }, { h: 720, label: '30 d' }]
 
 interface Props {
   view: MonitorView
@@ -44,100 +44,104 @@ export function MonitorDetail({ view, incidents, now, onClose, onEdit, onChanged
   const ups = history?.filter(b => b.up).map(b => b.ms) ?? []
   const uptime = history?.length ? (100 * history.filter(b => b.up).length) / history.length : null
   const avg = ups.length ? ups.reduce((a, b) => a + b, 0) / ups.length : null
-  const mine = incidents.filter(i => i.monitorId === m.id).slice(0, 5)
+  const mine = incidents.filter(i => i.monitorId === m.id).slice(0, 6)
   const state = m.paused ? 'paused' : m.status.toLowerCase()
+  const range = RANGES.find(r => r.h === hours)!.label
 
   return (
-    <div className="detail">
-      <header className="modal-head">
+    <main className="detail">
+      <button className="back" onClick={onClose}><Icon name="back" /> All monitors <kbd>Esc</kbd></button>
+
+      <header className="detail-head">
         <div className="detail-title">
-          <StatusDot status={m.status} paused={m.paused} size={14} />
+          <StatusMark status={m.status} paused={m.paused} />
           <div>
             <h2>{m.name}</h2>
-            <a href={m.url} target="_blank" rel="noreferrer" className="mono muted link">{m.url} <Icon name="external" size={12} /></a>
+            <a href={m.url} target="_blank" rel="noreferrer" className="url">{m.url} <Icon name="external" size={12} /></a>
           </div>
         </div>
-        <button className="icon-btn" onClick={onClose} aria-label="Close"><Icon name="close" /></button>
+        <div className="detail-actions">
+          <button className="btn" disabled={busy} onClick={() => run(() => api.checkNow(m.id), 'Check complete')}><Icon name="refresh" /> Check now</button>
+          <button className="btn" disabled={busy} onClick={() => run(() => api.pause(m.id, !m.paused), m.paused ? 'Monitoring resumed' : 'Monitoring paused')}>
+            <Icon name={m.paused ? 'play' : 'pause'} /> {m.paused ? 'Resume' : 'Pause'}
+          </button>
+          <button className="btn" onClick={onEdit}><Icon name="edit" /> Edit</button>
+          {confirmDelete
+            ? <button className="btn btn-danger" disabled={busy} onClick={() => run(async () => { await api.deleteMonitor(m.id); onClose() }, 'Monitor deleted')}>Confirm delete</button>
+            : <button className="btn btn-icon btn-danger-quiet" onClick={() => setConfirmDelete(true)} aria-label="Delete monitor" title="Delete monitor"><Icon name="trash" /></button>}
+        </div>
       </header>
 
-      <div className="detail-actions">
-        <span className={`badge badge-${state} badge-lg`}>
+      <p className={`state-line state-${state}`}>
+        <span className={`badge badge-${state}`}>
           {m.paused ? 'Paused' : m.status === 'PENDING' ? 'Waiting for first check' : `${m.status === 'UP' ? 'Up' : 'Down'} for ${since(m.statusSince, now)}`}
         </span>
-        <div className="spacer" />
-        <button className="btn ghost" disabled={busy} onClick={() => run(() => api.checkNow(m.id), 'Check complete')}><Icon name="refresh" /> Check now</button>
-        <button className="btn ghost" disabled={busy} onClick={() => run(() => api.pause(m.id, !m.paused), m.paused ? 'Monitoring resumed' : 'Monitoring paused')}>
-          <Icon name={m.paused ? 'play' : 'pause'} /> {m.paused ? 'Resume' : 'Pause'}
-        </button>
-        <button className="btn ghost" onClick={onEdit}><Icon name="edit" /> Edit</button>
-        {confirmDelete
-          ? <button className="btn danger" disabled={busy} onClick={() => run(async () => { await api.deleteMonitor(m.id); onClose() }, 'Monitor deleted')}>Confirm delete</button>
-          : <button className="btn ghost danger-text" onClick={() => setConfirmDelete(true)} aria-label="Delete monitor"><Icon name="trash" /></button>}
-      </div>
+        <span>Checked {ago(m.lastCheckedAt, now)}, every {interval(m.intervalSeconds)}</span>
+        {!m.isPublic && <span><Icon name="lock" size={12} /> Private</span>}
+      </p>
 
       {m.status === 'DOWN' && m.lastError && (
-        <div className="alert-strip"><Icon name="bolt" /> {m.lastError} · last checked {ago(m.lastCheckedAt, now)}</div>
+        <p className="alert-strip" role="alert"><Icon name="alert" /><span><b>{m.lastError}</b> on the last check, {ago(m.lastCheckedAt, now)}.</span></p>
       )}
 
-      <div className="stat-grid">
-        <Stat label={`Uptime ${RANGES.find(r => r.h === hours)!.label}`} value={pct(uptime)} accent />
-        <Stat label="Avg response" value={ms(avg)} />
-        <Stat label="p95" value={ms(percentile(ups, 95))} />
-        <Stat label="Fastest" value={ups.length ? ms(Math.min(...ups)) : '—'} />
-        <Stat label="Checks" value={history ? history.length.toLocaleString() : '—'} />
-        <Stat label="Interval" value={interval(m.intervalSeconds)} />
-      </div>
+      <dl className="ledger ledger-detail">
+        {[
+          [`Uptime, ${range}`, uptime == null ? null : pct(uptime)],
+          ['Average', avg == null ? null : ms(avg)],
+          ['95th percentile', ups.length ? ms(percentile(ups, 95)) : null],
+          ['Fastest', ups.length ? ms(Math.min(...ups)) : null],
+          ['Checks', history ? history.length.toLocaleString() : null],
+          ['30 d uptime', view.uptime30d == null ? null : pct(view.uptime30d)],
+        ].filter(([, v]) => v != null).map(([k, v]) => <div key={k}><dt>{k}</dt><dd>{v}</dd></div>)}
+      </dl>
 
-      <section className="panel-sub">
-        <div className="panel-sub-head">
+      <section className="panel">
+        <div className="panel-head">
           <h3>Response time</h3>
-          <div className="segmented small" role="tablist">
+          <div className="tabs" role="tablist" aria-label="Range">
             {RANGES.map(r => (
-              <button key={r.h} role="tab" aria-selected={hours === r.h} className={hours === r.h ? 'on' : ''} onClick={() => setHours(r.h)}>{r.label}</button>
+              <button key={r.h} role="tab" aria-selected={hours === r.h} onClick={() => setHours(r.h)}>{r.label}</button>
             ))}
           </div>
         </div>
-        {history ? <LatencyChart beats={history} /> : <div className="chart-empty shimmer" />}
+        {history ? <TideChart beats={history} /> : <div className="chart-loading" />}
       </section>
 
       <div className="detail-cols">
-        <section className="panel-sub">
+        <section className="panel">
           <h3>Recent checks</h3>
-          <ul className="check-list">
-            {(history ?? []).slice(-8).reverse().map(b => (
-              <li key={b.t}>
-                <span className={`pill ${b.up ? 'pill-up' : 'pill-down'}`}>{b.code ?? 'ERR'}</span>
-                <span className="mono">{ms(b.ms)}</span>
-                <span className="muted ellipsis">{b.error ?? 'OK'}</span>
-                <span className="muted">{ago(b.t, now)}</span>
-              </li>
-            ))}
-            {history?.length === 0 && <li className="muted">No checks in this range yet.</li>}
-          </ul>
+          <table className="data">
+            <thead><tr><th>Result</th><th className="num">Time</th><th>Detail</th><th className="num">When</th></tr></thead>
+            <tbody>
+              {(history ?? []).slice(-8).reverse().map(b => (
+                <tr key={b.t}>
+                  <td><span className={`pill ${b.up ? 'pill-up' : 'pill-down'}`}>{b.code ?? 'ERR'}</span></td>
+                  <td className="num">{ms(b.ms)}</td>
+                  <td className="ellipsis">{b.error ?? 'OK'}</td>
+                  <td className="num">{ago(b.t, now)}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          {history?.length === 0 && <p className="table-note">No checks in this range yet.</p>}
         </section>
-        <section className="panel-sub">
+        <section className="panel">
           <h3>Incidents</h3>
-          <ul className="check-list">
-            {mine.map(i => (
-              <li key={i.id}>
-                <span className={`pill ${i.resolvedAt ? 'pill-up' : 'pill-down'}`}>{i.resolvedAt ? 'Resolved' : 'Ongoing'}</span>
-                <span className="muted ellipsis">{i.cause}</span>
-                <span className="muted">{i.resolvedAt ? duration((Date.parse(i.resolvedAt) - Date.parse(i.startedAt)) / 1000) : since(i.startedAt, now)}</span>
-              </li>
-            ))}
-            {mine.length === 0 && <li className="muted">No incidents. Lovely.</li>}
-          </ul>
+          <table className="data">
+            <thead><tr><th>State</th><th>Cause</th><th className="num">Duration</th></tr></thead>
+            <tbody>
+              {mine.map(i => (
+                <tr key={i.id}>
+                  <td><span className={`pill ${i.resolvedAt ? 'pill-up' : 'pill-down'}`}>{i.resolvedAt ? 'Resolved' : 'Ongoing'}</span></td>
+                  <td className="ellipsis">{i.cause}</td>
+                  <td className="num">{i.resolvedAt ? duration((Date.parse(i.resolvedAt) - Date.parse(i.startedAt)) / 1000) : since(i.startedAt, now)}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          {mine.length === 0 && <p className="table-note">No incidents for this monitor.</p>}
         </section>
       </div>
-    </div>
-  )
-}
-
-function Stat({ label, value, accent }: { label: string; value: string; accent?: boolean }) {
-  return (
-    <div className={`stat ${accent ? 'stat-accent' : ''}`}>
-      <span className="metric-label">{label}</span>
-      <span className="metric-value">{value}</span>
-    </div>
+    </main>
   )
 }

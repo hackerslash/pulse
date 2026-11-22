@@ -29,12 +29,12 @@ export function MonitorForm({ initial, onDone, onCancel }: { initial?: Monitor; 
 
   return (
     <form className="form" onSubmit={submit}>
-      <header className="modal-head">
+      <header className="dialog-head">
         <div>
           <h2>{initial ? 'Edit monitor' : 'New monitor'}</h2>
           <p className="muted">We'll send an HTTP GET and treat anything under 400 as up.</p>
         </div>
-        <button type="button" className="icon-btn" onClick={onCancel} aria-label="Close"><Icon name="close" /></button>
+        <button type="button" className="btn btn-icon" onClick={onCancel} aria-label="Close"><Icon name="close" /></button>
       </header>
 
       <label className="field">
@@ -69,9 +69,9 @@ export function MonitorForm({ initial, onDone, onCancel }: { initial?: Monitor; 
 
       {error && <p className="form-error" role="alert">{error}</p>}
 
-      <footer className="modal-foot">
-        <button type="button" className="btn ghost" onClick={onCancel}>Cancel</button>
-        <button type="submit" className="btn primary" disabled={busy}>{busy ? 'Saving…' : initial ? 'Save changes' : 'Start monitoring'}</button>
+      <footer className="dialog-foot">
+        <button type="button" className="btn" onClick={onCancel}>Cancel</button>
+        <button type="submit" className="btn btn-primary" disabled={busy}>{busy ? 'Saving…' : initial ? 'Save changes' : 'Start monitoring'}</button>
       </footer>
     </form>
   )

@@ -1,13 +1,18 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { api, type Incident, type Monitor, type MonitorView } from './api'
 import { duration, ms, pct, since } from './format'
-import { MonitorCard } from './MonitorCard'
 import { MonitorDetail } from './MonitorDetail'
 import { MonitorForm } from './MonitorForm'
+import { MonitorRow } from './MonitorRow'
 import { WebhooksPanel } from './WebhooksPanel'
-import { Backdrop, Icon, Logo, Modal, useToasts } from './ui'
+import { Icon, Logo, Modal, StatusMark, useToasts } from './ui'
 
 type Filter = 'all' | 'up' | 'down' | 'paused'
+
+const idFromHash = () => {
+  const m = /^#monitor-(\d+)$/.exec(location.hash)
+  return m ? Number(m[1]) : null
+}
 
 export function App({ onLogout }: { onLogout: () => void }) {
   const [views, setViews] = useState<MonitorView[] | null>(null)
@@ -15,7 +20,7 @@ export function App({ onLogout }: { onLogout: () => void }) {
   const [offline, setOffline] = useState(false)
   const [now, setNow] = useState(Date.now())
   const [form, setForm] = useState<{ edit?: Monitor } | null>(null)
-  const [detailId, setDetailId] = useState<number | null>(null)
+  const [detailId, setDetailId] = useState<number | null>(idFromHash)
   const [hooksOpen, setHooksOpen] = useState(false)
   const [query, setQuery] = useState('')
   const [filter, setFilter] = useState<Filter>('all')
@@ -33,30 +38,35 @@ export function App({ onLogout }: { onLogout: () => void }) {
     }
   }, [])
 
+  const openDetail = (id: number) => { location.hash = `monitor-${id}` }
+  const closeDetail = useCallback(() => {
+    if (location.hash) history.pushState(null, '', location.pathname)
+    setDetailId(null)
+  }, [])
+
   useEffect(() => {
     refresh()
     const poll = setInterval(refresh, 5000)
     const clock = setInterval(() => setNow(Date.now()), 1000)
-    return () => { clearInterval(poll); clearInterval(clock) }
+    const hash = () => setDetailId(idFromHash())
+    window.addEventListener('hashchange', hash)
+    window.addEventListener('popstate', hash)
+    return () => { clearInterval(poll); clearInterval(clock); window.removeEventListener('hashchange', hash); window.removeEventListener('popstate', hash) }
   }, [refresh])
 
   useEffect(() => {
-    const move = (e: PointerEvent) => {
-      const el = (e.target as Element).closest?.('.spot') as HTMLElement | null
-      if (!el) return
-      const r = el.getBoundingClientRect()
-      el.style.setProperty('--mx', `${e.clientX - r.left}px`)
-      el.style.setProperty('--my', `${e.clientY - r.top}px`)
-    }
     const key = (e: KeyboardEvent) => {
-      if (document.querySelector('dialog[open]') || (e.target as Element).matches('input, textarea')) return
+      if (document.querySelector('dialog[open]')) return
+      if (e.key === 'Escape' && detailId != null) { closeDetail(); return }
+      if ((e.target as Element).matches('input, textarea')) return
       if (e.key === 'n') { e.preventDefault(); setForm({}) }
-      if (e.key === '/') { e.preventDefault(); search.current?.focus() }
+      if (e.key === '/' && detailId == null) { e.preventDefault(); search.current?.focus() }
     }
-    window.addEventListener('pointermove', move)
     window.addEventListener('keydown', key)
-    return () => { window.removeEventListener('pointermove', move); window.removeEventListener('keydown', key) }
-  }, [])
+    return () => window.removeEventListener('keydown', key)
+  }, [detailId, closeDetail])
+
+  useEffect(() => { window.scrollTo(0, 0) }, [detailId])
 
   const stats = useMemo(() => {
     const list = views ?? []
@@ -87,98 +97,112 @@ export function App({ onLogout }: { onLogout: () => void }) {
   const health = stats.down > 0 ? 'down' : stats.total === 0 ? 'idle' : 'up'
 
   return (
-    <div className={`app health-${health}`}>
-      <Backdrop />
-
-      <header className="topbar">
-        <div className="brand">
+    <div className="shell">
+      <header className="bar">
+        <a className="brand" href="/admin" onClick={e => { e.preventDefault(); closeDetail() }}>
           <Logo />
-          <div>
-            <h1>Pulse</h1>
-            <span className="muted">Uptime monitoring</span>
-          </div>
-        </div>
-        <div className={`health-pill glass health-pill-${health}`} data-testid="health">
-          <span className="dot-live" />
+          <h1 className="wordmark">Pulse</h1>
+        </a>
+        <p className={`verdict verdict-${health}`} data-testid="health">
+          <StatusMark status={health === 'down' ? 'DOWN' : health === 'up' ? 'UP' : 'PENDING'} paused={health === 'idle'} />
           {health === 'down' ? `${stats.down} ${stats.down === 1 ? 'service' : 'services'} down` : health === 'idle' ? 'No monitors yet' : 'All systems operational'}
-        </div>
-        <div className="top-actions">
-          <a className="btn ghost" href="/" target="_blank" rel="noreferrer" aria-label="Public status page"><Icon name="globe" /> <span className="label">Status page</span></a>
-          <button className="btn ghost" onClick={() => setHooksOpen(true)} aria-label="Webhooks"><Icon name="bell" /> <span className="label">Webhooks</span></button>
-          <button className="btn primary" onClick={() => setForm({})} aria-label="New monitor"><Icon name="plus" /> <span className="label">New monitor</span> <kbd>N</kbd></button>
-          <button className="icon-btn" onClick={onLogout} aria-label="Log out" title="Log out"><Icon name="logout" /></button>
-        </div>
+        </p>
+        <nav className="bar-actions" aria-label="Main">
+          <a className="btn btn-quiet" href="/" target="_blank" rel="noreferrer" aria-label="Public status page"><Icon name="globe" /><span className="label">Status page</span></a>
+          <button className="btn btn-quiet" onClick={() => setHooksOpen(true)} aria-label="Webhooks"><Icon name="bell" /><span className="label">Webhooks</span></button>
+          <button className="btn btn-primary" onClick={() => setForm({})} aria-label="New monitor"><Icon name="plus" /><span className="label">New monitor</span><kbd>N</kbd></button>
+          <button className="btn btn-icon" onClick={onLogout} aria-label="Log out" title="Log out"><Icon name="logout" /></button>
+        </nav>
       </header>
 
-      {offline && <div className="offline glass" role="alert">Can't reach the Pulse API — retrying every 5 seconds…</div>}
+      {offline && <p className="notice" role="alert"><Icon name="alert" /> Can't reach the Pulse API. Retrying every 5 seconds.</p>}
 
-      <section className="hero glass spot">
-        <div className="hero-main">
-          <span className="metric-label">Overall uptime · 24h</span>
-          <span className="hero-value" data-testid="overall-uptime">{pct(stats.uptime)}</span>
-        </div>
-        <div className="hero-stats">
-          <HeroStat label="Monitors" value={String(stats.total)} />
-          <HeroStat label="Up" value={String(stats.up)} tone="up" />
-          <HeroStat label="Down" value={String(stats.down)} tone={stats.down ? 'down' : undefined} />
-          <HeroStat label="Avg response" value={ms(stats.latency)} />
-        </div>
-      </section>
-
-      <main className="layout">
-        <section>
-          <div className="toolbar">
-            <label className="search glass">
-              <Icon name="search" />
-              <input ref={search} placeholder="Search monitors" value={query} onChange={e => setQuery(e.target.value)} aria-label="Search monitors" />
-              <kbd>/</kbd>
-            </label>
-            <div className="segmented glass" role="tablist" aria-label="Filter">
-              {(['all', 'up', 'down', 'paused'] as Filter[]).map(f => (
-                <button key={f} role="tab" aria-selected={filter === f} className={filter === f ? 'on' : ''} onClick={() => setFilter(f)}>
-                  {f[0].toUpperCase() + f.slice(1)}
-                </button>
-              ))}
+      {detailId != null && detail ? (
+        <MonitorDetail
+          view={detail}
+          incidents={incidents}
+          now={now}
+          onClose={closeDetail}
+          onEdit={() => setForm({ edit: detail.monitor })}
+          onChanged={refresh}
+          toast={toast.push}
+        />
+      ) : (
+        <main className="workspace">
+          <section className="monitors" aria-labelledby="monitors-title">
+            <div className="section-head">
+              <h2 id="monitors-title">Monitors</h2>
+              <dl className="ledger">
+                <div><dt>24 h uptime</dt><dd data-testid="overall-uptime">{pct(stats.uptime)}</dd></div>
+                <div><dt>Monitors</dt><dd>{stats.total}</dd></div>
+                <div><dt>Up</dt><dd>{stats.up}</dd></div>
+                <div className={stats.down ? 'ledger-alert' : ''}><dt>Down</dt><dd>{stats.down}</dd></div>
+                <div><dt>Avg response</dt><dd>{ms(stats.latency)}</dd></div>
+              </dl>
             </div>
-          </div>
 
-          {views === null && !offline && <div className="grid">{[0, 1, 2, 3].map(i => <div key={i} className="card glass shimmer skeleton" />)}</div>}
-
-          {views?.length === 0 && (
-            <div className="empty glass">
-              <svg viewBox="0 0 300 60" className="empty-ecg" aria-hidden><path d="M0 30h90l10-18 16 40 14-52 14 46 10-16h146" /></svg>
-              <h2>Nothing to watch yet</h2>
-              <p className="muted">Add your first website or API and Pulse will check it around the clock.</p>
-              <button className="btn primary" onClick={() => setForm({})}><Icon name="plus" /> Add your first monitor</button>
+            <div className="toolbar">
+              <label className="search">
+                <Icon name="search" />
+                <input ref={search} placeholder="Search by name or URL" value={query} onChange={e => setQuery(e.target.value)} aria-label="Search monitors" />
+                <kbd>/</kbd>
+              </label>
+              <div className="tabs" role="tablist" aria-label="Filter">
+                {(['all', 'up', 'down', 'paused'] as Filter[]).map(f => (
+                  <button key={f} role="tab" aria-selected={filter === f} onClick={() => setFilter(f)}>
+                    {f[0].toUpperCase() + f.slice(1)}
+                  </button>
+                ))}
+              </div>
             </div>
-          )}
 
-          {views && views.length > 0 && shown.length === 0 && <p className="muted center">No monitors match.</p>}
+            <div className="table" role="list" aria-label="Monitors">
+              <div className="row row-head" aria-hidden>
+                <span />
+                <span>Service</span>
+                <span>Status</span>
+                <span className="num">24 h</span>
+                <span className="num">Response</span>
+                <span>Last 40 checks</span>
+                <span className="num">Checked</span>
+              </div>
 
-          <div className="grid">
-            {shown.map(v => <MonitorCard key={v.monitor.id} view={v} now={now} onOpen={() => setDetailId(v.monitor.id)} />)}
-          </div>
-        </section>
+              {views === null && !offline && [0, 1, 2].map(i => <div key={i} className="row row-skeleton" />)}
 
-        <aside className="incidents glass">
-          <h2><Icon name="shield" /> Incidents</h2>
-          <ul>
-            {incidents.slice(0, 12).map(i => (
-              <li key={i.id} className={i.resolvedAt ? 'resolved' : 'ongoing'} data-testid="incident">
-                <span className="inc-bar" />
-                <div>
-                  <strong>{names.get(i.monitorId) ?? 'Deleted monitor'}</strong>
-                  <span className="muted ellipsis">{i.cause}</span>
+              {views?.length === 0 && (
+                <div className="empty">
+                  <h3>Nothing to watch yet</h3>
+                  <p>Add a website or API and Pulse checks it on a schedule, records every result, and alerts your webhooks when it goes down.</p>
+                  <button className="btn btn-primary" onClick={() => setForm({})}><Icon name="plus" /> Add your first monitor</button>
                 </div>
-                <span className="inc-time">
-                  {i.resolvedAt ? <>{duration((Date.parse(i.resolvedAt) - Date.parse(i.startedAt)) / 1000)}<small>{new Date(i.startedAt).toLocaleDateString([], { month: 'short', day: 'numeric' })}</small></> : <>Ongoing<small>{since(i.startedAt, now)}</small></>}
-                </span>
-              </li>
-            ))}
-            {incidents.length === 0 && <li className="calm muted">No incidents recorded. Smooth sailing.</li>}
-          </ul>
-        </aside>
-      </main>
+              )}
+
+              {views && views.length > 0 && shown.length === 0 && <p className="table-note">No monitors match.</p>}
+
+              {shown.map(v => <MonitorRow key={v.monitor.id} view={v} now={now} onOpen={() => openDetail(v.monitor.id)} />)}
+            </div>
+          </section>
+
+          <aside className="log" aria-labelledby="log-title">
+            <h2 id="log-title">Incident log</h2>
+            <ol>
+              {incidents.slice(0, 12).map(i => (
+                <li key={i.id} className={i.resolvedAt ? 'resolved' : 'ongoing'} data-testid="incident">
+                  <div className="log-main">
+                    <strong>{names.get(i.monitorId) ?? 'Deleted monitor'}</strong>
+                    <span>{i.cause}</span>
+                  </div>
+                  <div className="log-when">
+                    <b>{i.resolvedAt ? duration((Date.parse(i.resolvedAt) - Date.parse(i.startedAt)) / 1000) : 'Ongoing'}</b>
+                    <span>{i.resolvedAt ? new Date(i.startedAt).toLocaleDateString([], { month: 'short', day: 'numeric' }) : `for ${since(i.startedAt, now)}`}</span>
+                  </div>
+                </li>
+              ))}
+            </ol>
+            {incidents.length === 0 && <p className="log-empty">No incidents recorded. Outages and recoveries will be listed here.</p>}
+          </aside>
+        </main>
+      )}
 
       <Modal open={form !== null} onClose={() => setForm(null)} title={form?.edit ? 'Edit monitor' : 'New monitor'}>
         <MonitorForm
@@ -188,34 +212,11 @@ export function App({ onLogout }: { onLogout: () => void }) {
         />
       </Modal>
 
-      <Modal open={detail !== undefined && form === null} onClose={() => setDetailId(null)} title={detail?.monitor.name ?? 'Monitor'} wide>
-        {detail && (
-          <MonitorDetail
-            view={detail}
-            incidents={incidents}
-            now={now}
-            onClose={() => setDetailId(null)}
-            onEdit={() => setForm({ edit: detail.monitor })}
-            onChanged={refresh}
-            toast={toast.push}
-          />
-        )}
-      </Modal>
-
       <Modal open={hooksOpen} onClose={() => setHooksOpen(false)} title="Webhooks" wide>
         <WebhooksPanel onClose={() => setHooksOpen(false)} toast={toast.push} now={now} />
       </Modal>
 
       {toast.view}
-    </div>
-  )
-}
-
-function HeroStat({ label, value, tone }: { label: string; value: string; tone?: 'up' | 'down' }) {
-  return (
-    <div className={`hero-stat ${tone ? 'tone-' + tone : ''}`}>
-      <span className="metric-label">{label}</span>
-      <span className="metric-value">{value}</span>
     </div>
   )
 }

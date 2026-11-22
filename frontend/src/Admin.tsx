@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { api } from './api'
 import { App } from './App'
-import { Backdrop, Icon, Logo } from './ui'
+import { Icon, Logo } from './ui'
 
 export function Admin() {
   const [state, setState] = useState<'checking' | 'in' | 'out'>('checking')
@@ -13,7 +13,7 @@ export function Admin() {
     return () => window.removeEventListener('pulse:unauthorized', out)
   }, [])
 
-  if (state === 'checking') return <div className="app"><Backdrop /></div>
+  if (state === 'checking') return <div className="shell" />
   if (state === 'out') return <Login onIn={() => setState('in')} />
   return <App onLogout={() => api.logout().finally(() => setState('out'))} />
 }
@@ -39,20 +39,20 @@ function Login({ onIn }: { onIn: () => void }) {
   }
 
   return (
-    <div className="app login-wrap">
-      <Backdrop />
-      <form className={`login glass ${error ? 'shake' : ''}`} onSubmit={submit} key={error ?? 'ok'}>
-        <Logo />
+    <main className="login-page">
+      <form className="login" onSubmit={submit}>
+        <span className="brand"><Logo /><span className="wordmark">Pulse</span></span>
         <h1>Sign in to Pulse</h1>
-        <p className="muted">Enter the admin password to manage monitors.</p>
+        <p>Enter the admin password set in <code>PULSE_PASSWORD</code> to manage monitors and webhooks.</p>
         <label className="field">
           <span>Password</span>
-          <input type="password" name="password" autoComplete="current-password" autoFocus required value={password} onChange={e => setPassword(e.target.value)} />
+          <input type="password" name="password" autoComplete="current-password" autoFocus required value={password}
+            onChange={e => setPassword(e.target.value)} aria-invalid={!!error} />
         </label>
         {error && <p className="form-error" role="alert">{error}</p>}
-        <button className="btn primary login-btn" disabled={busy}>{busy ? 'Signing in…' : 'Sign in'}</button>
-        <a className="muted back" href="/"><Icon name="globe" size={14} /> View public status page</a>
+        <button className="btn btn-primary btn-block" disabled={busy}>{busy ? 'Signing in…' : 'Sign in'}</button>
+        <a className="login-alt" href="/"><Icon name="globe" size={14} /> View the public status page</a>
       </form>
-    </div>
+    </main>
   )
 }
