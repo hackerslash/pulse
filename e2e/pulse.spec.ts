@@ -208,7 +208,8 @@ test('public status page shows only public monitors, never URLs', async ({ page,
   await visitor.screenshot({ path: 'screenshots/08-public-down.png', fullPage: true })
   status = 200
 
-  await visitor.getByRole('link', { name: 'Admin' }).click()
+  await expect(visitor.getByRole('link', { name: 'Admin' })).toHaveCount(0)
+  await visitor.goto('/admin')
   await expect(visitor.getByRole('heading', { name: 'Sign in to Pulse' })).toBeVisible()
   await visitor.close()
   for (const id of ids) await page.request.delete(`/api/monitors/${id}`)

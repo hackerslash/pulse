@@ -33,7 +33,6 @@ export function StatusPage() {
         <div className="public-in">
           <span className="brand"><Logo /><span className="wordmark">Pulse</span></span>
           <span className="public-kind">Status</span>
-          <a className="mast-link" href="/admin">Admin</a>
         </div>
       </header>
 
