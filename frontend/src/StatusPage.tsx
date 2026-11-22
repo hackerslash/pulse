@@ -21,13 +21,13 @@ export function StatusPage() {
   const down = monitors.filter(m => m.status === 'DOWN').length
   const level = !data ? 'idle' : down === 0 ? 'up' : down * 2 >= monitors.length ? 'major' : 'partial'
   const headline = { idle: 'Checking status…', up: 'All systems operational', partial: 'Partial outage', major: 'Major outage' }[level]
-  const detail = { idle: '', up: `All ${monitors.length} services are responding normally.`, partial: `${down} of ${monitors.length} services are not responding.`, major: `${down} of ${monitors.length} services are not responding.` }[level]
+  const detail = { idle: '', up: monitors.length ? `All ${monitors.length} services are responding normally.` : '', partial: `${down} of ${monitors.length} services are not responding.`, major: `${down} of ${monitors.length} services are not responding.` }[level]
 
   return (
     <div className="public">
       <header className="public-mast">
         <span className="brand"><Logo /><span className="wordmark">Pulse</span></span>
-        <span className="public-kind">Service status<span className="kind-date"> · {new Date(now).toLocaleDateString([], { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}</span></span>
+        <span className="public-kind">Status</span>
       </header>
 
       <section className={`verdict-block verdict-block-${level}`} data-testid="status-banner">
@@ -44,7 +44,7 @@ export function StatusPage() {
       <section className="public-section" aria-labelledby="services-title">
         <div className="public-section-head">
           <h2 id="services-title">Services</h2>
-          <span>Daily uptime, last 30 days</span>
+          <span>Last 30 days</span>
         </div>
         {data && monitors.length === 0 && <p className="table-note">No services are published yet.</p>}
         {monitors.map(m => (
@@ -64,18 +64,9 @@ export function StatusPage() {
                 </span>
               ))}
             </div>
-            <div className="day-dates" aria-hidden>
-              {m.days.map((d, i) => <span key={d.date}>{i === m.days.length - 1 ? 'Today' : i % 7 === 0 && i <= 21 ? fmtDay(d.date) : ''}</span>)}
-            </div>
           </article>
         ))}
-        <p className="legend" aria-hidden>
-          <span><i className="swatch day-up" /> 99.9% or more</span>
-          <span><i className="swatch day-minor" /> 99–99.9%</span>
-          <span><i className="swatch day-warn" /> 95–99%</span>
-          <span><i className="swatch day-down" /> under 95%</span>
-          <span><i className="swatch day-empty" /> no data</span>
-        </p>
+        {monitors.length > 0 && <div className="day-axis" aria-hidden><span>30 days ago</span><span>Today</span></div>}
       </section>
 
       <section className="public-section" aria-labelledby="incidents-title">

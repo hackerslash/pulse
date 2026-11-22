@@ -323,7 +323,10 @@ Forty 3px ticks, 2px apart, 22px tall, one per check. Up ticks are graded by res
 The response-time chart, carried from the almanac. A 240px plot on a banded, non-linear scale: depth bands under 100ms, 100–300ms, 300ms–1s and above get fixed shares of the height, shaded in faint blue (0 / 7% / 13%) with a slate top band. Dashed 14% white contours mark 100ms, 300ms and 1s, labelled at left as italic serif "soundings". The curve is a 2px light-blue line; the peak is labelled with an italic serif crest. Outages are red 45° hatching over the full height. Pointer or tap shows a dashed cursor, a light-blue dot and a readout in the caption. When every check failed, the bands drop and a capsule reads "No successful checks in this range" in red-ink italic serif.
 
 ### Day Strip (public)
-Thirty equal cells, 30px tall, 3px gaps, per service: green at 99.9%+, 55% green at 99–99.9%, orange at 95–99%, red under 95%, fill when empty. Hover scales a cell 8% vertically and brightens it, and shows a blurred glass-strong tooltip with date and uptime. A legend of 10px swatches closes the card.
+Thirty equal cells, 22px tall, 2px gaps, 2px corners, per service: 80% green at 99.9%+, 45% green at 99–99.9%, orange at 95–99%, red under 95%, fill when empty. Hover brightens a cell and shows a blurred glass-strong tooltip with date and uptime. One "30 days ago … Today" axis closes the card; no per-row dates, no legend.
+
+### Public page
+Quiet by design: logo, wordmark and a hairline-divided "Status" label (no date). The verdict sits on the page, not in a card: a 12px dot with a 5px tinted halo, a 32px serif headline, and one ink-2 line. Section titles and table heads are 12–13px sans, not small caps. Service rows: 8px dot, 15px name, ink-3 "Operational" (only a down state is coloured), sans tabular uptime.
 
 ### Disclosure
 The webhook payload `<details>` hides the native marker and leads its summary (ink-2, 500) with a drawn 14px chevron that rotates 90° over 200ms when open; the sample sits in a 12px-corner, 30% black inset block in 12.5px mono.
