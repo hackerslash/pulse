@@ -4,6 +4,7 @@ import { duration, ms, pct, since } from './format'
 import { MonitorDetail } from './MonitorDetail'
 import { MonitorForm } from './MonitorForm'
 import { MonitorRow } from './MonitorRow'
+import { SettingsPanel } from './SettingsPanel'
 import { WebhooksPanel } from './WebhooksPanel'
 import { Icon, Logo, Modal, StatusMark, useToasts } from './ui'
 
@@ -22,6 +23,7 @@ export function App({ onLogout }: { onLogout: () => void }) {
   const [form, setForm] = useState<{ edit?: Monitor } | null>(null)
   const [detailId, setDetailId] = useState<number | null>(idFromHash)
   const [hooksOpen, setHooksOpen] = useState(false)
+  const [settingsOpen, setSettingsOpen] = useState(false)
   const [query, setQuery] = useState('')
   const [filter, setFilter] = useState<Filter>('all')
   const search = useRef<HTMLInputElement>(null)
@@ -110,6 +112,7 @@ export function App({ onLogout }: { onLogout: () => void }) {
         <nav className="bar-actions" aria-label="Main">
           <a className="btn btn-quiet" href="/" target="_blank" rel="noreferrer" aria-label="Public status page"><Icon name="globe" /><span className="label">Status page</span></a>
           <button className="btn btn-quiet" onClick={() => setHooksOpen(true)} aria-label="Webhooks"><Icon name="bell" /><span className="label">Webhooks</span></button>
+          <button className="btn btn-quiet" onClick={() => setSettingsOpen(true)} aria-label="Settings"><Icon name="sliders" /><span className="label">Settings</span></button>
           <button className="btn btn-primary" onClick={() => setForm({})} aria-label="New monitor"><Icon name="plus" /><span className="label">New monitor</span><kbd>N</kbd></button>
           <button className="btn btn-icon" onClick={onLogout} aria-label="Log out" title="Log out"><Icon name="logout" /></button>
         </nav>
@@ -210,6 +213,10 @@ export function App({ onLogout }: { onLogout: () => void }) {
           onCancel={() => setForm(null)}
           onDone={m => { setForm(null); toast.push(form?.edit ? 'Monitor updated' : `Now watching ${m.name}`); refresh() }}
         />
+      </Modal>
+
+      <Modal open={settingsOpen} onClose={() => setSettingsOpen(false)} title="Settings">
+        <SettingsPanel onClose={() => setSettingsOpen(false)} toast={toast.push} />
       </Modal>
 
       <Modal open={hooksOpen} onClose={() => setHooksOpen(false)} title="Webhooks" wide>

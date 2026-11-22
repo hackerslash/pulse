@@ -77,7 +77,9 @@ async function call<T>(method: string, path: string, body?: unknown): Promise<T>
 }
 
 export const api = {
-  publicStatus: (granularity: Granularity) => call<PublicStatus>('GET', `/public/status?granularity=${granularity}`),
+  publicStatus: () => call<PublicStatus>('GET', '/public/status'),
+  settings: () => call<{ granularity: Granularity }>('GET', '/settings'),
+  saveSettings: (granularity: Granularity) => call<{ granularity: Granularity }>('PUT', '/settings', { granularity }),
   me: () => call<{ ok: boolean }>('GET', '/me'),
   login: (password: string) => call<{ ok: boolean }>('POST', '/login', { password }),
   logout: () => call<void>('POST', '/logout'),

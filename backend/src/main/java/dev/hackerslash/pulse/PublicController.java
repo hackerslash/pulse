@@ -6,12 +6,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.springframework.data.domain.Limit;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.server.ResponseStatusException;
 
 @Controller
 public class PublicController {
@@ -39,11 +36,13 @@ public class PublicController {
     private final MonitorRepo monitors;
     private final CheckRepo checks;
     private final IncidentRepo incidents;
+    private final SettingsController settings;
 
-    PublicController(MonitorRepo monitors, CheckRepo checks, IncidentRepo incidents) {
+    PublicController(MonitorRepo monitors, CheckRepo checks, IncidentRepo incidents, SettingsController settings) {
         this.monitors = monitors;
         this.checks = checks;
         this.incidents = incidents;
+        this.settings = settings;
     }
 
     @GetMapping({"/admin", "/admin/"})
@@ -55,13 +54,8 @@ public class PublicController {
     // ponytail: cells align to epoch multiples (UTC), so the newest cell is partial and 2h/8h cells start at odd local hours in some zones
     @GetMapping("/api/public/status")
     @ResponseBody
-    Status status(@RequestParam(defaultValue = "day") String granularity) {
-        Granularity g;
-        try {
-            g = Granularity.valueOf(granularity.toUpperCase());
-        } catch (IllegalArgumentException e) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "granularity must be day, week or month");
-        }
+    Status status() {
+        Granularity g = settings.granularity();
         long first = Instant.now().getEpochSecond() / g.seconds - (g.cells - 1);
 
         Map<Long, long[][]> sums = new HashMap<>();

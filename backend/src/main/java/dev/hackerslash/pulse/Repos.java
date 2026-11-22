@@ -41,6 +41,8 @@ interface CheckRepo extends JpaRepository<Check, Long> {
     int deleteOlderThan(Instant before);
 }
 
+interface SettingRepo extends JpaRepository<Setting, String> {}
+
 interface IncidentRepo extends JpaRepository<Incident, Long> {
 
     Optional<Incident> findFirstByMonitorIdAndResolvedAtIsNull(Long monitorId);

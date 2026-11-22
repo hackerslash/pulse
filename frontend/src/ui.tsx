@@ -198,4 +198,5 @@ const ICONS = {
   alert: <><path d="M12 8v5M12 16.5h.01" /><circle cx="12" cy="12" r="9" /></>,
   back: <path d="M15 18l-6-6 6-6" />,
   chevron: <path d="m9 6 6 6-6 6" />,
+  sliders: <><path d="M4 6h9.5M18.5 6H20M4 12h3.5M12.5 12H20M4 18h11.5M20.5 18H21" /><circle cx="16" cy="6" r="2.5" /><circle cx="10" cy="12" r="2.5" /><circle cx="18" cy="18" r="2.5" /></>,
 }

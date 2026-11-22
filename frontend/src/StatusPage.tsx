@@ -1,45 +1,29 @@
 import { useEffect, useState } from 'react'
-import { api, type Granularity, type PublicStatus } from './api'
+import { api, type PublicStatus } from './api'
+import { OPTIONS } from './granularity'
 import { ago, duration, pct, since } from './format'
 import { Logo } from './ui'
 
-const OPTIONS: { id: Granularity; label: string; span: string; cell: string }[] = [
-  { id: 'day', label: '1 day', span: '24 hours', cell: '15 minutes' },
-  { id: 'week', label: '1 week', span: '7 days', cell: '2 hours' },
-  { id: 'month', label: '1 month', span: '30 days', cell: '8 hours' },
-]
-
-function initialGranularity(): Granularity {
-  const g = new URLSearchParams(location.search).get('granularity')
-  return OPTIONS.some(o => o.id === g) ? (g as Granularity) : 'day'
-}
-
 export function StatusPage() {
-  const [granularity, setGranularity] = useState<Granularity>(initialGranularity)
   const [data, setData] = useState<PublicStatus | null>(null)
   const [updated, setUpdated] = useState<string | null>(null)
   const [offline, setOffline] = useState(false)
   const [now, setNow] = useState(Date.now())
 
   useEffect(() => {
-    const load = () => api.publicStatus(granularity).then(d => { setData(d); setUpdated(new Date().toISOString()); setOffline(false) }, () => setOffline(true))
+    const load = () => api.publicStatus().then(d => { setData(d); setUpdated(new Date().toISOString()); setOffline(false) }, () => setOffline(true))
     load()
     const poll = setInterval(load, 30_000)
     const clock = setInterval(() => setNow(Date.now()), 1000)
     return () => { clearInterval(poll); clearInterval(clock) }
-  }, [granularity])
-
-  const pick = (g: Granularity) => {
-    setGranularity(g)
-    history.replaceState(null, '', g === 'day' ? location.pathname : `?granularity=${g}`)
-  }
+  }, [])
 
   const monitors = data?.monitors ?? []
   const down = monitors.filter(m => m.status === 'DOWN').length
   const operational = monitors.filter(m => m.status === 'UP').length
   const level = !data ? 'idle' : down === 0 ? 'up' : down * 2 >= monitors.length ? 'major' : 'partial'
   const headline = { idle: 'Checking status…', up: 'All systems operational', partial: 'Partial outage', major: 'Major outage' }[level]
-  const option = OPTIONS.find(o => o.id === granularity)!
+  const option = OPTIONS.find(o => o.id === data?.granularity) ?? OPTIONS[0]
   const active = data?.incidents.filter(i => !i.resolvedAt) ?? []
   const past = data?.incidents.filter(i => i.resolvedAt) ?? []
 
@@ -102,11 +86,6 @@ export function StatusPage() {
             <h2 id="services-title">Services</h2>
             <div className="psec-meta">
               {monitors.length > 0 && <span>{operational} of {monitors.length} operational</span>}
-              <div className="tabs" role="tablist" aria-label="Bar size">
-                {OPTIONS.map(o => (
-                  <button key={o.id} role="tab" aria-selected={granularity === o.id} onClick={() => pick(o.id)}>{o.label}</button>
-                ))}
-              </div>
             </div>
           </div>
           {data && monitors.length === 0 ? (
@@ -119,7 +98,7 @@ export function StatusPage() {
                     <span className={`svc-ico svc-ico-${m.status.toLowerCase()}`} aria-hidden />
                     <h3>{m.name}</h3>
                     <span className="sr-only">{m.status === 'UP' ? 'Operational' : m.status === 'DOWN' ? `Down for ${since(m.statusSince, now)}` : 'Checking'}</span>
-                    <div className="segs" role="img" aria-label={`${m.name}: uptime per ${granularity}`}>
+                    <div className="segs" role="img" aria-label={`${m.name}: uptime over the last ${option.span}`}>
                       {m.buckets.map(b => (
                         <span key={b.start} className={`seg ${segClass(b.uptime)}`}>
                           <span className="seg-tip">{rangeLabel(b.start, data!.bucketSeconds)} · {b.uptime == null ? 'No data' : pct(b.uptime)}</span>

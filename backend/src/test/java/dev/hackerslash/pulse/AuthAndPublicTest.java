@@ -82,7 +82,7 @@ class AuthAndPublicTest {
     }
 
     @Test
-    void windowAndCellSizeFollowGranularity() throws Exception {
+    void adminChoosesTheWindowAndCellSize() throws Exception {
         Monitor m = monitor("Windowed", "https://example.com", true);
         Instant now = Instant.now();
         var ok = new Prober.Result(true, 50, 200, null);
@@ -91,18 +91,37 @@ class AuthAndPublicTest {
         checks.save(new Check(m.id, now.minus(Duration.ofDays(3)), ok));
         checks.save(new Check(m.id, now.minus(Duration.ofDays(20)), ok));
         String mine = "$.monitors[?(@.name == 'Windowed')]";
+        String auth = "Basic " + b64("admin:s3cret");
 
-        mvc.perform(get("/api/public/status?granularity=day"))
-                .andExpect(jsonPath(mine + ".uptime", contains(50.0)));
-        mvc.perform(get("/api/public/status?granularity=week"))
-                .andExpect(jsonPath("$.bucketSeconds").value(7200))
-                .andExpect(jsonPath(mine + ".buckets.length()", contains(84)))
-                .andExpect(jsonPath(mine + ".uptime", contains(closeTo(66.67, 0.01))));
-        mvc.perform(get("/api/public/status?granularity=month"))
-                .andExpect(jsonPath("$.bucketSeconds").value(28800))
-                .andExpect(jsonPath(mine + ".buckets.length()", contains(90)))
-                .andExpect(jsonPath(mine + ".uptime", contains(75.0)));
-        mvc.perform(get("/api/public/status?granularity=year")).andExpect(status().isBadRequest());
+        mvc.perform(put("/api/settings").contentType(MediaType.APPLICATION_JSON).content("{\"granularity\":\"week\"}"))
+                .andExpect(status().isUnauthorized());
+        mvc.perform(get("/api/settings").header("Authorization", auth)).andExpect(jsonPath("$.granularity").value("day"));
+        mvc.perform(get("/api/public/status")).andExpect(jsonPath(mine + ".uptime", contains(50.0)));
+
+        try {
+            setWindow(auth, "week");
+            mvc.perform(get("/api/public/status"))
+                    .andExpect(jsonPath("$.granularity").value("week"))
+                    .andExpect(jsonPath("$.bucketSeconds").value(7200))
+                    .andExpect(jsonPath(mine + ".buckets.length()", contains(84)))
+                    .andExpect(jsonPath(mine + ".uptime", contains(closeTo(66.67, 0.01))));
+            setWindow(auth, "month");
+            mvc.perform(get("/api/public/status"))
+                    .andExpect(jsonPath("$.bucketSeconds").value(28800))
+                    .andExpect(jsonPath(mine + ".buckets.length()", contains(90)))
+                    .andExpect(jsonPath(mine + ".uptime", contains(75.0)));
+            mvc.perform(put("/api/settings").header("Authorization", auth).contentType(MediaType.APPLICATION_JSON).content("{\"granularity\":\"year\"}"))
+                    .andExpect(status().isBadRequest())
+                    .andExpect(jsonPath("$.error").value("granularity must be day, week or month"));
+            mvc.perform(get("/api/public/status?granularity=week")).andExpect(jsonPath("$.granularity").value("month"));
+        } finally {
+            setWindow(auth, "day");
+        }
+    }
+
+    private void setWindow(String auth, String granularity) throws Exception {
+        mvc.perform(put("/api/settings").header("Authorization", auth).contentType(MediaType.APPLICATION_JSON).content("{\"granularity\":\"" + granularity + "\"}"))
+                .andExpect(status().isOk());
     }
 
     private Monitor monitor(String name, String url, boolean isPublic) {

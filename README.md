@@ -10,7 +10,7 @@ e2e/       Playwright tests that boot both and drive the real UI
 
 ## Pages
 
-- **`/`** is the public status page: overall status, active and past incidents, and an uptime bar per service. Visitors pick the window: **1 day** (last 24 hours, one bar per 15 minutes), **1 week** (7 days, 2 hours per bar) or **1 month** (30 days, 8 hours per bar), also settable with `?granularity=week`. Bars with no checks are grey; hovering a bar shows its date and time range.
+- **`/`** is the public status page: overall status, active and past incidents, and an uptime bar per service. The admin picks the window in **Settings** (gear icon in the dashboard): **1 day** (last 24 hours, one bar per 15 minutes, the default), **1 week** (7 days, 2 hours per bar) or **1 month** (30 days, 8 hours per bar). Visitors can't change it. Bars with no checks are grey; hovering a bar shows its date and time range.
 - **`/admin`** is the dashboard, behind a password login (HttpOnly session cookie, 30 days). Scripts can use HTTP Basic instead (any username). Changing the password signs everyone out.
 
 ## Run it
@@ -68,7 +68,8 @@ Everything except `/api/public/*`, `/api/login` and `/api/logout` needs a sessio
 
 | Method | Path | |
 |---|---|---|
-| GET | `/api/public/status?granularity=day\|week\|month` | public: published monitors with uptime buckets (96 × 15 min, 84 × 2 h or 90 × 8 h), last 10 incidents |
+| GET | `/api/public/status` | public: published monitors with uptime buckets for the configured window (96 × 15 min, 84 × 2 h or 90 × 8 h), last 10 incidents |
+| GET/PUT | `/api/settings` | `{granularity: "day"\|"week"\|"month"}`, sets the public window |
 | POST | `/api/login` · `/api/logout` | `{password}` sets / clears the session cookie |
 | GET | `/api/monitors` | monitors + 24h/30d uptime, avg latency, last 60 checks |
 | POST/PUT/DELETE | `/api/monitors[/{id}]` | `{name, url, intervalSeconds, isPublic}` |
