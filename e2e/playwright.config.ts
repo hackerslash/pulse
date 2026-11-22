@@ -19,7 +19,7 @@ export default defineConfig({
   ],
   webServer: [
     {
-      command: `${java} -jar ../backend/target/pulse-0.0.1-SNAPSHOT.jar --server.port=18080 --pulse.tick=1s`,
+      command: `${java} -jar ../backend/target/pulse-0.0.1-SNAPSHOT.jar --server.port=18080 --pulse.tick=1s --pulse.password=e2e-pass`,
       env: { PULSE_DATA: data },
       url: 'http://localhost:18080/actuator/health',
       timeout: 180_000,

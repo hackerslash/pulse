@@ -95,6 +95,7 @@ code, .mono { font-family: var(--mono); font-size: 0.86em; }
 .brand span { font-size: 13px; }
 .logo { width: 46px; height: 46px; border-radius: 14px; display: grid; place-items: center; }
 .logo svg { width: 28px; height: 28px; fill: none; stroke: var(--accent2); stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 60; animation: trace 2.8s ease-in-out infinite; filter: drop-shadow(0 0 6px rgba(34, 211, 238, 0.8)); }
+.logo svg .base { stroke-dasharray: none; opacity: 0.22; filter: none; }
 @keyframes trace { 0% { stroke-dashoffset: 60; } 45%, 70% { stroke-dashoffset: 0; } 100% { stroke-dashoffset: -60; } }
 .health-down .logo svg { stroke: var(--down); filter: drop-shadow(0 0 6px var(--down-glow)); }
 
@@ -374,4 +375,84 @@ input:not([type='checkbox']):focus { border-color: rgba(34, 211, 238, 0.6); box-
 }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; }
+}
+
+/* ---------- auth ---------- */
+.login-wrap { min-height: 100dvh; display: grid; place-items: center; padding: 24px 16px; }
+.login { width: min(400px, 100%); padding: 36px 32px 28px; display: flex; flex-direction: column; align-items: center; text-align: center; }
+.login .logo { margin-bottom: 18px; width: 56px; height: 56px; border-radius: 17px; }
+.login h1 { font-size: 24px; }
+.login p { margin: 6px 0 24px; font-size: 14px; }
+.login .field { width: 100%; text-align: left; }
+.login .form-error { width: 100%; margin: -4px 0 14px; text-align: left; }
+.login-btn { width: 100%; padding: 12px; }
+.login .back { margin-top: 20px; font-size: 13px; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; }
+.login .back:hover { color: var(--text); }
+.shake { animation: shake 0.4s; }
+@keyframes shake { 20%, 60% { transform: translateX(-8px); } 40%, 80% { transform: translateX(8px); } }
+a.btn { text-decoration: none; }
+.private { display: inline-flex; vertical-align: 1px; margin-left: 7px; color: var(--faint); }
+.toggle-row { display: flex; align-items: center; gap: 14px; padding: 14px 16px; border-radius: 14px; background: rgba(255, 255, 255, 0.04); border: 1px solid var(--hair); cursor: pointer; }
+.toggle-row > span:last-child { display: flex; flex-direction: column; font-size: 14px; }
+.toggle-row small { font-size: 12.5px; }
+
+/* ---------- public status page ---------- */
+.status-page { max-width: 880px; }
+.status-banner { display: flex; align-items: center; gap: 22px; padding: 30px 32px; margin-bottom: 22px; }
+.status-banner h2 { font-size: clamp(24px, 4vw, 32px); font-weight: 700; letter-spacing: -0.03em; }
+.status-banner p { margin: 4px 0 0; font-size: 14px; }
+.banner-icon { flex: none; width: 60px; height: 60px; border-radius: 50%; display: grid; place-items: center; color: #fff; background: rgba(148, 163, 184, 0.3); }
+.banner-up { border-color: rgba(52, 211, 153, 0.35); background: linear-gradient(135deg, rgba(52, 211, 153, 0.18), rgba(255, 255, 255, 0.03)); }
+.banner-up .banner-icon { background: linear-gradient(135deg, #34d399, #059669); box-shadow: 0 0 0 8px rgba(52, 211, 153, 0.12), 0 0 40px var(--up-glow); }
+.banner-partial, .banner-major { border-color: rgba(251, 113, 133, 0.4); background: linear-gradient(135deg, rgba(251, 113, 133, 0.2), rgba(255, 255, 255, 0.03)); }
+.banner-partial .banner-icon { background: linear-gradient(135deg, #fbbf24, #f97316); box-shadow: 0 0 0 8px rgba(251, 191, 36, 0.12), 0 0 40px rgba(251, 191, 36, 0.5); }
+.banner-major .banner-icon { background: linear-gradient(135deg, #fb7185, #e11d48); box-shadow: 0 0 0 8px rgba(251, 113, 133, 0.14), 0 0 40px var(--down-glow); }
+
+.status-list { padding: 8px 24px 12px; margin-bottom: 22px; }
+.status-list-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding: 16px 0 10px; }
+.status-list-head h3 { font-size: 16px; }
+.status-list-head span { font-size: 13px; }
+.pad { padding: 18px 0 20px; }
+.service { padding: 18px 0; border-top: 1px solid var(--hair); }
+.service-head { display: flex; align-items: center; gap: 11px; margin-bottom: 12px; }
+.service-head strong { font-weight: 600; }
+.service-state { font-size: 13.5px; font-weight: 600; }
+.state-up { color: #6ee7b7; }
+.state-down { color: #fda4af; }
+.state-pending { color: #fcd34d; }
+
+.days { display: flex; gap: 3px; height: 34px; }
+.day { position: relative; flex: 1; border-radius: 3px; transition: transform 0.2s, filter 0.2s; }
+.day:hover { transform: scaleY(1.12); filter: brightness(1.3); }
+.day-empty { background: rgba(255, 255, 255, 0.07); }
+.day-up { background: linear-gradient(180deg, #6ee7b7, #10b981); }
+.day-minor { background: linear-gradient(180deg, #bef264, #65a30d); }
+.day-warn { background: linear-gradient(180deg, #fcd34d, #f59e0b); }
+.day-down { background: linear-gradient(180deg, #fda4af, #e11d48); box-shadow: 0 0 10px -2px var(--down-glow); }
+.day::after {
+  content: attr(data-tip); position: absolute; bottom: calc(100% + 8px); left: 50%; transform: translateX(-50%) translateY(4px); opacity: 0; pointer-events: none;
+  white-space: nowrap; font-size: 12px; padding: 5px 9px; border-radius: 9px; background: rgba(15, 17, 35, 0.95); border: 1px solid var(--stroke); transition: 0.15s; z-index: 5;
+}
+.day:hover::after { opacity: 1; transform: translateX(-50%); }
+.day:first-child::after { left: 0; transform: none; }
+.day:last-child::after { left: auto; right: 0; transform: none; }
+.days-legend { display: flex; justify-content: space-between; margin-top: 8px; font-size: 12px; color: var(--faint); }
+.days-uptime { color: var(--muted); font-weight: 500; }
+
+.public-incidents { list-style: none; margin: 0; padding: 0; }
+.public-incidents li { display: grid; grid-template-columns: auto 1fr auto; gap: 14px; align-items: center; padding: 14px 0; border-top: 1px solid var(--hair); }
+.public-incidents li > div { display: flex; flex-direction: column; font-size: 14px; min-width: 0; }
+.public-incidents li .muted { font-size: 13px; }
+.public-incidents time { font-size: 12.5px; white-space: nowrap; }
+.status-foot { text-align: center; font-size: 13px; padding-top: 8px; }
+.status-foot a { color: var(--muted); }
+.status-foot a:hover { color: var(--text); }
+
+@media (max-width: 760px) {
+  .status-banner { padding: 22px; gap: 16px; }
+  .banner-icon { width: 48px; height: 48px; }
+  .status-list { padding: 4px 16px 8px; }
+  .status-list-head span { display: none; }
+  .days { gap: 2px; height: 30px; }
+  .public-incidents li { grid-template-columns: 1fr; gap: 6px; }
 }

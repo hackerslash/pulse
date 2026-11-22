@@ -17,7 +17,8 @@ public class MonitorController {
     record MonitorForm(
             @NotBlank @Size(max = 80) String name,
             @NotBlank @Size(max = 2048) @Pattern(regexp = "^https?://\\S+$", message = "must start with http:// or https://") String url,
-            @Min(10) @Max(86400) int intervalSeconds) {}
+            @Min(10) @Max(86400) int intervalSeconds,
+            Boolean isPublic) {}
 
     record Beat(Instant t, boolean up, int ms, Integer code, String error) {
         static Beat of(Check c) { return new Beat(c.checkedAt, c.up, c.latencyMs, c.statusCode, c.error); }
@@ -110,6 +111,7 @@ public class MonitorController {
         m.name = f.name().strip();
         m.url = f.url().strip();
         m.intervalSeconds = f.intervalSeconds();
+        if (f.isPublic() != null) m.isPublic = f.isPublic();
     }
 
     private static Double uptime(Object[] row) {

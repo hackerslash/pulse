@@ -1,6 +1,6 @@
 import type { MonitorView } from './api'
 import { ago, hostOf, interval, ms, pct, since } from './format'
-import { Heartbeat, Sparkline, StatusDot } from './ui'
+import { Heartbeat, Icon, Sparkline, StatusDot } from './ui'
 
 export function MonitorCard({ view, now, onOpen }: { view: MonitorView; now: number; onOpen: () => void }) {
   const m = view.monitor
@@ -11,7 +11,7 @@ export function MonitorCard({ view, now, onOpen }: { view: MonitorView; now: num
       <div className="card-head">
         <StatusDot status={m.status} paused={m.paused} />
         <div className="card-title">
-          <h3>{m.name}</h3>
+          <h3>{m.name}{!m.isPublic && <span className="private" title="Hidden from the public status page"><Icon name="lock" size={12} /></span>}</h3>
           <span className="mono muted">{hostOf(m.url)}</span>
         </div>
         <span className={`badge badge-${state}`}>{label}</span>

@@ -5,11 +5,11 @@ import { MonitorCard } from './MonitorCard'
 import { MonitorDetail } from './MonitorDetail'
 import { MonitorForm } from './MonitorForm'
 import { WebhooksPanel } from './WebhooksPanel'
-import { Icon, Modal, useToasts } from './ui'
+import { Backdrop, Icon, Logo, Modal, useToasts } from './ui'
 
 type Filter = 'all' | 'up' | 'down' | 'paused'
 
-export function App() {
+export function App({ onLogout }: { onLogout: () => void }) {
   const [views, setViews] = useState<MonitorView[] | null>(null)
   const [incidents, setIncidents] = useState<Incident[]>([])
   const [offline, setOffline] = useState(false)
@@ -88,14 +88,11 @@ export function App() {
 
   return (
     <div className={`app health-${health}`}>
-      <div className="aurora" aria-hidden><i /><i /><i /><i /></div>
-      <div className="grain" aria-hidden />
+      <Backdrop />
 
       <header className="topbar">
         <div className="brand">
-          <div className="logo glass">
-            <svg viewBox="0 0 32 32" aria-hidden><path d="M3 17h7l3-8 5 15 3-7h8" /></svg>
-          </div>
+          <Logo />
           <div>
             <h1>Pulse</h1>
             <span className="muted">Uptime monitoring</span>
@@ -106,8 +103,10 @@ export function App() {
           {health === 'down' ? `${stats.down} ${stats.down === 1 ? 'service' : 'services'} down` : health === 'idle' ? 'No monitors yet' : 'All systems operational'}
         </div>
         <div className="top-actions">
+          <a className="btn ghost" href="/" target="_blank" rel="noreferrer" aria-label="Public status page"><Icon name="globe" /> <span className="label">Status page</span></a>
           <button className="btn ghost" onClick={() => setHooksOpen(true)} aria-label="Webhooks"><Icon name="bell" /> <span className="label">Webhooks</span></button>
           <button className="btn primary" onClick={() => setForm({})} aria-label="New monitor"><Icon name="plus" /> <span className="label">New monitor</span> <kbd>N</kbd></button>
+          <button className="icon-btn" onClick={onLogout} aria-label="Log out" title="Log out"><Icon name="logout" /></button>
         </div>
       </header>
 

@@ -6,6 +6,7 @@ export interface Monitor {
   url: string
   intervalSeconds: number
   paused: boolean
+  isPublic: boolean
   status: Status
   statusSince: string
   lastCheckedAt: string | null
@@ -49,7 +50,12 @@ export interface Webhook {
   lastError: string | null
 }
 
-export type MonitorForm = Pick<Monitor, 'name' | 'url' | 'intervalSeconds'>
+export type MonitorForm = Pick<Monitor, 'name' | 'url' | 'intervalSeconds' | 'isPublic'>
+
+export interface PublicStatus {
+  monitors: { id: number; name: string; status: Status; statusSince: string; uptime30d: number | null; avgMs24h: number | null; days: { date: string; uptime: number | null }[] }[]
+  incidents: { id: number; monitor: string; startedAt: string; resolvedAt: string | null }[]
+}
 export type WebhookForm = Pick<Webhook, 'name' | 'url' | 'enabled'>
 
 async function call<T>(method: string, path: string, body?: unknown): Promise<T> {
@@ -58,6 +64,7 @@ async function call<T>(method: string, path: string, body?: unknown): Promise<T>
     headers: body === undefined ? undefined : { 'Content-Type': 'application/json' },
     body: body === undefined ? undefined : JSON.stringify(body),
   })
+  if (res.status === 401 && path !== '/login') window.dispatchEvent(new Event('pulse:unauthorized'))
   if (!res.ok) {
     const data = await res.json().catch(() => null)
     throw new Error(data?.error ?? data?.detail ?? `Request failed (${res.status})`)
@@ -66,6 +73,10 @@ async function call<T>(method: string, path: string, body?: unknown): Promise<T>
 }
 
 export const api = {
+  publicStatus: () => call<PublicStatus>('GET', '/public/status'),
+  me: () => call<{ ok: boolean }>('GET', '/me'),
+  login: (password: string) => call<{ ok: boolean }>('POST', '/login', { password }),
+  logout: () => call<void>('POST', '/logout'),
   monitors: () => call<MonitorView[]>('GET', '/monitors'),
   history: (id: number, hours: number) => call<Beat[]>('GET', `/monitors/${id}/checks?hours=${hours}`),
   createMonitor: (f: MonitorForm) => call<Monitor>('POST', '/monitors', f),

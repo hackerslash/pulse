@@ -16,6 +16,8 @@ public class Monitor {
     public String url;
     public int intervalSeconds = 60;
     public boolean paused;
+    @Column(columnDefinition = "boolean default true not null")
+    public boolean isPublic = true;
     @Enumerated(EnumType.STRING) @Column(nullable = false)
     public Status status = Status.PENDING;
     public Instant statusSince = Instant.now();

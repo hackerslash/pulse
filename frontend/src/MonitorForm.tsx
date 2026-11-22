@@ -9,6 +9,7 @@ export function MonitorForm({ initial, onDone, onCancel }: { initial?: Monitor; 
   const [name, setName] = useState(initial?.name ?? '')
   const [url, setUrl] = useState(initial?.url ?? 'https://')
   const [every, setEvery] = useState(initial?.intervalSeconds ?? 60)
+  const [isPublic, setIsPublic] = useState(initial?.isPublic ?? true)
   const [error, setError] = useState<string | null>(null)
   const [busy, setBusy] = useState(false)
 
@@ -17,7 +18,7 @@ export function MonitorForm({ initial, onDone, onCancel }: { initial?: Monitor; 
     setBusy(true)
     setError(null)
     try {
-      const form = { name: name.trim() || hostGuess(url), url: url.trim(), intervalSeconds: every }
+      const form = { name: name.trim() || hostGuess(url), url: url.trim(), intervalSeconds: every, isPublic }
       onDone(initial ? await api.updateMonitor(initial.id, form) : await api.createMonitor(form))
     } catch (err) {
       setError((err as Error).message)
@@ -54,6 +55,17 @@ export function MonitorForm({ initial, onDone, onCancel }: { initial?: Monitor; 
           ))}
         </div>
       </div>
+
+      <label className="toggle-row">
+        <span className="switch">
+          <input type="checkbox" checked={isPublic} onChange={e => setIsPublic(e.target.checked)} aria-label="Show on public status page" />
+          <span />
+        </span>
+        <span>
+          <strong>Show on public status page</strong>
+          <small className="muted">Visitors see the name, status and uptime — never the URL.</small>
+        </span>
+      </label>
 
       {error && <p className="form-error" role="alert">{error}</p>}
 

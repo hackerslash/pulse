@@ -193,4 +193,26 @@ const ICONS = {
   external: <><path d="M15 3h6v6" /><path d="M10 14 21 3" /><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" /></>,
   bolt: <path d="M13 2 3 14h9l-1 8 10-12h-9z" />,
   shield: <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10" />,
+  lock: <><rect x="4" y="11" width="16" height="10" rx="2" /><path d="M8 11V7a4 4 0 0 1 8 0v4" /></>,
+  globe: <><circle cx="12" cy="12" r="9" /><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18" /></>,
+  logout: <><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" /><path d="m16 17 5-5-5-5M21 12H9" /></>,
+  check: <path d="M20 6 9 17l-5-5" />,
+  alert: <><path d="M12 9v4M12 17h.01" /><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0" /></>,
+}
+
+export function Backdrop() {
+  return (
+    <>
+      <div className="aurora" aria-hidden><i /><i /><i /><i /></div>
+      <div className="grain" aria-hidden />
+    </>
+  )
+}
+
+export function Logo() {
+  return (
+    <div className="logo glass">
+      <svg viewBox="0 0 32 32" aria-hidden><path className="base" d="M3 17h7l3-8 5 15 3-7h8" /><path d="M3 17h7l3-8 5 15 3-7h8" /></svg>
+    </div>
+  )
 }

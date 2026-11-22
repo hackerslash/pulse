@@ -24,8 +24,24 @@ test.afterAll(() => server.close())
 
 const card = (page: Page, name: string) => page.getByTestId('monitor-card').filter({ hasText: name })
 
+async function login(page: Page) {
+  await page.goto('/admin')
+  await page.getByLabel('Password').fill('e2e-pass')
+  await page.getByRole('button', { name: 'Sign in' }).click()
+  await expect(page.getByRole('heading', { name: 'Pulse' })).toBeVisible()
+}
+
 test('full lifecycle: add, alert via webhook, recover, pause, delete', async ({ page }) => {
-  await page.goto('/')
+  await page.goto('/admin')
+  await expect(page.getByRole('heading', { name: 'Sign in to Pulse' })).toBeVisible()
+  expect((await page.request.get('/api/monitors')).status()).toBe(401)
+  await page.getByLabel('Password').fill('wrong')
+  await page.getByRole('button', { name: 'Sign in' }).click()
+  await expect(page.getByRole('alert')).toHaveText('Wrong password')
+  await page.screenshot({ path: 'screenshots/00-login.png' })
+  await page.getByLabel('Password').fill('e2e-pass')
+  await page.getByRole('button', { name: 'Sign in' }).click()
+
   await expect(page.getByText('Nothing to watch yet')).toBeVisible()
   await expect(page.getByTestId('health')).toHaveText(/No monitors yet/)
   await page.screenshot({ path: 'screenshots/01-empty.png' })
@@ -128,10 +144,54 @@ test('full lifecycle: add, alert via webhook, recover, pause, delete', async ({ 
   await page.getByRole('button', { name: 'Confirm delete' }).click()
   await expect(page.getByText('Monitor deleted')).toBeVisible()
   await expect(page.getByText('Nothing to watch yet')).toBeVisible()
+
+  // session survives reload, logout ends it
+  await page.reload()
+  await expect(page.getByText('Nothing to watch yet')).toBeVisible()
+  await page.getByRole('button', { name: 'Log out' }).click()
+  await expect(page.getByRole('heading', { name: 'Sign in to Pulse' })).toBeVisible()
+  expect((await page.request.get('/api/monitors')).status()).toBe(401)
+})
+
+test('public status page shows only public monitors, never URLs', async ({ page, browser }) => {
+  await login(page)
+  const mk = (name: string, path: string, isPublic: boolean) =>
+    page.request.post('/api/monitors', { data: { name, url: base + path, intervalSeconds: 60, isPublic } })
+  const ids = await Promise.all([mk('Website', '/site', true), mk('Payments API', '/pay', true), mk('Internal DB', '/db', false)])
+    .then(rs => Promise.all(rs.map(async r => (await r.json()).id)))
+  await expect(page.getByTestId('monitor-card')).toHaveCount(3)
+  await expect(card(page, 'Internal DB').locator('.private')).toBeVisible()
+
+  const visitor = await browser.newPage()
+  await visitor.goto('/')
+  await expect(visitor.getByTestId('status-banner')).toContainText('All systems operational')
+  await expect(visitor.getByTestId('service')).toHaveCount(2)
+  await expect(visitor.getByTestId('service').first()).toContainText('Payments API')
+  await expect(visitor.getByTestId('service').first()).toContainText('Operational')
+  await expect(visitor.locator('body')).not.toContainText('Internal DB')
+  await expect(visitor.locator('body')).not.toContainText('127.0.0.1')
+  await expect(visitor.locator('.day')).toHaveCount(60)
+  expect((await visitor.request.get('/api/monitors')).status()).toBe(401)
+  await visitor.screenshot({ path: 'screenshots/07-public.png', fullPage: true })
+
+  status = 503
+  await page.request.post(`/api/monitors/${ids[1]}/check`)
+  await page.request.post(`/api/monitors/${ids[0]}/check`)
+  await visitor.reload()
+  await expect(visitor.getByTestId('status-banner')).toContainText('Major outage')
+  await expect(visitor.getByText('Website outage')).toBeVisible()
+  await expect(visitor.locator('.public-incidents')).not.toContainText('503')
+  await visitor.screenshot({ path: 'screenshots/08-public-down.png', fullPage: true })
+  status = 200
+
+  await visitor.getByRole('link', { name: 'Admin' }).click()
+  await expect(visitor.getByRole('heading', { name: 'Sign in to Pulse' })).toBeVisible()
+  await visitor.close()
+  for (const id of ids) await page.request.delete(`/api/monitors/${id}`)
 })
 
 test('keyboard shortcut and mobile layout @mobile', async ({ page }) => {
-  await page.goto('/')
+  await login(page)
   await page.request.post('/api/monitors', { data: { name: 'Docs', url: base + '/docs', intervalSeconds: 60 } })
   await expect(card(page, 'Docs').locator('.badge')).toHaveText(/^Up · /)
   const overflow = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth)

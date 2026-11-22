@@ -8,13 +8,24 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
+import org.springframework.boot.webmvc.test.autoconfigure.MockMvcBuilderCustomizer;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
-@SpringBootTest(properties = {"spring.datasource.url=jdbc:h2:mem:flow", "pulse.tick=1h"})
+@SpringBootTest(properties = {"spring.datasource.url=jdbc:h2:mem:flow", "pulse.tick=1h", "pulse.password=pw"})
 @AutoConfigureMockMvc
 class MonitorFlowTest {
+
+    @TestConfiguration
+    static class BasicAuth {
+        @Bean
+        MockMvcBuilderCustomizer basicAuth() {
+            return b -> b.defaultRequest(get("/").header("Authorization", "Basic " + java.util.Base64.getEncoder().encodeToString("admin:pw".getBytes())));
+        }
+    }
 
     @Autowired MockMvc mvc;
     @Autowired MonitorRepo monitors;

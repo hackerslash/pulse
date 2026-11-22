@@ -8,12 +8,19 @@ frontend/  React 19 · Vite · TypeScript · hand-rolled SVG charts, no UI libs
 e2e/       Playwright tests that boot both and drive the real UI
 ```
 
+## Pages
+
+- **`/`** is the public status page: overall status, daily uptime bars for 30 days, and recent outages. It shows monitor names only, never URLs or error details. A monitor appears there unless you switch off "Show on public status page" or pause it.
+- **`/admin`** is the dashboard, behind a password login (HttpOnly session cookie, 30 days). Scripts can use HTTP Basic instead (any username). Changing the password signs everyone out.
+
 ## Run it
 
 ```bash
-docker compose up -d --build        # http://localhost:8080
-PULSE_PASSWORD=secret docker compose up -d --build   # protect the API with HTTP Basic (any username)
+echo "PULSE_PASSWORD=$(openssl rand -base64 12)" > .env
+docker compose up -d --build        # http://localhost:8080 (status) · /admin (dashboard)
 ```
+
+If `PULSE_PASSWORD` is unset, no one can log in to the admin side. The public page still works.
 
 Data lives in the `pulse-data` volume (`/data/pulse.mv.db`). Checks older than 30 days are pruned nightly.
 
@@ -27,7 +34,7 @@ cd frontend && npm i && npm run dev           # UI on :5173, proxies /api to :80
 ## Test
 
 ```bash
-cd backend && ./mvnw test                     # prober, lifecycle, webhooks, auth
+cd backend && ./mvnw test                     # prober, lifecycle, webhooks, auth, public page
 cd frontend && npm test                       # formatters
 cd backend && ./mvnw -DskipTests package && cd ../e2e && npm i && npx playwright install chromium && npm test
 ```
@@ -57,10 +64,14 @@ Managed in the UI (bell icon). Each enabled webhook gets a JSON `POST`:
 
 ## API
 
+Everything except `/api/public/*`, `/api/login` and `/api/logout` needs a session cookie or HTTP Basic.
+
 | Method | Path | |
 |---|---|---|
+| GET | `/api/public/status` | public: published monitors, 30 daily uptime buckets, last 10 incidents |
+| POST | `/api/login` · `/api/logout` | `{password}` sets / clears the session cookie |
 | GET | `/api/monitors` | monitors + 24h/30d uptime, avg latency, last 60 checks |
-| POST/PUT/DELETE | `/api/monitors[/{id}]` | `{name, url, intervalSeconds}` |
+| POST/PUT/DELETE | `/api/monitors[/{id}]` | `{name, url, intervalSeconds, isPublic}` |
 | POST | `/api/monitors/{id}/check` | check now |
 | POST | `/api/monitors/{id}/pause?paused=true` | pause / resume |
 | GET | `/api/monitors/{id}/checks?hours=24` | history (max 720h) |
