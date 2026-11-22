@@ -3,10 +3,10 @@ import { api, type Granularity, type PublicStatus } from './api'
 import { ago, duration, pct, since } from './format'
 import { Logo } from './ui'
 
-const OPTIONS: { id: Granularity; label: string; unit: string; today: string }[] = [
-  { id: 'day', label: '1 day', unit: 'days', today: 'Today' },
-  { id: 'week', label: '1 week', unit: 'weeks', today: 'This week' },
-  { id: 'month', label: '1 month', unit: 'months', today: 'This month' },
+const OPTIONS: { id: Granularity; label: string; span: string; cell: string }[] = [
+  { id: 'day', label: '1 day', span: '24 hours', cell: '15 minutes' },
+  { id: 'week', label: '1 week', span: '7 days', cell: '2 hours' },
+  { id: 'month', label: '1 month', span: '30 days', cell: '8 hours' },
 ]
 
 function initialGranularity(): Granularity {
@@ -122,7 +122,7 @@ export function StatusPage() {
                     <div className="segs" role="img" aria-label={`${m.name}: uptime per ${granularity}`}>
                       {m.buckets.map(b => (
                         <span key={b.start} className={`seg ${segClass(b.uptime)}`}>
-                          <span className="seg-tip">{bucketLabel(granularity, b.start)} · {b.uptime == null ? 'No data' : pct(b.uptime)}</span>
+                          <span className="seg-tip">{rangeLabel(b.start, data!.bucketSeconds)} · {b.uptime == null ? 'No data' : pct(b.uptime)}</span>
                         </span>
                       ))}
                     </div>
@@ -132,12 +132,12 @@ export function StatusPage() {
               </div>
               {monitors.length > 0 && (
                 <div className="svc-axis" aria-hidden>
-                  <span className="axis"><span>{monitors[0].buckets.length} {option.unit} ago</span><span>{option.today}</span></span>
+                  <span className="axis"><span>{option.span} ago</span><span>Now</span></span>
                 </div>
               )}
             </>
           )}
-          <p className="pnote">Each bar shows uptime for one {granularity}. Hover a bar for the details.</p>
+          <p className="pnote">Each bar covers {option.cell}. Hover a bar for the date and time.</p>
         </section>
 
         {past.length > 0 && (
@@ -169,12 +169,13 @@ function fmtDateTime(iso: string) {
   return new Date(iso).toLocaleString([], { month: 'short', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit' })
 }
 
-function bucketLabel(g: Granularity, start: string) {
-  const d = new Date(start + 'T00:00:00Z')
-  const f = (x: Date, o: Intl.DateTimeFormatOptions) => x.toLocaleDateString([], { ...o, timeZone: 'UTC' })
-  if (g === 'day') return f(d, { month: 'short', day: 'numeric', year: 'numeric' })
-  if (g === 'week') return `${f(d, { month: 'short', day: 'numeric' })} – ${f(new Date(d.getTime() + 6 * 864e5), { month: 'short', day: 'numeric' })}`
-  return f(d, { month: 'long', year: 'numeric' })
+function rangeLabel(startIso: string, seconds: number) {
+  const a = new Date(startIso)
+  const b = new Date(a.getTime() + seconds * 1000)
+  const date = (d: Date) => d.toLocaleDateString([], { month: 'short', day: 'numeric' })
+  const time = (d: Date) => d.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })
+  const sameDay = a.toDateString() === b.toDateString()
+  return sameDay ? `${date(a)}, ${time(a)} – ${time(b)}` : `${date(a)}, ${time(a)} – ${date(b)}, ${time(b)}`
 }
 
 function segClass(u: number | null) {

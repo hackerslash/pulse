@@ -1,10 +1,6 @@
 package dev.hackerslash.pulse;
 
-import java.time.DayOfWeek;
 import java.time.Instant;
-import java.time.LocalDate;
-import java.time.ZoneOffset;
-import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -21,39 +17,32 @@ import org.springframework.web.server.ResponseStatusException;
 public class PublicController {
 
     enum Granularity {
-        DAY(90), WEEK(26), MONTH(12);
+        DAY(900, 96), WEEK(7200, 84), MONTH(28800, 90);
 
-        final int buckets;
+        final long seconds;
+        final int cells;
 
-        Granularity(int buckets) {
-            this.buckets = buckets;
-        }
-
-        LocalDate start(LocalDate today, int i) {
-            int back = buckets - 1 - i;
-            return switch (this) {
-                case DAY -> today.minusDays(back);
-                case WEEK -> today.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY)).minusWeeks(back);
-                case MONTH -> today.withDayOfMonth(1).minusMonths(back);
-            };
+        Granularity(long seconds, int cells) {
+            this.seconds = seconds;
+            this.cells = cells;
         }
     }
 
-    record Bucket(LocalDate start, Double uptime) {}
+    record Bucket(Instant start, Double uptime) {}
 
     record PublicMonitor(Long id, String name, Monitor.Status status, Instant statusSince, Double uptime, List<Bucket> buckets) {}
 
     record PublicIncident(Long id, String monitor, Instant startedAt, Instant resolvedAt) {}
 
-    record Status(String granularity, List<PublicMonitor> monitors, List<PublicIncident> incidents) {}
+    record Status(String granularity, long bucketSeconds, List<PublicMonitor> monitors, List<PublicIncident> incidents) {}
 
     private final MonitorRepo monitors;
-    private final DailyStatRepo dailyStats;
+    private final CheckRepo checks;
     private final IncidentRepo incidents;
 
-    PublicController(MonitorRepo monitors, DailyStatRepo dailyStats, IncidentRepo incidents) {
+    PublicController(MonitorRepo monitors, CheckRepo checks, IncidentRepo incidents) {
         this.monitors = monitors;
-        this.dailyStats = dailyStats;
+        this.checks = checks;
         this.incidents = incidents;
     }
 
@@ -62,7 +51,8 @@ public class PublicController {
         return "forward:/index.html";
     }
 
-    // ponytail: buckets are UTC calendar days/ISO weeks/months; make the zone configurable if viewers care about local midnight
+    // ponytail: unauthenticated aggregate over up to 30 days of checks, uncached; add a short TTL cache if exposed beyond a LAN
+    // ponytail: cells align to epoch multiples (UTC), so the newest cell is partial and 2h/8h cells start at odd local hours in some zones
     @GetMapping("/api/public/status")
     @ResponseBody
     Status status(@RequestParam(defaultValue = "day") String granularity) {
@@ -72,17 +62,15 @@ public class PublicController {
         } catch (IllegalArgumentException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "granularity must be day, week or month");
         }
-        LocalDate today = LocalDate.now(ZoneOffset.UTC);
-        List<LocalDate> starts = new ArrayList<>();
-        for (int i = 0; i < g.buckets; i++) starts.add(g.start(today, i));
+        long first = Instant.now().getEpochSecond() / g.seconds - (g.cells - 1);
 
         Map<Long, long[][]> sums = new HashMap<>();
-        for (DailyStat s : dailyStats.findByStatDayGreaterThanEqual(starts.getFirst())) {
-            int i = starts.size() - 1;
-            while (i > 0 && s.statDay.isBefore(starts.get(i))) i--;
-            long[] cell = sums.computeIfAbsent(s.monitorId, k -> new long[g.buckets][2])[i];
-            cell[0] += s.total;
-            cell[1] += s.up;
+        for (Object[] r : checks.buckets(Instant.ofEpochSecond(first * g.seconds), g.seconds)) {
+            long i = ((Number) r[1]).longValue() - first;
+            if (i < 0 || i >= g.cells) continue;
+            long[] cell = sums.computeIfAbsent(((Number) r[0]).longValue(), k -> new long[g.cells][2])[(int) i];
+            cell[0] += ((Number) r[2]).longValue();
+            cell[1] += ((Number) r[3]).longValue();
         }
 
         List<Monitor> shown = monitors.findAll().stream().filter(m -> m.isPublic && !m.paused)
@@ -90,13 +78,13 @@ public class PublicController {
         Map<Long, String> names = new HashMap<>();
         List<PublicMonitor> list = shown.stream().map(m -> {
             names.put(m.id, m.name);
-            long[][] cells = sums.getOrDefault(m.id, new long[g.buckets][2]);
+            long[][] cells = sums.getOrDefault(m.id, new long[g.cells][2]);
             long total = 0, up = 0;
             List<Bucket> buckets = new ArrayList<>();
-            for (int i = 0; i < g.buckets; i++) {
+            for (int i = 0; i < g.cells; i++) {
                 total += cells[i][0];
                 up += cells[i][1];
-                buckets.add(new Bucket(starts.get(i), cells[i][0] == 0 ? null : 100.0 * cells[i][1] / cells[i][0]));
+                buckets.add(new Bucket(Instant.ofEpochSecond((first + i) * g.seconds), cells[i][0] == 0 ? null : 100.0 * cells[i][1] / cells[i][0]));
             }
             return new PublicMonitor(m.id, m.name, m.status, m.statusSince, total == 0 ? null : 100.0 * up / total, buckets);
         }).toList();
@@ -104,6 +92,6 @@ public class PublicController {
         List<PublicIncident> recent = incidents.findAllByOrderByStartedAtDesc(Limit.of(100)).stream()
                 .filter(i -> names.containsKey(i.monitorId)).limit(10)
                 .map(i -> new PublicIncident(i.id, names.get(i.monitorId), i.startedAt, i.resolvedAt)).toList();
-        return new Status(g.name().toLowerCase(), list, recent);
+        return new Status(g.name().toLowerCase(), g.seconds, list, recent);
     }
 }

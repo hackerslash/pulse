@@ -56,6 +56,7 @@ export type Granularity = 'day' | 'week' | 'month'
 
 export interface PublicStatus {
   granularity: Granularity
+  bucketSeconds: number
   monitors: { id: number; name: string; status: Status; statusSince: string; uptime: number | null; buckets: { start: string; uptime: number | null }[] }[]
   incidents: { id: number; monitor: string; startedAt: string; resolvedAt: string | null }[]
 }

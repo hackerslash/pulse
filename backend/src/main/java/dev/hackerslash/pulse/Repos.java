@@ -26,8 +26,12 @@ interface CheckRepo extends JpaRepository<Check, Long> {
     @Query("select count(c), coalesce(sum(case when c.up then 1 else 0 end), 0), avg(case when c.up then c.latencyMs end) from Check c where c.monitorId = :id and c.checkedAt > :after")
     List<Object[]> stats(Long id, Instant after);
 
-    @Query(value = "select monitor_id, cast(checked_at as date), count(*), sum(case when up then 1 else 0 end) from checks where checked_at >= :after group by monitor_id, cast(checked_at as date)", nativeQuery = true)
-    List<Object[]> daily(Instant after);
+    @Query(value = """
+            select monitor_id, b, count(*), sum(case when up then 1 else 0 end)
+            from (select monitor_id, up, cast(floor(extract(epoch from checked_at) / :size) as bigint) as b
+                  from checks where checked_at >= :since) t
+            group by monitor_id, b""", nativeQuery = true)
+    List<Object[]> buckets(Instant since, long size);
 
     @Modifying
     void deleteByMonitorId(Long monitorId);
@@ -35,16 +39,6 @@ interface CheckRepo extends JpaRepository<Check, Long> {
     @Modifying
     @Query("delete from Check c where c.checkedAt < :before")
     int deleteOlderThan(Instant before);
-}
-
-interface DailyStatRepo extends JpaRepository<DailyStat, Long> {
-
-    Optional<DailyStat> findByMonitorIdAndStatDay(Long monitorId, java.time.LocalDate statDay);
-
-    List<DailyStat> findByStatDayGreaterThanEqual(java.time.LocalDate from);
-
-    @Modifying
-    void deleteByMonitorId(Long monitorId);
 }
 
 interface IncidentRepo extends JpaRepository<Incident, Long> {
