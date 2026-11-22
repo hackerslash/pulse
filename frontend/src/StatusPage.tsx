@@ -88,7 +88,7 @@ export function StatusPage() {
       </section>
 
       <footer className="public-foot">
-        <span>Checked continuously by Pulse. Times shown in your local time zone; days are UTC.</span>
+        <span>Powered by Pulse · Days in UTC</span>
         <a href="/admin">Admin</a>
       </footer>
     </div>
