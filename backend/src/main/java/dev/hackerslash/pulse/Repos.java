@@ -17,6 +17,10 @@ interface MonitorRepo extends JpaRepository<Monitor, Long> {
         where m.id = :id""")
     void recordCheck(Long id, Monitor.Status status, Instant since, Instant at, Integer ms, Integer code, String error,
                      boolean degraded, String detail);
+
+    @Modifying
+    @Query("update Monitor m set m.lastCheckedAt = :at where m.id = :id")
+    void touch(Long id, Instant at);
 }
 
 interface CheckRepo extends JpaRepository<Check, Long> {

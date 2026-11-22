@@ -26,11 +26,12 @@ public class MonitorService {
     private final Notifier notifier;
     private final TransactionTemplate tx;
     private final Duration retry;
+    private final String canary;
     private final ExecutorService pool = Executors.newVirtualThreadPerTaskExecutor();
     private final Set<Long> inFlight = ConcurrentHashMap.newKeySet();
 
     MonitorService(MonitorRepo monitors, CheckRepo checks, IncidentRepo incidents, Prober prober, Notifier notifier, TransactionTemplate tx,
-                   @Value("${pulse.retry:20s}") Duration retry) {
+                   @Value("${pulse.retry:20s}") Duration retry, @Value("${pulse.canary:}") String canary) {
         this.monitors = monitors;
         this.checks = checks;
         this.incidents = incidents;
@@ -38,6 +39,7 @@ public class MonitorService {
         this.notifier = notifier;
         this.tx = tx;
         this.retry = retry;
+        this.canary = canary.strip();
     }
 
     @Scheduled(fixedDelayString = "${pulse.tick:1s}")
@@ -71,14 +73,24 @@ public class MonitorService {
         }
     }
 
-    /** confirm: a failure is probed again after pulse.retry before it counts, so a restart or one dropped request is no outage. */
+    /**
+     * confirm: a failure is probed again after pulse.retry before it counts, so a restart or one dropped request is no
+     * outage; and if pulse.canary is unreachable too, this host is offline and nothing is recorded (a gray gap).
+     */
     void check(Long id, boolean confirm) throws InterruptedException {
         Monitor m = monitors.findById(id).orElse(null);
         if (m == null) return;
         Prober.Result probed = prober.probe(m.url, m.secret);
-        if (confirm && !probed.up() && !retry.isZero()) {
-            Thread.sleep(retry);
-            probed = prober.probe(m.url, m.secret);
+        if (confirm && !probed.up()) {
+            if (!retry.isZero()) {
+                Thread.sleep(retry);
+                probed = prober.probe(m.url, m.secret);
+            }
+            if (!probed.up() && !canary.isEmpty() && !prober.probe(canary).up()) {
+                log.warn("{}: {}, but the canary is unreachable too; no result recorded", m.name, probed.error());
+                tx.executeWithoutResult(s -> monitors.touch(id, Instant.now()));
+                return;
+            }
         }
         Prober.Result r = probed;
         Instant now = Instant.now();

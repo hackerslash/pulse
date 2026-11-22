@@ -14,6 +14,7 @@ import org.springframework.boot.webmvc.test.autoconfigure.MockMvcBuilderCustomiz
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.util.ReflectionTestUtils;
 
 @SpringBootTest(properties = {"spring.datasource.url=jdbc:h2:mem:flow", "pulse.tick=1h", "pulse.password=pw", "pulse.title= LinkGenie ", "pulse.retry=300ms"})
 @AutoConfigureMockMvc
@@ -31,6 +32,7 @@ class MonitorFlowTest {
     @Autowired MonitorRepo monitors;
     @Autowired IncidentRepo incidents;
     @Autowired MonitorService service;
+    @Autowired CheckRepo checks;
 
     @Test
     void upDownRecoverLifecycle() throws Exception {
@@ -145,6 +147,34 @@ class MonitorFlowTest {
             service.check(id, true);
             assertThat(monitors.findById(id).orElseThrow().status).isEqualTo(Monitor.Status.DOWN);
             mvc.perform(delete("/api/monitors/" + id));
+        }
+    }
+
+    @Test
+    void failuresWhileTheCanaryIsDownAreNotRecorded() throws Exception {
+        try (var site = new TestServer(); var canary = new TestServer()) {
+            String body = mvc.perform(post("/api/monitors").contentType(MediaType.APPLICATION_JSON)
+                            .content("{\"name\":\"Offline\",\"url\":\"" + site.url("/") + "\",\"intervalSeconds\":60}"))
+                    .andReturn().getResponse().getContentAsString();
+            long id = Long.parseLong(body.replaceAll(".*\"id\":(\\d+).*", "$1"));
+            awaitChecked(id);
+            ReflectionTestUtils.setField(service, "canary", canary.url("/"));
+            try {
+                long before = checks.count();
+                site.status = 503;
+                canary.status = 503;
+                service.check(id, true);
+                assertThat(checks.count()).isEqualTo(before);
+                assertThat(monitors.findById(id).orElseThrow().status).isEqualTo(Monitor.Status.UP);
+
+                canary.status = 200;
+                service.check(id, true);
+                assertThat(checks.count()).isEqualTo(before + 1);
+                assertThat(monitors.findById(id).orElseThrow().status).isEqualTo(Monitor.Status.DOWN);
+            } finally {
+                ReflectionTestUtils.setField(service, "canary", "");
+                mvc.perform(delete("/api/monitors/" + id));
+            }
         }
     }
 
