@@ -1,588 +1,669 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-11-22T06:18:50+00:00",
+  "generatedAt": "2026-11-22T06:35:50+00:00",
   "title": "Design System: Pulse",
   "extensions": {
     "colorMeta": {
-      "paper": {
+      "slate-ground": {
         "role": "neutral",
-        "displayName": "Chart Paper",
-        "canonical": "#f7f5ef",
+        "displayName": "Deep Slate Ground",
+        "canonical": "oklch(15.8% 0.012 261)",
         "tonalRamp": [
-          "#2a2822",
-          "#4a463c",
-          "#6e685a",
-          "#948d7c",
-          "#bab3a1",
-          "#d9d3c3",
-          "#ece8dd",
-          "#f7f5ef"
+          "#0a0b0c",
+          "#202224",
+          "#3b3d41",
+          "#5b5e63",
+          "#7c8087",
+          "#a1a5aa",
+          "#c8cbce",
+          "#edeef0"
         ]
       },
-      "paper-hover": {
+      "slate-ground-top": {
         "role": "neutral",
-        "displayName": "Paper Hover",
-        "canonical": "#eeeadf",
+        "displayName": "Slate Ground Top",
+        "canonical": "oklch(17.7% 0.016 262)",
         "tonalRamp": [
-          "#2a2822",
-          "#4a463c",
-          "#6e685a",
-          "#948d7c",
-          "#bab3a1",
-          "#d9d3c3",
-          "#ece8dd",
-          "#f7f5ef"
-        ]
-      },
-      "land": {
-        "role": "neutral",
-        "displayName": "Buff Land",
-        "canonical": "#ece5d3",
-        "tonalRamp": [
-          "#2b2618",
-          "#4a422c",
-          "#6d6243",
-          "#93865f",
-          "#b8aa82",
-          "#d6caa7",
-          "#ece5d3",
-          "#f6f2e8"
-        ]
-      },
-      "land-2": {
-        "role": "neutral",
-        "displayName": "Deep Land",
-        "canonical": "#e2d9c2",
-        "tonalRamp": [
-          "#2b2618",
-          "#4a422c",
-          "#6d6243",
-          "#93865f",
-          "#b8aa82",
-          "#d6caa7",
-          "#ece5d3",
-          "#f6f2e8"
-        ]
-      },
-      "field-white": {
-        "role": "neutral",
-        "displayName": "Field White",
-        "canonical": "#ffffff",
-        "tonalRamp": [
-          "#3a3a3a",
-          "#5c5c5c",
-          "#808080",
-          "#a3a3a3",
-          "#c6c6c6",
-          "#e0e0e0",
-          "#f2f2f2",
-          "#ffffff"
+          "#0a0b0d",
+          "#202225",
+          "#3a3d42",
+          "#5a5e65",
+          "#7b808a",
+          "#a1a5ac",
+          "#c8cbcf",
+          "#edeef1"
         ]
       },
       "ink": {
         "role": "neutral",
-        "displayName": "Iron Ink",
-        "canonical": "#1b1d1f",
+        "displayName": "Cool Ink",
+        "canonical": "oklch(95.1% 0.007 261)",
         "tonalRamp": [
-          "#1b1d1f",
-          "#2e3134",
-          "#45484b",
-          "#64676a",
-          "#86898c",
-          "#a9abad",
-          "#cdcfd0",
-          "#eceded"
+          "#0b0b0c",
+          "#212223",
+          "#3c3d3f",
+          "#5c5e61",
+          "#7e8085",
+          "#a3a5a8",
+          "#c9cacd",
+          "#eeeef0"
         ]
       },
       "ink-2": {
         "role": "neutral",
-        "displayName": "Ink 2",
-        "canonical": "#45484b",
+        "displayName": "Secondary Slate Ink",
+        "canonical": "oklch(79.3% 0.019 258)",
         "tonalRamp": [
-          "#1b1d1f",
-          "#2e3134",
-          "#45484b",
-          "#64676a",
-          "#86898c",
-          "#a9abad",
-          "#cdcfd0",
-          "#eceded"
+          "#0a0b0d",
+          "#1f2226",
+          "#393d43",
+          "#585e66",
+          "#79818c",
+          "#9fa5ae",
+          "#c7cbd0",
+          "#eceff2"
         ]
       },
       "ink-3": {
         "role": "neutral",
-        "displayName": "Ink 3",
-        "canonical": "#64676a",
+        "displayName": "Quiet Slate Ink",
+        "canonical": "oklch(66.1% 0.026 262)",
         "tonalRamp": [
-          "#1b1d1f",
-          "#2e3134",
-          "#45484b",
-          "#64676a",
-          "#86898c",
-          "#a9abad",
-          "#cdcfd0",
-          "#eceded"
+          "#0a0b0e",
+          "#1f2227",
+          "#393d46",
+          "#575e6a",
+          "#788190",
+          "#9ea5b1",
+          "#c6cbd3",
+          "#eceff3"
         ]
       },
-      "rule": {
+      "hairline": {
         "role": "neutral",
-        "displayName": "Rule",
-        "canonical": "#e0d9c9",
+        "displayName": "White Hairline",
         "tonalRamp": [
-          "#2e2a20",
-          "#4f4838",
-          "#736a55",
-          "#9a8f76",
-          "#c7bea9",
-          "#e0d9c9",
-          "#ece7dc",
-          "#f6f3ec"
+          "rgba(255, 255, 255, 0.03)",
+          "rgba(255, 255, 255, 0.05)",
+          "rgba(255, 255, 255, 0.07)",
+          "rgba(255, 255, 255, 0.1)",
+          "rgba(255, 255, 255, 0.14)",
+          "rgba(255, 255, 255, 0.2)",
+          "rgba(255, 255, 255, 0.3)",
+          "rgba(255, 255, 255, 0.45)"
         ]
       },
-      "rule-2": {
+      "hairline-strong": {
         "role": "neutral",
-        "displayName": "Rule 2",
-        "canonical": "#c7bea9",
+        "displayName": "Strong White Hairline",
         "tonalRamp": [
-          "#2e2a20",
-          "#4f4838",
-          "#736a55",
-          "#9a8f76",
-          "#c7bea9",
-          "#e0d9c9",
-          "#ece7dc",
-          "#f6f3ec"
+          "rgba(255, 255, 255, 0.03)",
+          "rgba(255, 255, 255, 0.05)",
+          "rgba(255, 255, 255, 0.07)",
+          "rgba(255, 255, 255, 0.1)",
+          "rgba(255, 255, 255, 0.14)",
+          "rgba(255, 255, 255, 0.2)",
+          "rgba(255, 255, 255, 0.3)",
+          "rgba(255, 255, 255, 0.45)"
         ]
       },
-      "sea-1": {
+      "fill": {
+        "role": "neutral",
+        "displayName": "Fill 1",
+        "tonalRamp": [
+          "rgba(255, 255, 255, 0.03)",
+          "rgba(255, 255, 255, 0.05)",
+          "rgba(255, 255, 255, 0.07)",
+          "rgba(255, 255, 255, 0.1)",
+          "rgba(255, 255, 255, 0.14)",
+          "rgba(255, 255, 255, 0.2)",
+          "rgba(255, 255, 255, 0.3)",
+          "rgba(255, 255, 255, 0.45)"
+        ]
+      },
+      "fill-2": {
+        "role": "neutral",
+        "displayName": "Fill 2",
+        "tonalRamp": [
+          "rgba(255, 255, 255, 0.03)",
+          "rgba(255, 255, 255, 0.05)",
+          "rgba(255, 255, 255, 0.07)",
+          "rgba(255, 255, 255, 0.1)",
+          "rgba(255, 255, 255, 0.14)",
+          "rgba(255, 255, 255, 0.2)",
+          "rgba(255, 255, 255, 0.3)",
+          "rgba(255, 255, 255, 0.45)"
+        ]
+      },
+      "fill-3": {
+        "role": "neutral",
+        "displayName": "Fill 3",
+        "tonalRamp": [
+          "rgba(255, 255, 255, 0.03)",
+          "rgba(255, 255, 255, 0.05)",
+          "rgba(255, 255, 255, 0.07)",
+          "rgba(255, 255, 255, 0.1)",
+          "rgba(255, 255, 255, 0.14)",
+          "rgba(255, 255, 255, 0.2)",
+          "rgba(255, 255, 255, 0.3)",
+          "rgba(255, 255, 255, 0.45)"
+        ]
+      },
+      "glass": {
+        "role": "neutral",
+        "displayName": "Slate Glass (in-flow, no blur)",
+        "tonalRamp": [
+          "rgba(26, 31, 40, 0.3)",
+          "rgba(26, 31, 40, 0.4)",
+          "rgba(26, 31, 40, 0.5)",
+          "rgba(26, 31, 40, 0.58)",
+          "rgba(26, 31, 40, 0.66)",
+          "rgba(26, 31, 40, 0.72)",
+          "rgba(26, 31, 40, 0.78)",
+          "rgba(26, 31, 40, 0.9)"
+        ]
+      },
+      "glass-strong": {
+        "role": "neutral",
+        "displayName": "Strong Slate Glass",
+        "tonalRamp": [
+          "rgba(30, 35, 45, 0.4)",
+          "rgba(30, 35, 45, 0.5)",
+          "rgba(30, 35, 45, 0.6)",
+          "rgba(30, 35, 45, 0.7)",
+          "rgba(30, 35, 45, 0.78)",
+          "rgba(30, 35, 45, 0.85)",
+          "rgba(30, 35, 45, 0.92)",
+          "rgba(30, 35, 45, 1)"
+        ]
+      },
+      "segment-track": {
+        "role": "neutral",
+        "displayName": "System Grey Track",
+        "tonalRamp": [
+          "rgba(118, 118, 128, 0.03)",
+          "rgba(118, 118, 128, 0.05)",
+          "rgba(118, 118, 128, 0.07)",
+          "rgba(118, 118, 128, 0.1)",
+          "rgba(118, 118, 128, 0.14)",
+          "rgba(118, 118, 128, 0.2)",
+          "rgba(118, 118, 128, 0.3)",
+          "rgba(118, 118, 128, 0.45)"
+        ]
+      },
+      "segment-thumb": {
+        "role": "neutral",
+        "displayName": "System Grey Thumb",
+        "tonalRamp": [
+          "rgba(99, 99, 102, 0.2)",
+          "rgba(99, 99, 102, 0.3)",
+          "rgba(99, 99, 102, 0.4)",
+          "rgba(99, 99, 102, 0.5)",
+          "rgba(99, 99, 102, 0.62)",
+          "rgba(99, 99, 102, 0.72)",
+          "rgba(99, 99, 102, 0.85)",
+          "rgba(99, 99, 102, 1)"
+        ]
+      },
+      "system-blue": {
         "role": "primary",
-        "displayName": "Surface Water",
-        "canonical": "#e4eff2",
+        "displayName": "System Blue",
+        "canonical": "oklch(62.4% 0.206 255)",
         "tonalRamp": [
-          "#0f2f3b",
-          "#1f5568",
-          "#2e6a80",
-          "#3d7c93",
-          "#7fb0c2",
-          "#a6c9d6",
-          "#c3dce4",
-          "#e4eff2"
+          "#000a20",
+          "#002049",
+          "#003b7c",
+          "#005bb7",
+          "#007cf6",
+          "#60a6ff",
+          "#a1ceff",
+          "#d8f1ff"
         ]
       },
-      "sea-2": {
+      "system-blue-light": {
         "role": "primary",
-        "displayName": "Shallows",
-        "canonical": "#c3dce4",
+        "displayName": "Light System Blue",
+        "canonical": "oklch(68.5% 0.170 253)",
         "tonalRamp": [
-          "#0f2f3b",
-          "#1f5568",
-          "#2e6a80",
-          "#3d7c93",
-          "#7fb0c2",
-          "#a6c9d6",
-          "#c3dce4",
-          "#e4eff2"
+          "#010b1c",
+          "#032242",
+          "#0a3d70",
+          "#145ea7",
+          "#1f81e2",
+          "#69a8f1",
+          "#a6cefe",
+          "#dbf1ff"
         ]
       },
-      "sea-3": {
+      "blue-tint": {
         "role": "primary",
-        "displayName": "Shoal Blue",
-        "canonical": "#7fb0c2",
+        "displayName": "Blue Tint",
         "tonalRamp": [
-          "#0f2f3b",
-          "#1f5568",
-          "#2e6a80",
-          "#3d7c93",
-          "#7fb0c2",
-          "#a6c9d6",
-          "#c3dce4",
-          "#e4eff2"
+          "rgba(10, 132, 255, 0.03)",
+          "rgba(10, 132, 255, 0.05)",
+          "rgba(10, 132, 255, 0.07)",
+          "rgba(10, 132, 255, 0.1)",
+          "rgba(10, 132, 255, 0.14)",
+          "rgba(10, 132, 255, 0.2)",
+          "rgba(10, 132, 255, 0.3)",
+          "rgba(10, 132, 255, 0.45)"
         ]
       },
-      "sea-4": {
-        "role": "primary",
-        "displayName": "Deep Chart Water",
-        "canonical": "#3d7c93",
-        "tonalRamp": [
-          "#0f2f3b",
-          "#1f5568",
-          "#2e6a80",
-          "#3d7c93",
-          "#7fb0c2",
-          "#a6c9d6",
-          "#c3dce4",
-          "#e4eff2"
-        ]
-      },
-      "sea-5": {
-        "role": "primary",
-        "displayName": "Abyss Blue",
-        "canonical": "#1f5568",
-        "tonalRamp": [
-          "#0f2f3b",
-          "#1f5568",
-          "#2e6a80",
-          "#3d7c93",
-          "#7fb0c2",
-          "#a6c9d6",
-          "#c3dce4",
-          "#e4eff2"
-        ]
-      },
-      "hazard": {
+      "system-green": {
         "role": "secondary",
-        "displayName": "Chart Magenta",
-        "canonical": "#b8124f",
+        "displayName": "System Green (up)",
+        "canonical": "oklch(75.6% 0.208 147)",
         "tonalRamp": [
-          "#4a0620",
-          "#6e0930",
-          "#8e0c3c",
-          "#b8124f",
-          "#d4517f",
-          "#e895b1",
-          "#f8e6ec",
-          "#fbf2f5"
+          "#001001",
+          "#002c04",
+          "#004d0b",
+          "#007415",
+          "#009e21",
+          "#5abe69",
+          "#a0dca6",
+          "#d9f9db"
         ]
       },
-      "hazard-ink": {
+      "green-tint": {
         "role": "secondary",
-        "displayName": "Deep Magenta",
-        "canonical": "#8e0c3c",
+        "displayName": "Green Tint",
         "tonalRamp": [
-          "#4a0620",
-          "#6e0930",
-          "#8e0c3c",
-          "#b8124f",
-          "#d4517f",
-          "#e895b1",
-          "#f8e6ec",
-          "#fbf2f5"
+          "rgba(48, 209, 88, 0.03)",
+          "rgba(48, 209, 88, 0.05)",
+          "rgba(48, 209, 88, 0.07)",
+          "rgba(48, 209, 88, 0.1)",
+          "rgba(48, 209, 88, 0.14)",
+          "rgba(48, 209, 88, 0.2)",
+          "rgba(48, 209, 88, 0.3)",
+          "rgba(48, 209, 88, 0.45)"
         ]
       },
-      "hazard-tint": {
+      "system-red": {
         "role": "secondary",
-        "displayName": "Magenta Tint",
-        "canonical": "#f8e6ec",
+        "displayName": "System Red (down)",
+        "canonical": "oklch(66.3% 0.224 28)",
         "tonalRamp": [
-          "#4a0620",
-          "#6e0930",
-          "#8e0c3c",
-          "#b8124f",
-          "#d4517f",
-          "#e895b1",
-          "#f8e6ec",
-          "#fbf2f5"
+          "#1d0101",
+          "#440504",
+          "#740f0c",
+          "#ac1c18",
+          "#e82924",
+          "#fa7768",
+          "#ffb0a4",
+          "#ffe1da"
         ]
       },
-      "hazard-wash": {
+      "red-ink": {
         "role": "secondary",
-        "displayName": "Magenta Wash",
-        "canonical": "#f9ecef",
+        "displayName": "Red Ink",
+        "canonical": "oklch(71.0% 0.182 26)",
         "tonalRamp": [
-          "#4a0620",
-          "#6e0930",
-          "#8e0c3c",
-          "#b8124f",
-          "#d4517f",
-          "#e895b1",
-          "#f8e6ec",
-          "#fbf2f5"
+          "#1b0303",
+          "#3f0e0d",
+          "#6b1f1c",
+          "#a0322e",
+          "#d84641",
+          "#ed8177",
+          "#fdb6ad",
+          "#ffe4df"
         ]
       },
-      "amber": {
-        "role": "tertiary",
-        "displayName": "Lamp Amber",
-        "canonical": "#e0a43a",
+      "red-tint": {
+        "role": "secondary",
+        "displayName": "Red Tint",
         "tonalRamp": [
-          "#3d2803",
-          "#5e3e06",
-          "#8a5a08",
-          "#b6801c",
-          "#e0a43a",
-          "#ecc47c",
-          "#f8ecd4",
-          "#fcf6ea"
+          "rgba(255, 69, 58, 0.03)",
+          "rgba(255, 69, 58, 0.05)",
+          "rgba(255, 69, 58, 0.07)",
+          "rgba(255, 69, 58, 0.1)",
+          "rgba(255, 69, 58, 0.14)",
+          "rgba(255, 69, 58, 0.2)",
+          "rgba(255, 69, 58, 0.3)",
+          "rgba(255, 69, 58, 0.45)"
         ]
       },
-      "amber-ink": {
-        "role": "tertiary",
-        "displayName": "Amber Ink",
-        "canonical": "#8a5a08",
+      "red-wash": {
+        "role": "secondary",
+        "displayName": "Red Row Wash",
         "tonalRamp": [
-          "#3d2803",
-          "#5e3e06",
-          "#8a5a08",
-          "#b6801c",
-          "#e0a43a",
-          "#ecc47c",
-          "#f8ecd4",
-          "#fcf6ea"
+          "rgba(255, 69, 58, 0.03)",
+          "rgba(255, 69, 58, 0.05)",
+          "rgba(255, 69, 58, 0.07)",
+          "rgba(255, 69, 58, 0.1)",
+          "rgba(255, 69, 58, 0.14)",
+          "rgba(255, 69, 58, 0.2)",
+          "rgba(255, 69, 58, 0.3)",
+          "rgba(255, 69, 58, 0.45)"
         ]
       },
-      "amber-tint": {
-        "role": "tertiary",
-        "displayName": "Amber Tint",
-        "canonical": "#f8ecd4",
+      "system-yellow": {
+        "role": "secondary",
+        "displayName": "System Yellow (pending)",
+        "canonical": "oklch(88.5% 0.181 95)",
         "tonalRamp": [
-          "#3d2803",
-          "#5e3e06",
-          "#8a5a08",
-          "#b6801c",
-          "#e0a43a",
-          "#ecc47c",
-          "#f8ecd4",
-          "#fcf6ea"
+          "#110a00",
+          "#2d2000",
+          "#4f3a00",
+          "#785a00",
+          "#a37b00",
+          "#bfa32f",
+          "#dcca8b",
+          "#f8efcd"
+        ]
+      },
+      "yellow-tint": {
+        "role": "secondary",
+        "displayName": "Yellow Tint",
+        "tonalRamp": [
+          "rgba(255, 214, 10, 0.03)",
+          "rgba(255, 214, 10, 0.05)",
+          "rgba(255, 214, 10, 0.07)",
+          "rgba(255, 214, 10, 0.1)",
+          "rgba(255, 214, 10, 0.14)",
+          "rgba(255, 214, 10, 0.2)",
+          "rgba(255, 214, 10, 0.3)",
+          "rgba(255, 214, 10, 0.45)"
+        ]
+      },
+      "system-orange": {
+        "role": "secondary",
+        "displayName": "System Orange (degraded day)",
+        "canonical": "oklch(78.2% 0.171 67)",
+        "tonalRamp": [
+          "#170700",
+          "#371900",
+          "#5f2f00",
+          "#8e4900",
+          "#c16600",
+          "#d89445",
+          "#eec193",
+          "#ffead1"
         ]
       }
     },
     "typographyMeta": {
       "display": {
         "displayName": "Display",
-        "purpose": "Public verdict line only."
+        "purpose": "Public verdict only."
       },
       "headline": {
         "displayName": "Headline",
-        "purpose": "Page, detail and dialog headings."
+        "purpose": "Page section heads; detail title at 34px; dialog heads at 24px."
       },
       "title": {
         "displayName": "Title",
-        "purpose": "Panel and section headings."
+        "purpose": "Panel, log and public section heads; wordmark."
       },
       "figure": {
         "displayName": "Figure",
-        "purpose": "Ledger values and serif figures; lead figure runs 32px."
+        "purpose": "Ledger values; hero figure at 32px, detail at 24px."
       },
       "column-head": {
         "displayName": "Column Head",
-        "purpose": "Small-caps table column heads and ledger labels."
+        "purpose": "Table heads, ledger labels, public masthead line."
       },
       "body": {
         "displayName": "Body",
-        "purpose": "Default UI text; 14px for secondary lines and cells."
+        "purpose": "Running text, 56ch max for descriptions."
+      },
+      "control": {
+        "displayName": "Control",
+        "purpose": "Buttons, badges, verdict, back link."
       },
       "label": {
         "displayName": "Label",
-        "purpose": "Buttons, tabs, segmented options, badges."
+        "purpose": "Segmented controls, small buttons, secondary cell text."
       },
       "mono": {
         "displayName": "Mono",
-        "purpose": "Hosts, URLs, errors, payloads."
+        "purpose": "Hosts, URLs, webhook endpoints, payloads."
       }
     },
     "shadows": [
       {
-        "name": "overlay",
-        "value": "0 2px 6px rgba(27,29,31,0.08), 0 20px 48px -12px rgba(27,29,31,0.3)",
-        "purpose": "Modal dialogs, over a rgba(27,29,31,0.36) backdrop."
+        "name": "glass-edge",
+        "value": "inset 0 1px 0 rgba(255, 255, 255, 0.06)",
+        "purpose": "Top highlight on every glass surface and fill button."
+      },
+      {
+        "name": "panel",
+        "value": "inset 0 1px 0 rgba(255, 255, 255, 0.06), 0 0 0 1px rgba(255, 255, 255, 0.07)",
+        "purpose": "Log, detail ledger, chart and data panels, public sections."
+      },
+      {
+        "name": "table-lift",
+        "value": "inset 0 1px 0 rgba(255, 255, 255, 0.06), 0 0 0 1px rgba(255, 255, 255, 0.07), 0 20px 40px -24px rgba(0, 0, 0, 0.6)",
+        "purpose": "The monitor table panel."
+      },
+      {
+        "name": "verdict-lift",
+        "value": "inset 0 1px 0 rgba(255, 255, 255, 0.06), 0 0 0 1px rgba(255, 255, 255, 0.07), 0 24px 60px -30px rgba(0, 0, 0, 0.7)",
+        "purpose": "Public verdict card (ring swaps to the state colour)."
+      },
+      {
+        "name": "sheet",
+        "value": "inset 0 1px 0 rgba(255, 255, 255, 0.08), 0 0 0 1px rgba(255, 255, 255, 0.12), 0 30px 80px -20px rgba(0, 0, 0, 0.7)",
+        "purpose": "Dialogs and the login card."
       },
       {
         "name": "toast",
-        "value": "0 10px 28px -10px rgba(27,29,31,0.5)",
-        "purpose": "Toast stack."
+        "value": "inset 0 1px 0 rgba(255, 255, 255, 0.08), 0 0 0 1px rgba(255, 255, 255, 0.12), 0 16px 40px -12px rgba(0, 0, 0, 0.6)",
+        "purpose": "Toasts."
       },
       {
-        "name": "switch-knob",
-        "value": "0 1px 2px rgba(27,29,31,0.3)",
-        "purpose": "Switch knob lift."
+        "name": "segment-thumb",
+        "value": "0 2px 6px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.08)",
+        "purpose": "Selected segment."
       },
       {
-        "name": "field-focus",
-        "value": "0 0 0 3px rgba(61,124,147,0.18)",
-        "purpose": "Focus halo on inputs and search."
+        "name": "primary-button",
+        "value": "inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.4)",
+        "purpose": "Filled blue button: top highlight and neutral drop, no coloured shadow."
+      },
+      {
+        "name": "focus-ring-input",
+        "value": "inset 0 0 0 1px #0a84ff, 0 0 0 3px rgba(10, 132, 255, 0.3)",
+        "purpose": "Focused input and search."
       }
     ],
     "motion": [
       {
         "name": "ease",
-        "value": "cubic-bezier(0.2, 0.7, 0.2, 1)",
-        "purpose": "All state transitions and entrances."
+        "value": "cubic-bezier(0.22, 0.8, 0.24, 1)",
+        "purpose": "All transitions and entries."
       },
       {
         "name": "state",
-        "value": "150ms",
-        "purpose": "Hover/press colour, border and shadow changes."
+        "value": "200ms",
+        "purpose": "Colour, background and shadow changes; button press scale(0.97)."
       },
       {
         "name": "enter",
-        "value": "180ms",
-        "purpose": "Dialog rise (6px) and toast slide (8px); switch knob."
+        "value": "240ms",
+        "purpose": "View entry (6px rise), dialog pop (8px rise, 0.98 scale), toast slide, switch knob."
       },
       {
         "name": "beacon",
-        "value": "1.6s ease-in-out infinite",
-        "purpose": "Down mark pulse to 35% opacity."
+        "value": "0.8s ease-in-out 2",
+        "purpose": "Down mark pulses to 45% opacity twice when it mounts, then holds."
       },
       {
         "name": "sweep",
         "value": "1.4s linear infinite",
-        "purpose": "Skeleton row and chart loading sweep."
+        "purpose": "Skeleton rows and chart loading; the only loop."
       },
       {
         "name": "reduced-motion",
-        "value": "none",
-        "purpose": "All animation and transition removed under prefers-reduced-motion."
+        "value": "prefers-reduced-motion: reduce",
+        "purpose": "Kills all animation and transitions."
+      },
+      {
+        "name": "reduced-transparency",
+        "value": "prefers-reduced-transparency: reduce",
+        "purpose": "Glass tokens become opaque #161b23 / #1c222b."
       }
     ],
     "breakpoints": [
       {
-        "name": "mobile",
+        "name": "stack",
         "value": "720px"
       },
       {
-        "name": "row-stack",
+        "name": "row-compact",
         "value": "900px"
       },
       {
-        "name": "incident-column",
-        "value": "1280px"
+        "name": "detail-cols",
+        "value": "900px"
       },
       {
-        "name": "container",
-        "value": "1320px"
+        "name": "log-aside",
+        "value": "1280px"
       }
     ]
   },
   "components": [
     {
-      "name": "Default Button",
-      "kind": "button",
-      "refersTo": "button",
-      "description": "Everyday action on paper with a hairline border.",
-      "html": "<button class=\"ds-btn\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M21 12a9 9 0 1 1-3-6.7L21 8\"/><path d=\"M21 3v5h-5\"/></svg>Check now</button>",
-      "css": ".ds-btn { display:inline-flex; align-items:center; gap:7px; height:34px; padding:0 12px; border:1px solid var(--rule-2,#c7bea9); border-radius:2px; background:var(--paper,#f7f5ef); color:var(--ink,#1b1d1f); font:500 14px/1 'Public Sans',system-ui,sans-serif; cursor:pointer; transition:background-color 150ms cubic-bezier(0.2, 0.7, 0.2, 1), border-color 150ms cubic-bezier(0.2, 0.7, 0.2, 1); } .ds-btn:hover { background:var(--paper-hover,#eeeadf); border-color:var(--ink-3,#64676a); } .ds-btn:active { background:var(--land,#ece5d3); } .ds-btn:focus-visible { outline:2px solid var(--sea-5,#1f5568); outline-offset:2px; }"
-    },
-    {
       "name": "Primary Button",
       "kind": "button",
       "refersTo": "button-primary",
-      "description": "The one solid-ink action per view, with its keyboard hint.",
-      "html": "<button class=\"ds-btn-primary\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\"><path d=\"M12 5v14M5 12h14\"/></svg>New monitor<kbd class=\"ds-kbd\">N</kbd></button>",
-      "css": ".ds-btn-primary { display:inline-flex; align-items:center; gap:7px; height:34px; padding:0 12px; border:1px solid var(--ink,#1b1d1f); border-radius:2px; background:var(--ink,#1b1d1f); color:var(--paper,#f7f5ef); font:500 14px/1 'Public Sans',system-ui,sans-serif; cursor:pointer; transition:background-color 150ms cubic-bezier(0.2, 0.7, 0.2, 1); } .ds-btn-primary:hover { background:#000; border-color:#000; } .ds-btn-primary:active { background:var(--ink-2,#45484b); } .ds-btn-primary:focus-visible { outline:2px solid var(--sea-5,#1f5568); outline-offset:2px; } .ds-kbd { font:500 11px/1 'Public Sans',sans-serif; padding:3px 5px; border:1px solid rgba(251,250,246,0.35); border-radius:2px; color:rgba(251,250,246,0.8); }"
+      "description": "Filled system blue; one per view, carries the shortcut kbd.",
+      "html": "<button class=\"ds-btn ds-btn-primary\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\"><path d=\"M12 5v14M5 12h14\"/></svg> New monitor <kbd>N</kbd></button>",
+      "css": ":host{--bg:#0a0d12;--ink:#eceff4;--ink-2:#b4bcc8;--ink-3:#8a93a3;--hair:rgba(255,255,255,.07);--hair-2:rgba(255,255,255,.12);--fill:rgba(255,255,255,.06);--fill-2:rgba(255,255,255,.1);--fill-3:rgba(255,255,255,.14);--glass:rgba(26,31,40,.58);--blue:#0a84ff;--blue-2:#409cff;--green:#30d158;--green-tint:rgba(48,209,88,.14);--red:#ff453a;--red-ink:#ff6b62;--red-tint:rgba(255,69,58,.16);--red-wash:rgba(255,69,58,.07);--r-s:8px;--r-m:12px;--r-l:16px;--ease:cubic-bezier(.22,.8,.24,1);--sans:'Public Sans',-apple-system,system-ui,sans-serif;--serif:'Source Serif 4',Georgia,serif;--mono:ui-monospace,'SF Mono',Menlo,monospace} .ds-btn{display:inline-flex;align-items:center;gap:7px;height:32px;padding:0 12px;border:0;border-radius:var(--r-s);font:500 14px/1 var(--sans);cursor:pointer;transition:background-color 200ms var(--ease),color 200ms var(--ease),transform 200ms var(--ease)} .ds-btn:active{transform:scale(.97)} .ds-btn:focus-visible{outline:2px solid var(--blue);outline-offset:2px} .ds-btn kbd{font:500 11px/1 var(--sans);padding:3px 5px;border-radius:5px} .ds-btn-primary{background:var(--blue);color:#fff;box-shadow:inset 0 1px 0 rgba(255,255,255,.2),0 1px 2px rgba(0,0,0,.4)} .ds-btn-primary:hover{background:var(--blue-2)} .ds-btn-primary kbd{background:rgba(255,255,255,.2);color:rgba(255,255,255,.85)}"
     },
     {
-      "name": "Danger Button",
+      "name": "Secondary Button",
       "kind": "button",
-      "refersTo": "button-danger",
-      "description": "Destructive confirmation only.",
-      "html": "<button class=\"ds-btn-danger\">Delete monitor</button>",
-      "css": ".ds-btn-danger { height:34px; padding:0 12px; border:1px solid var(--hazard,#b8124f); border-radius:2px; background:var(--hazard,#b8124f); color:#fff; font:500 14px/1 'Public Sans',system-ui,sans-serif; cursor:pointer; transition:background-color 150ms cubic-bezier(0.2, 0.7, 0.2, 1); } .ds-btn-danger:hover { background:var(--hazard-ink,#8e0c3c); border-color:var(--hazard-ink,#8e0c3c); } .ds-btn-danger:focus-visible { outline:2px solid var(--sea-5,#1f5568); outline-offset:2px; }"
+      "refersTo": "button-secondary",
+      "description": "White 10% fill for ordinary actions (Check now, Edit, Cancel).",
+      "html": "<button class=\"ds-btn ds-btn-secondary\">Check now</button>",
+      "css": ":host{--bg:#0a0d12;--ink:#eceff4;--ink-2:#b4bcc8;--ink-3:#8a93a3;--hair:rgba(255,255,255,.07);--hair-2:rgba(255,255,255,.12);--fill:rgba(255,255,255,.06);--fill-2:rgba(255,255,255,.1);--fill-3:rgba(255,255,255,.14);--glass:rgba(26,31,40,.58);--blue:#0a84ff;--blue-2:#409cff;--green:#30d158;--green-tint:rgba(48,209,88,.14);--red:#ff453a;--red-ink:#ff6b62;--red-tint:rgba(255,69,58,.16);--red-wash:rgba(255,69,58,.07);--r-s:8px;--r-m:12px;--r-l:16px;--ease:cubic-bezier(.22,.8,.24,1);--sans:'Public Sans',-apple-system,system-ui,sans-serif;--serif:'Source Serif 4',Georgia,serif;--mono:ui-monospace,'SF Mono',Menlo,monospace} .ds-btn{display:inline-flex;align-items:center;gap:7px;height:32px;padding:0 12px;border:0;border-radius:var(--r-s);font:500 14px/1 var(--sans);cursor:pointer;transition:background-color 200ms var(--ease),color 200ms var(--ease),transform 200ms var(--ease)} .ds-btn:active{transform:scale(.97)} .ds-btn:focus-visible{outline:2px solid var(--blue);outline-offset:2px} .ds-btn kbd{font:500 11px/1 var(--sans);padding:3px 5px;border-radius:5px} .ds-btn-secondary{background:var(--fill-2);color:var(--ink);box-shadow:inset 0 1px 0 rgba(255,255,255,.06)} .ds-btn-secondary:hover{background:var(--fill-3)}"
     },
     {
-      "name": "Text Field",
+      "name": "Quiet Button",
+      "kind": "button",
+      "refersTo": "button-quiet",
+      "description": "Transparent bar and back actions.",
+      "html": "<button class=\"ds-btn ds-btn-quiet\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M6 8a6 6 0 1 1 12 0c0 7 3 9 3 9H3s3-2 3-9\"/><path d=\"M10.3 21a1.94 1.94 0 0 0 3.4 0\"/></svg> Webhooks</button>",
+      "css": ":host{--bg:#0a0d12;--ink:#eceff4;--ink-2:#b4bcc8;--ink-3:#8a93a3;--hair:rgba(255,255,255,.07);--hair-2:rgba(255,255,255,.12);--fill:rgba(255,255,255,.06);--fill-2:rgba(255,255,255,.1);--fill-3:rgba(255,255,255,.14);--glass:rgba(26,31,40,.58);--blue:#0a84ff;--blue-2:#409cff;--green:#30d158;--green-tint:rgba(48,209,88,.14);--red:#ff453a;--red-ink:#ff6b62;--red-tint:rgba(255,69,58,.16);--red-wash:rgba(255,69,58,.07);--r-s:8px;--r-m:12px;--r-l:16px;--ease:cubic-bezier(.22,.8,.24,1);--sans:'Public Sans',-apple-system,system-ui,sans-serif;--serif:'Source Serif 4',Georgia,serif;--mono:ui-monospace,'SF Mono',Menlo,monospace} .ds-btn{display:inline-flex;align-items:center;gap:7px;height:32px;padding:0 12px;border:0;border-radius:var(--r-s);font:500 14px/1 var(--sans);cursor:pointer;transition:background-color 200ms var(--ease),color 200ms var(--ease),transform 200ms var(--ease)} .ds-btn:active{transform:scale(.97)} .ds-btn:focus-visible{outline:2px solid var(--blue);outline-offset:2px} .ds-btn kbd{font:500 11px/1 var(--sans);padding:3px 5px;border-radius:5px} .ds-btn-quiet{background:transparent;color:var(--ink-2)} .ds-btn-quiet:hover{background:var(--fill);color:var(--ink)}"
+    },
+    {
+      "name": "Search Field",
       "kind": "input",
       "refersTo": "input",
-      "description": "White field with label above; sea focus halo.",
-      "html": "<label class=\"ds-field\"><span>URL</span><input class=\"ds-input\" placeholder=\"https://example.com/health\"></label>",
-      "css": ".ds-field { display:flex; flex-direction:column; gap:6px; font-family:'Public Sans',system-ui,sans-serif; } .ds-field > span { font-size:13.5px; font-weight:600; color:var(--ink-2,#45484b); } .ds-input { height:38px; padding:0 12px; border:1px solid var(--rule-2,#c7bea9); border-radius:2px; background:#fff; color:var(--ink,#1b1d1f); font:15px 'Public Sans',sans-serif; transition:border-color 150ms cubic-bezier(0.2, 0.7, 0.2, 1), box-shadow 150ms cubic-bezier(0.2, 0.7, 0.2, 1); } .ds-input::placeholder { color:var(--ink-3,#64676a); } .ds-input:focus { outline:0; border-color:var(--sea-5,#1f5568); box-shadow:0 0 0 3px rgba(61,124,147,0.18); }"
+      "description": "Fill-backed field with icon and slash shortcut; blue ring on focus.",
+      "html": "<label class=\"ds-search\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\"><circle cx=\"11\" cy=\"11\" r=\"7\"/><path d=\"m21 21-4.3-4.3\"/></svg><input placeholder=\"Search by name or URL\"><kbd>/</kbd></label>",
+      "css": ":host{--bg:#0a0d12;--ink:#eceff4;--ink-2:#b4bcc8;--ink-3:#8a93a3;--hair:rgba(255,255,255,.07);--hair-2:rgba(255,255,255,.12);--fill:rgba(255,255,255,.06);--fill-2:rgba(255,255,255,.1);--fill-3:rgba(255,255,255,.14);--glass:rgba(26,31,40,.58);--blue:#0a84ff;--blue-2:#409cff;--green:#30d158;--green-tint:rgba(48,209,88,.14);--red:#ff453a;--red-ink:#ff6b62;--red-tint:rgba(255,69,58,.16);--red-wash:rgba(255,69,58,.07);--r-s:8px;--r-m:12px;--r-l:16px;--ease:cubic-bezier(.22,.8,.24,1);--sans:'Public Sans',-apple-system,system-ui,sans-serif;--serif:'Source Serif 4',Georgia,serif;--mono:ui-monospace,'SF Mono',Menlo,monospace} .ds-search{display:flex;align-items:center;gap:8px;width:320px;height:34px;padding:0 10px;border-radius:var(--r-s);background:var(--fill);color:var(--ink-3);box-shadow:inset 0 0 0 1px var(--hair);transition:box-shadow 200ms var(--ease),background-color 200ms var(--ease)} .ds-search:focus-within{background:var(--fill-2);box-shadow:inset 0 0 0 1px var(--blue),0 0 0 3px rgba(10,132,255,.3)} .ds-search input{flex:1;min-width:0;border:0;outline:0;background:none;color:var(--ink);font:14px var(--sans)} .ds-search input::placeholder{color:var(--ink-3)} .ds-search kbd{font:500 11px/1 var(--sans);padding:3px 5px;border-radius:5px;background:var(--fill-2);color:var(--ink-3)}"
     },
     {
-      "name": "Filter Tabs",
-      "kind": "nav",
-      "refersTo": "tabs",
-      "description": "Text tabs with a 2px ink underline on the selected one.",
-      "html": "<div class=\"ds-tabs\" role=\"tablist\"><button aria-selected=\"true\">All</button><button>Up</button><button>Down</button><button>Paused</button></div>",
-      "css": ".ds-tabs { display:flex; gap:2px; } .ds-tabs button { height:34px; padding:0 10px; border:0; background:none; cursor:pointer; font:500 14px 'Public Sans',sans-serif; color:var(--ink-3,#64676a); box-shadow:inset 0 -2px 0 transparent; transition:color 150ms cubic-bezier(0.2, 0.7, 0.2, 1), box-shadow 150ms cubic-bezier(0.2, 0.7, 0.2, 1); } .ds-tabs button:hover { color:var(--ink,#1b1d1f); } .ds-tabs button[aria-selected='true'] { color:var(--ink,#1b1d1f); font-weight:600; box-shadow:inset 0 -2px 0 var(--ink,#1b1d1f); } .ds-tabs button:focus-visible { outline:2px solid var(--sea-5,#1f5568); outline-offset:2px; }"
-    },
-    {
-      "name": "Incident Pills",
+      "name": "Segmented Control",
       "kind": "chip",
-      "refersTo": "pill-up",
-      "description": "Resolved and Ongoing markers in incident tables.",
-      "html": "<span class=\"ds-pill ds-pill-up\">Resolved</span> <span class=\"ds-pill ds-pill-down\">Ongoing</span>",
-      "css": ".ds-pill { display:inline-block; min-width:40px; padding:2px 6px; border-radius:2px; font:600 12px 'Public Sans',sans-serif; text-align:center; } .ds-pill-up { background:var(--sea-1,#e4eff2); color:var(--sea-5,#1f5568); } .ds-pill-down { background:var(--hazard-tint,#f8e6ec); color:var(--hazard-ink,#8e0c3c); }"
+      "refersTo": "segmented-track",
+      "description": "Native system-grey segments for filters, ranges and intervals.",
+      "html": "<div class=\"ds-seg\"><button class=\"ds-on\">All</button><button>Up</button><button>Down</button><button>Paused</button></div>",
+      "css": ":host{--bg:#0a0d12;--ink:#eceff4;--ink-2:#b4bcc8;--ink-3:#8a93a3;--hair:rgba(255,255,255,.07);--hair-2:rgba(255,255,255,.12);--fill:rgba(255,255,255,.06);--fill-2:rgba(255,255,255,.1);--fill-3:rgba(255,255,255,.14);--glass:rgba(26,31,40,.58);--blue:#0a84ff;--blue-2:#409cff;--green:#30d158;--green-tint:rgba(48,209,88,.14);--red:#ff453a;--red-ink:#ff6b62;--red-tint:rgba(255,69,58,.16);--red-wash:rgba(255,69,58,.07);--r-s:8px;--r-m:12px;--r-l:16px;--ease:cubic-bezier(.22,.8,.24,1);--sans:'Public Sans',-apple-system,system-ui,sans-serif;--serif:'Source Serif 4',Georgia,serif;--mono:ui-monospace,'SF Mono',Menlo,monospace} .ds-seg{display:inline-flex;gap:2px;padding:2px;border-radius:9px;background:rgba(118,118,128,.2)} .ds-seg button{height:28px;padding:0 12px;border:0;border-radius:7px;background:none;color:var(--ink-2);font:500 13px var(--sans);cursor:pointer;transition:background-color 200ms var(--ease),color 200ms var(--ease)} .ds-seg button:hover{color:var(--ink)} .ds-seg button:focus-visible{outline:2px solid var(--blue);outline-offset:2px} .ds-seg .ds-on{background:rgba(99,99,102,.62);color:#fff;box-shadow:0 2px 6px rgba(0,0,0,.3),inset 0 1px 0 rgba(255,255,255,.08)}"
     },
     {
-      "name": "Status Marks",
-      "kind": "custom",
-      "description": "Shape-coded status: up circle, down pulsing diamond, pending ring, paused square.",
-      "html": "<span class=\"ds-marks\"><i class=\"ds-mark ds-up\"></i>Up <i class=\"ds-mark ds-down\"></i>Down <i class=\"ds-mark ds-pending\"></i>Pending <i class=\"ds-mark ds-paused\"></i>Paused</span>",
-      "css": ".ds-marks { display:inline-flex; align-items:center; gap:8px; font:500 14px 'Public Sans',sans-serif; color:var(--ink-2,#45484b); } .ds-mark { display:inline-block; width:10px; height:10px; } .ds-up { border-radius:50%; background:var(--sea-4,#3d7c93); } .ds-down { background:var(--hazard,#b8124f); transform:rotate(45deg) scale(0.86); animation:ds-beacon 1.6s ease-in-out infinite; } .ds-pending { border-radius:50%; border:2px solid var(--amber,#e0a43a); } .ds-paused { border:2px solid var(--ink-3,#64676a); border-radius:1px; } @keyframes ds-beacon { 50% { opacity:0.35; } } @media (prefers-reduced-motion: reduce) { .ds-down { animation:none; } }"
+      "name": "State Capsules",
+      "kind": "chip",
+      "refersTo": "badge-capsule-up",
+      "description": "Capsule badges in the detail state line.",
+      "html": "<span class=\"ds-cap ds-cap-up\">Up \u00b7 22m</span> <span class=\"ds-cap ds-cap-down\">Down \u00b7 4m</span>",
+      "css": ":host{--bg:#0a0d12;--ink:#eceff4;--ink-2:#b4bcc8;--ink-3:#8a93a3;--hair:rgba(255,255,255,.07);--hair-2:rgba(255,255,255,.12);--fill:rgba(255,255,255,.06);--fill-2:rgba(255,255,255,.1);--fill-3:rgba(255,255,255,.14);--glass:rgba(26,31,40,.58);--blue:#0a84ff;--blue-2:#409cff;--green:#30d158;--green-tint:rgba(48,209,88,.14);--red:#ff453a;--red-ink:#ff6b62;--red-tint:rgba(255,69,58,.16);--red-wash:rgba(255,69,58,.07);--r-s:8px;--r-m:12px;--r-l:16px;--ease:cubic-bezier(.22,.8,.24,1);--sans:'Public Sans',-apple-system,system-ui,sans-serif;--serif:'Source Serif 4',Georgia,serif;--mono:ui-monospace,'SF Mono',Menlo,monospace} .ds-cap{display:inline-block;padding:4px 10px;border-radius:999px;font:500 13px var(--sans)} .ds-cap-up{background:var(--green-tint);color:var(--green)} .ds-cap-down{background:var(--red-tint);color:var(--red-ink);font-weight:600}"
     },
     {
-      "name": "Check Tick Strip",
+      "name": "Monitor Table",
+      "kind": "card",
+      "refersTo": "monitor-row",
+      "description": "Translucent (unblurred) table panel of hairline rows with mark, host, state, figures and the 40-check tick strip; down rows washed red.",
+      "html": "<div class=\"ds-table\"><div class=\"ds-row ds-row-down\"><span class=\"ds-mark ds-mark-down\"></span><span class=\"ds-svc\"><strong>Home NAS</strong><em>Timed out after 10s</em></span><span class=\"ds-badge-down\">Down \u00b7 22m</span><span class=\"ds-num ds-red\">0.00%</span><span class=\"ds-ticks\"><i class=\"ds-tick ds-none\"></i><i class=\"ds-tick ds-none\"></i><i class=\"ds-tick ds-none\"></i><i class=\"ds-tick ds-none\"></i><i class=\"ds-tick ds-none\"></i><i class=\"ds-tick ds-none\"></i><i class=\"ds-tick ds-none\"></i><i class=\"ds-tick ds-none\"></i><i class=\"ds-tick ds-down\"></i><i class=\"ds-tick ds-down\"></i><i class=\"ds-tick ds-down\"></i><i class=\"ds-tick ds-down\"></i><i class=\"ds-tick ds-down\"></i><i class=\"ds-tick ds-down\"></i><i class=\"ds-tick ds-down\"></i><i class=\"ds-tick ds-down\"></i><i class=\"ds-tick ds-down\"></i><i class=\"ds-tick ds-down\"></i><i class=\"ds-tick ds-down\"></i><i class=\"ds-tick ds-down\"></i></span></div><div class=\"ds-row\"><span class=\"ds-mark ds-mark-up\"></span><span class=\"ds-svc\"><strong>GitHub</strong><span>github.com</span></span><span class=\"ds-badge\">Up \u00b7 22m</span><span class=\"ds-num\">100%</span><span class=\"ds-ticks\"><i class=\"ds-tick ds-up\"></i><i class=\"ds-tick ds-up\"></i><i class=\"ds-tick ds-up\"></i><i class=\"ds-tick ds-up\"></i><i class=\"ds-tick ds-up\"></i><i class=\"ds-tick ds-up\"></i><i class=\"ds-tick ds-up\"></i><i class=\"ds-tick ds-up\"></i><i class=\"ds-tick ds-up ds-d1\"></i><i class=\"ds-tick ds-up ds-d1\"></i><i class=\"ds-tick ds-up ds-d1\"></i><i class=\"ds-tick ds-up ds-d2\"></i><i class=\"ds-tick ds-up ds-d2\"></i><i class=\"ds-tick ds-up ds-d3\"></i><i class=\"ds-tick ds-up\"></i><i class=\"ds-tick ds-up\"></i><i class=\"ds-tick ds-up\"></i><i class=\"ds-tick ds-up\"></i><i class=\"ds-tick ds-up\"></i><i class=\"ds-tick ds-up\"></i></span></div></div>",
+      "css": ":host{--bg:#0a0d12;--ink:#eceff4;--ink-2:#b4bcc8;--ink-3:#8a93a3;--hair:rgba(255,255,255,.07);--hair-2:rgba(255,255,255,.12);--fill:rgba(255,255,255,.06);--fill-2:rgba(255,255,255,.1);--fill-3:rgba(255,255,255,.14);--glass:rgba(26,31,40,.58);--blue:#0a84ff;--blue-2:#409cff;--green:#30d158;--green-tint:rgba(48,209,88,.14);--red:#ff453a;--red-ink:#ff6b62;--red-tint:rgba(255,69,58,.16);--red-wash:rgba(255,69,58,.07);--r-s:8px;--r-m:12px;--r-l:16px;--ease:cubic-bezier(.22,.8,.24,1);--sans:'Public Sans',-apple-system,system-ui,sans-serif;--serif:'Source Serif 4',Georgia,serif;--mono:ui-monospace,'SF Mono',Menlo,monospace} .ds-table{width:560px;border-radius:var(--r-l);background:var(--glass);box-shadow:inset 0 1px 0 rgba(255,255,255,.06),0 0 0 1px var(--hair),0 20px 40px -24px rgba(0,0,0,.6);overflow:hidden;color:var(--ink);font:400 15px/1.5 var(--sans);font-variant-numeric:tabular-nums} .ds-row{display:grid;grid-template-columns:10px 1fr 96px 60px 118px;align-items:center;gap:14px;min-height:60px;padding:8px 16px;border-bottom:1px solid var(--hair);cursor:pointer;transition:background-color 200ms var(--ease)} .ds-row:last-child{border-bottom:0} .ds-row:hover{background:rgba(255,255,255,.04)} .ds-row-down{background:var(--red-wash)} .ds-row-down:hover{background:var(--red-tint)} .ds-svc{display:flex;flex-direction:column;min-width:0} .ds-svc strong{font-weight:600} .ds-svc span{font:12.5px/1.4 var(--mono);color:var(--ink-3)} .ds-svc em{font:500 13px/1.4 var(--sans);font-style:normal;color:var(--red-ink)} .ds-badge{font:500 13.5px var(--sans);color:var(--ink-2)} .ds-badge-down{font:600 13.5px var(--sans);color:var(--red-ink)} .ds-num{text-align:right;font-size:14px;font-weight:500} .ds-red{color:var(--red-ink)} .ds-mark{width:9px;height:9px;display:inline-block} .ds-mark-up{border-radius:50%;background:var(--green)} .ds-mark-down{background:var(--red);border-radius:2px;transform:rotate(45deg) scale(.9)} .ds-ticks{display:flex;gap:2px;height:22px} .ds-tick{width:3px;border-radius:2px} .ds-up{background:var(--green)} .ds-d1{background:rgba(48,209,88,.75)} .ds-d2{background:rgba(48,209,88,.52)} .ds-d3{background:repeating-linear-gradient(180deg,rgba(48,209,88,.7) 0 3px,transparent 3px 5px)} .ds-down{background:var(--red)} .ds-none{background:var(--fill)}"
+    },
+    {
+      "name": "Payload Disclosure",
       "kind": "custom",
-      "description": "Whole-cell check history graded by response depth; hatched empty slots.",
-      "html": "<span class=\"ds-ticks\"><i class=\"t-none\"></i><i class=\"t-none\"></i><i class=\"d0\"></i><i class=\"d0\"></i><i class=\"d1\"></i><i class=\"d0\"></i><i class=\"d2\"></i><i class=\"d3\"></i><i class=\"d1\"></i><i class=\"t-down\"></i><i class=\"t-down\"></i><i class=\"d0\"></i><i class=\"d0\"></i><i class=\"d1\"></i><i class=\"d0\"></i></span>",
-      "css": ".ds-ticks { display:flex; gap:2px; height:22px; } .ds-ticks i { width:3px; height:100%; border-radius:1px; } .ds-ticks .d0 { background:var(--sea-5,#1f5568); } .ds-ticks .d1 { background:var(--sea-4,#3d7c93); } .ds-ticks .d2 { background:var(--sea-3,#7fb0c2); } .ds-ticks .d3 { background:repeating-linear-gradient(180deg, var(--sea-4,#3d7c93) 0 3px, transparent 3px 5px); } .ds-ticks .t-down { background:var(--hazard,#b8124f); } .ds-ticks .t-none { background:repeating-linear-gradient(180deg, var(--rule,#e0d9c9) 0 2px, transparent 2px 4px); }"
+      "refersTo": "",
+      "description": "Details with native marker hidden and a drawn chevron that rotates 90 degrees when open.",
+      "html": "<details class=\"ds-disc\"><summary><svg width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"m9 6 6 6-6 6\"/></svg> Payload format</summary><pre>{\"event\":\"down\",\"monitor\":\"Home NAS\"}</pre></details>",
+      "css": ":host{--bg:#0a0d12;--ink:#eceff4;--ink-2:#b4bcc8;--ink-3:#8a93a3;--hair:rgba(255,255,255,.07);--hair-2:rgba(255,255,255,.12);--fill:rgba(255,255,255,.06);--fill-2:rgba(255,255,255,.1);--fill-3:rgba(255,255,255,.14);--glass:rgba(26,31,40,.58);--blue:#0a84ff;--blue-2:#409cff;--green:#30d158;--green-tint:rgba(48,209,88,.14);--red:#ff453a;--red-ink:#ff6b62;--red-tint:rgba(255,69,58,.16);--red-wash:rgba(255,69,58,.07);--r-s:8px;--r-m:12px;--r-l:16px;--ease:cubic-bezier(.22,.8,.24,1);--sans:'Public Sans',-apple-system,system-ui,sans-serif;--serif:'Source Serif 4',Georgia,serif;--mono:ui-monospace,'SF Mono',Menlo,monospace} .ds-disc{font:14px var(--sans);color:var(--ink)} .ds-disc summary{display:inline-flex;align-items:center;gap:6px;list-style:none;cursor:pointer;color:var(--ink-2);font-weight:500} .ds-disc summary::-webkit-details-marker{display:none} .ds-disc summary:hover{color:var(--ink)} .ds-disc summary:focus-visible{outline:2px solid var(--blue);outline-offset:2px} .ds-disc svg{transition:transform 200ms var(--ease)} .ds-disc[open] svg{transform:rotate(90deg)} .ds-disc pre{margin:12px 0 0;padding:14px 16px;border-radius:var(--r-m);background:rgba(0,0,0,.3);box-shadow:inset 0 0 0 1px var(--hair);font:12.5px/1.6 var(--mono);color:#d7dde6}"
     },
     {
       "name": "Ledger",
       "kind": "custom",
-      "description": "Ruled line of serif figures under small-caps labels; never tiles.",
-      "html": "<dl class=\"ds-ledger\"><div><dt>24 h uptime</dt><dd class=\"lead\">99.98%</dd></div><div><dt>Monitors</dt><dd>6</dd></div><div class=\"alert\"><dt>Down</dt><dd>1</dd></div><div><dt>Avg response</dt><dd>194ms</dd></div></dl>",
-      "css": ".ds-ledger { display:flex; margin:0; } .ds-ledger > div { padding:0 18px; border-left:1px solid var(--rule-2,#c7bea9); } .ds-ledger > div:first-child { border-left:0; padding-left:0; } .ds-ledger dt { font:600 15.5px/1.2 'Source Serif 4',Georgia,serif; font-variant-caps:all-small-caps; letter-spacing:0.05em; color:var(--ink-2,#45484b); } .ds-ledger dd { margin:2px 0 0; font:600 20px/1.1 'Source Serif 4',Georgia,serif; font-variant-numeric:tabular-nums lining-nums; color:var(--ink,#1b1d1f); } .ds-ledger dd.lead { font-size:32px; line-height:1; letter-spacing:-0.02em; } .ds-ledger .alert dd { color:var(--hazard-ink,#8e0c3c); }"
+      "refersTo": "",
+      "description": "Small-caps labels over serif figures, split by vertical hairlines.",
+      "html": "<dl class=\"ds-ledger\"><div><dt>24 h uptime</dt><dd class=\"ds-hero\">99.94%</dd></div><div><dt>Monitors</dt><dd>6</dd></div><div class=\"ds-alert\"><dt>Down</dt><dd>2</dd></div><div><dt>Avg response</dt><dd>192ms</dd></div></dl>",
+      "css": ":host{--bg:#0a0d12;--ink:#eceff4;--ink-2:#b4bcc8;--ink-3:#8a93a3;--hair:rgba(255,255,255,.07);--hair-2:rgba(255,255,255,.12);--fill:rgba(255,255,255,.06);--fill-2:rgba(255,255,255,.1);--fill-3:rgba(255,255,255,.14);--glass:rgba(26,31,40,.58);--blue:#0a84ff;--blue-2:#409cff;--green:#30d158;--green-tint:rgba(48,209,88,.14);--red:#ff453a;--red-ink:#ff6b62;--red-tint:rgba(255,69,58,.16);--red-wash:rgba(255,69,58,.07);--r-s:8px;--r-m:12px;--r-l:16px;--ease:cubic-bezier(.22,.8,.24,1);--sans:'Public Sans',-apple-system,system-ui,sans-serif;--serif:'Source Serif 4',Georgia,serif;--mono:ui-monospace,'SF Mono',Menlo,monospace} .ds-ledger{display:flex;align-items:flex-end;margin:0;color:var(--ink)} .ds-ledger>div{padding:0 18px;border-left:1px solid var(--hair-2)} .ds-ledger>div:first-child{border-left:0;padding-left:0} .ds-ledger dt{font:600 15px/1.2 var(--serif);font-variant-caps:all-small-caps;letter-spacing:.05em;color:var(--ink-3)} .ds-ledger dd{margin:3px 0 0;font:600 20px/1.1 var(--serif);font-variant-numeric:tabular-nums lining-nums} .ds-ledger .ds-hero{font-size:32px;line-height:1;letter-spacing:-.02em} .ds-alert dd{color:var(--red-ink)}"
+    },
+    {
+      "name": "Public Day Strip",
+      "kind": "custom",
+      "refersTo": "",
+      "description": "Thirty daily uptime cells per service with state legend colours.",
+      "html": "<div class=\"ds-days\"><span class=\"ds-day ds-e\"></span><span class=\"ds-day ds-e\"></span><span class=\"ds-day ds-e\"></span><span class=\"ds-day ds-e\"></span><span class=\"ds-day ds-e\"></span><span class=\"ds-day ds-e\"></span><span class=\"ds-day ds-e\"></span><span class=\"ds-day ds-e\"></span><span class=\"ds-day ds-e\"></span><span class=\"ds-day ds-e\"></span><span class=\"ds-day ds-e\"></span><span class=\"ds-day ds-e\"></span><span class=\"ds-day ds-e\"></span><span class=\"ds-day ds-e\"></span><span class=\"ds-day ds-e\"></span><span class=\"ds-day ds-e\"></span><span class=\"ds-day ds-e\"></span><span class=\"ds-day ds-e\"></span><span class=\"ds-day ds-e\"></span><span class=\"ds-day ds-e\"></span><span class=\"ds-day ds-u\"></span><span class=\"ds-day ds-u\"></span><span class=\"ds-day ds-u\"></span><span class=\"ds-day ds-u\"></span><span class=\"ds-day ds-u\"></span><span class=\"ds-day ds-m\"></span><span class=\"ds-day ds-w\"></span><span class=\"ds-day ds-u\"></span><span class=\"ds-day ds-x\"></span><span class=\"ds-day ds-u\"></span></div>",
+      "css": ":host{--bg:#0a0d12;--ink:#eceff4;--ink-2:#b4bcc8;--ink-3:#8a93a3;--hair:rgba(255,255,255,.07);--hair-2:rgba(255,255,255,.12);--fill:rgba(255,255,255,.06);--fill-2:rgba(255,255,255,.1);--fill-3:rgba(255,255,255,.14);--glass:rgba(26,31,40,.58);--blue:#0a84ff;--blue-2:#409cff;--green:#30d158;--green-tint:rgba(48,209,88,.14);--red:#ff453a;--red-ink:#ff6b62;--red-tint:rgba(255,69,58,.16);--red-wash:rgba(255,69,58,.07);--r-s:8px;--r-m:12px;--r-l:16px;--ease:cubic-bezier(.22,.8,.24,1);--sans:'Public Sans',-apple-system,system-ui,sans-serif;--serif:'Source Serif 4',Georgia,serif;--mono:ui-monospace,'SF Mono',Menlo,monospace} .ds-days{display:grid;grid-template-columns:repeat(30,minmax(0,1fr));gap:3px;width:560px} .ds-day{height:30px;border-radius:3px;transition:transform 200ms var(--ease),filter 200ms var(--ease)} .ds-day:hover{transform:scaleY(1.08);filter:brightness(1.15)} .ds-u{background:var(--green)} .ds-m{background:rgba(48,209,88,.55)} .ds-w{background:#ff9f0a} .ds-x{background:var(--red)} .ds-e{background:var(--fill)}"
     }
   ],
   "narrative": {
-    "northStar": "The Tide Table",
-    "overview": "Pulse is set like a printed nautical almanac. Every monitored service is a row in a ruled table with fixed columns, tabular figures and a strip of whole-cell history marks. The ground is warm chart paper, ink is near-black, panels and the app bar take a buff land tint, and health is read in graded chart-water blues. Outages are the one loud thing: chart magenta, a diamond-shaped mark that pulses, and a washed row. Healthy screens are quiet; a down screen is unmissable.\n\nDensity is that of a reference table, not a dashboard of cards. Structure comes from 1px hairlines rather than boxes: a full-ink rule opens every table and list, a lighter rule separates rows, and a mid rule closes. Headings, large figures and column heads are in Source Serif 4; everything you operate is in Public Sans with tabular lining numerals. The signature device is the tide chart in the monitor detail: response time drawn as one deep-blue curve over tinted depth bands (100 / 300 / 1000 ms, each band a fixed share of the height), with its peak labelled in serif italic like a high-water figure.\n\nThe user rejected the earlier aurora world (gradient blobs, glassmorphism, purple-cyan gradients) and it may not return.",
+    "northStar": "The Native Instrument",
+    "overview": "Pulse reads like a first-party macOS dark-mode utility that happens to keep a ledger. A deep slate ground carries translucent slate panels, with true blurred glass kept for the chrome that floats above the page; inside the panels, the structure is the old almanac's: ruled ledger figures, hairline tables, small-caps column heads in a book serif, and a banded response-time \"tide\" chart. The glass is the material, the ledger is the grammar. Nothing decorates; every colour on screen is a state or an action.\n\nDensity is operator-grade. A monitor row is 60px tall and carries name, host or error, state, 24-hour uptime, response, a 40-check tick strip and last-checked time on one line. The public page is the same world at a slower reading pace: one verdict card, then each service's 30-day day strip.\n\nTwo earlier worlds were rejected by the user and are anti-references. The neon aurora glassmorphism (multicolour blobs, glow, gradient text) was rejected first. The light paper almanac (warm paper #f7f5ef, ink rules, magenta hazard) was rejected next as \"very AI\" and not modern. This world keeps the almanac's layout, fonts and tide chart and drops its paper; it keeps glass and drops the aurora's colour.",
     "keyCharacteristics": [
-      "Warm chart-paper ground, iron ink, buff land panels; light scheme only.",
-      "Ruled tables, not cards: 1px hairlines, ink rule on top.",
-      "Status carried by mark shape plus colour: blue circle, magenta diamond, amber ring, grey square.",
-      "History as fixed whole cells, graded by response-time depth.",
-      "Serif for headings, figures and small-caps column heads; sans for UI, tabular numerals everywhere.",
-      "Flat paper. Shadow only on overlays and the focus halo."
+      "Deep slate ground lit only by faint monochrome slate radial light, never hued blobs.",
+      "Blurred glass (28px blur, 170% saturation) only on floating chrome: the sticky bar, dialogs, toasts and tooltips. In-flow panels are translucent slate fills without blur. Both are edged by a white hairline and an inset top highlight.",
+      "Apple dark system colours carry meaning only: green up, red down, yellow pending, blue action/focus/selection.",
+      "Source Serif 4 for headings, figures and small-caps heads; Public Sans for every control and body line; tabular numerals everywhere.",
+      "Continuous corners on an 8 / 12 / 16 / 20px scale; capsules for state badges.",
+      "Short ease-out motion (200ms state, 240ms entry) and full reduced-motion and reduced-transparency fallbacks."
     ],
     "rules": [
       {
-        "name": "The Magenta Means Act Rule",
-        "body": "Hazard magenta appears only where something is down, failing or destructive. A healthy screen contains none of it.",
+        "name": "The Meaning-Only Colour Rule",
+        "body": "Every saturated pixel is a state or an action. Green, red and yellow mean up, down and pending; blue means \"you can act here\" or \"this has focus\". No hue is used for decoration, branding or section colour-coding.",
         "section": "colors"
       },
       {
-        "name": "The Depth Grading Rule",
-        "body": "Healthy history is graded, never flat green: checks under 100 ms are sea-4, under 300 ms sea-3, under 1 s sea-2, 1 s or slower amber. Public day cells follow the same ladder by uptime: 99.9%+ sea-4, 99-99.9% sea-3, 95-99% amber, under 95% hazard; missing data is a hatched empty cell.",
+        "name": "The Monochrome Light Rule",
+        "body": "The ground's light is slate grey at low alpha. Coloured blobs, aurora gradients, glows that bloom past an element and gradient text are refused; the user rejected them in the aurora world.",
         "section": "colors"
       },
       {
-        "name": "The Ink Is for Doing Rule",
-        "body": "Solid ink fill marks the primary action and the selected state. The only other ink surfaces are transient overlays (toast, day tooltip).",
-        "section": "colors"
-      },
-      {
-        "name": "The Tabular Figures Rule",
-        "body": "Every number is tabular and lining, and every numeric column is right-aligned, so polling changes values without moving anything.",
+        "name": "The Two-Voice Rule",
+        "body": "Serif speaks for structure (headings, figures, column heads, tide soundings in italic); sans speaks for everything you click or read in running text. A control is never set in the serif.",
         "section": "typography"
       },
       {
-        "name": "The Two Voices Rule",
-        "body": "Serif is for reading (headings, figures, column heads); sans is for operating. Public service names are the one sans heading (600, 16px), because they read as row labels.",
+        "name": "The Tabular Rule",
+        "body": "Every numeral is tabular and lining, set on `body`, so uptime, response and time columns align without per-cell effort.",
         "section": "typography"
       },
       {
-        "name": "The Flat Paper Rule",
-        "body": "Nothing resting on the page casts a shadow. A surface earns a shadow only by floating over the page (dialog, toast).",
+        "name": "The Glass-For-Chrome Rule",
+        "body": "Backdrop blur is for surfaces that float over content: the sticky bar, dialogs, toasts and tooltips. In-flow containers (table, log, panels, ledger, verdict card, public sections, login) are translucent fills without blur. Rows, cells and controls are never their own glass.",
         "section": "elevation"
       },
       {
-        "name": "The Hairline Rule",
-        "body": "Every table and list opens with a 1px ink rule, separates rows with 1px rule, and closes with 1px rule-2. No boxed cards.",
-        "section": "shapes"
-      },
-      {
-        "name": "The Whole Cell Rule",
-        "body": "History is a fixed count of discrete cells (40 checks at 3px with 2px gaps; 30 days in a 30-column grid with 3px gaps). Empty slots are hatched placeholders; the count never changes and cells never merge into a line.",
-        "section": "shapes"
+        "name": "The Hairline Edge Rule",
+        "body": "A glass surface is defined by its 1px white ring and inset top highlight, not by a border colour or a heavy shadow. With `prefers-reduced-transparency`, the glass tokens fall back to opaque slate (#161b23 panels, #1c222b sheets) and keep the same edge.",
+        "section": "elevation"
       }
     ],
     "dos": [
-      "Do open every table and list with a 1px ink rule and separate rows with 1px rule hairlines.",
-      "Do pair every status colour with its mark shape: sea circle, magenta diamond, amber ring, grey square.",
-      "Do grade healthy history by depth (sea-4, sea-3, sea-2, amber) instead of a single green.",
-      "Do set every number in tabular lining figures and right-align numeric columns.",
-      "Do keep corners at 2px (1px on cells, 3px on dialogs).",
-      "Do use Source Serif 4 for headings, figures and small-caps column heads, and Public Sans for controls and body.",
-      "Do keep motion short and eased (150-180ms, `cubic-bezier(0.2, 0.7, 0.2, 1)`), and drop all of it under reduced motion."
+      "**Do** give new in-flow containers a translucent glass fill without blur, reserve backdrop blur for floating chrome, and edge both with the 1px white ring and the 6\u20138% inset top highlight.",
+      "**Do** bind each system colour to its one meaning: green up, red down, yellow pending, blue action, focus and selection.",
+      "**Do** set headings, figures and column heads in Source Serif 4 600, and every control in Public Sans 500.",
+      "**Do** keep numerals tabular and lining, and right-align numeric columns.",
+      "**Do** keep motion to state changes: 200ms colour and background transitions, 240ms entries, all on `cubic-bezier(0.22, 0.8, 0.24, 1)`. A down mark pulses twice (0.8s each) when it appears and then holds still; only loading skeletons loop.",
+      "**Do** stay on the 8 / 12 / 16 / 20px corner scale, with capsules only for state badges.",
+      "**Do** keep the public page free of URLs and error details; it shows names, states and uptime only."
     ],
     "donts": [
-      "Don't bring back aurora gradient blobs, glassmorphism or purple-cyan gradients.",
-      "Don't use hazard magenta for anything that is not down, failing or destructive.",
-      "Don't put resting content in shadowed or rounded cards; shadows belong to dialogs and toasts only.",
-      "Don't fill a surface with solid ink unless it is the primary action, a selected state, or a transient overlay.",
-      "Don't merge or smooth history marks into sparklines or area charts; the cell count is fixed.",
-      "Don't use field white as a page or panel surface; it belongs inside inputs only.",
-      "Don't let polling move layout: columns and row heights stay fixed while values change."
+      "**Don't** use multicolour blobs, hued ambient gradients, glow, coloured drop shadows or gradient text; the aurora world was rejected for exactly this. Drop shadows are neutral black; colour appears in box-shadow only as 1px state rings and the 3px blue input focus ring.",
+      "**Don't** bring back the light paper almanac: no warm paper grounds, ink-rule borders or magenta hazard colour.",
+      "**Don't** use colour for decoration, branding or category coding; a hue that isn't a state or an action doesn't belong.",
+      "**Don't** make rows, cells or controls their own glass, or stack glass inside glass.",
+      "**Don't** add row sparklines; the 40-check tick strip carries the row.",
+      "**Don't** set controls in the serif or use the system face for display type.",
+      "**Don't** add kickers or eyebrow labels above headings."
     ]
   }
 }

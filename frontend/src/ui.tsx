@@ -170,7 +170,7 @@ export function useToasts() {
 export function Logo() {
   return (
     <svg className="logo" viewBox="0 0 32 32" aria-hidden>
-      <rect x="1.5" y="1.5" width="29" height="29" rx="3" />
+      <rect x="1.5" y="1.5" width="29" height="29" rx="7" />
       <path d="M5 17h6l2.5-7 5 14 2.5-7H27" />
     </svg>
   )
@@ -202,4 +202,5 @@ const ICONS = {
   check: <path d="M20 6 9 17l-5-5" />,
   alert: <><path d="M12 8v5M12 16.5h.01" /><circle cx="12" cy="12" r="9" /></>,
   back: <path d="M15 18l-6-6 6-6" />,
+  chevron: <path d="m9 6 6 6-6 6" />,
 }

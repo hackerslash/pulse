@@ -88,7 +88,7 @@ export function StatusPage() {
               {data.incidents.map(i => (
                 <tr key={i.id}>
                   <td className="num-left">{new Date(i.startedAt).toLocaleString([], { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })}</td>
-                  <td><strong>{i.monitor} outage</strong></td>
+                  <td><strong>{i.monitor} outage</strong><span className="inc-start">{new Date(i.startedAt).toLocaleString([], { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })}</span></td>
                   <td><span className={`pill ${i.resolvedAt ? 'pill-up' : 'pill-down'}`}>{i.resolvedAt ? 'Resolved' : 'Ongoing'}</span></td>
                   <td className="num">{i.resolvedAt ? duration((Date.parse(i.resolvedAt) - Date.parse(i.startedAt)) / 1000) : `${since(i.startedAt, now)} so far`}</td>
                 </tr>

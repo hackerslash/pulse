@@ -94,7 +94,7 @@ export function WebhooksPanel({ onClose, toast, now }: { onClose: () => void; to
       {error && <p className="form-error" role="alert">{error}</p>}
 
       <details className="payload">
-        <summary>Payload format · works with Slack, Discord, Telegram</summary>
+        <summary><Icon name="chevron" size={14} /> Payload format · works with Slack, Discord, Telegram</summary>
         <pre className="mono">{`{
   "event": "down",            // "down" | "up" | "test"
   "text": "🔴 API is DOWN — HTTP 502\\nhttps://…",   // Slack, Telegram
