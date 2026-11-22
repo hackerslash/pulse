@@ -6,6 +6,16 @@
 
 <p align="center">Self-hosted uptime monitoring and a public status page for your websites, APIs, and homelab services.</p>
 
+<p align="center">
+  <img alt="Java 21" src="https://img.shields.io/badge/Java-21-B45309">
+  <img alt="Spring Boot 4" src="https://img.shields.io/badge/Spring%20Boot-4-3F7D20">
+  <img alt="React 19" src="https://img.shields.io/badge/React-19-087EA4">
+  <img alt="TypeScript" src="https://img.shields.io/badge/TypeScript-3178C6">
+  <img alt="Vite" src="https://img.shields.io/badge/Vite-6D28D9">
+  <img alt="H2 Database" src="https://img.shields.io/badge/H2-Database-1A4D85">
+  <img alt="Docker Compose" src="https://img.shields.io/badge/Docker-Compose-1769AA">
+</p>
+
 Pulse checks your URLs on a schedule, records uptime and latency, and sends webhooks when a service goes down or recovers. Spring Boot serves the React dashboard, public status page, and API from a single container. Check history is stored in an embedded H2 database.
 
 ## Features
