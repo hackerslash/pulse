@@ -326,7 +326,7 @@ The response-time chart, carried from the almanac. A 240px plot on a banded, non
 Thirty equal cells, 22px tall, 2px gaps, 2px corners, per service: 80% green at 99.9%+, 45% green at 99–99.9%, orange at 95–99%, red under 95%, fill when empty. Hover brightens a cell and shows a blurred glass-strong tooltip with date and uptime. One "30 days ago … Today" axis closes the card; no per-row dates, no legend.
 
 ### Public page
-Quiet by design: logo, wordmark and a hairline-divided "Status" label (no date). The verdict sits on the page, not in a card: a 12px dot with a 5px tinted halo, a 32px serif headline, and one ink-2 line. Section titles and table heads are 12–13px sans, not small caps. Service rows: 8px dot, 15px name, ink-3 "Operational" (only a down state is coloured), sans tabular uptime.
+Hosted-status-page layout, set entirely in Inter (variable, self-hosted; `.public` overrides --serif and --sans, so the dashboard keeps Source Serif 4 / Public Sans). Header: logo, 17px wordmark, hairline-divided "Status", and "Updated …" at right (hidden on phones). A glass verdict card with a 40px solid circle (green check, red alert, grey while loading), an 18px/600 headline and one ink-3 line; outages add a red 30% ring. "System status" card with the date range at right; each row is name + 7px dot, ink-3 state (only down is coloured), "100% uptime", then 32px day cells. Section titles 15px/600; table heads 12px sans.
 
 ### Disclosure
 The webhook payload `<details>` hides the native marker and leads its summary (ink-2, 500) with a drawn 14px chevron that rotates 90° over 200ms when open; the sample sits in a 12px-corner, 30% black inset block in 12.5px mono.

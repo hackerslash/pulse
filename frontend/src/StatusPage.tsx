@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { api, type PublicStatus } from './api'
 import { ago, duration, pct, since } from './format'
-import { Logo, StatusMark } from './ui'
+import { Icon, Logo, StatusMark } from './ui'
 
 export function StatusPage() {
   const [data, setData] = useState<PublicStatus | null>(null)
@@ -28,23 +28,21 @@ export function StatusPage() {
       <header className="public-mast">
         <span className="brand"><Logo /><span className="wordmark">Pulse</span></span>
         <span className="public-kind">Status</span>
+        <span className="mast-stamp">{offline ? 'Reconnecting…' : updated ? `Updated ${ago(updated, now)}` : ''}</span>
       </header>
 
       <section className={`verdict-block verdict-block-${level}`} data-testid="status-banner">
-        <StatusMark status={level === 'up' ? 'UP' : level === 'idle' ? 'PENDING' : 'DOWN'} />
+        <span className="verdict-icon"><Icon name={level === 'up' || level === 'idle' ? 'check' : 'alert'} size={20} /></span>
         <div>
           <h1>{headline}</h1>
-          <p>
-            {detail && <>{detail} </>}
-            <span className="stamp">{offline ? 'Status is temporarily unavailable. Retrying.' : updated ? `Updated ${ago(updated, now)}.` : 'Loading.'}</span>
-          </p>
+          <p>{offline ? 'Status is temporarily unavailable. Retrying.' : detail || 'Loading.'}</p>
         </div>
       </section>
 
       <section className="public-section" aria-labelledby="services-title">
         <div className="public-section-head">
-          <h2 id="services-title">Services</h2>
-          <span>Last 30 days</span>
+          <h2 id="services-title">System status</h2>
+          {monitors[0] && <span>{fmtDay(monitors[0].days[0].date)} – {fmtDay(monitors[0].days[monitors[0].days.length - 1].date)}</span>}
         </div>
         {data && monitors.length === 0 && <p className="table-note">No services are published yet.</p>}
         {monitors.map(m => (
@@ -55,7 +53,7 @@ export function StatusPage() {
               <span className={`service-state service-${m.status.toLowerCase()}`}>
                 {m.status === 'UP' ? 'Operational' : m.status === 'DOWN' ? `Down for ${since(m.statusSince, now)}` : 'Checking'}
               </span>
-              <span className="service-uptime">{pct(m.uptime30d)}</span>
+              <span className="service-uptime">{pct(m.uptime30d)} uptime</span>
             </div>
             <div className="days" role="img" aria-label={`${m.name}: daily uptime for the last 30 days`}>
               {m.days.map(d => (
