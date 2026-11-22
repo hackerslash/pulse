@@ -28,7 +28,7 @@ async function login(page: Page) {
   await page.goto('/admin')
   await page.getByLabel('Password').fill('e2e-pass')
   await page.getByRole('button', { name: 'Sign in' }).click()
-  await expect(page.getByRole('heading', { name: 'Pulse' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Pulse', exact: true })).toBeVisible()
 }
 
 test('full lifecycle: add, alert via webhook, recover, pause, delete', async ({ page }) => {
@@ -167,10 +167,22 @@ test('public status page shows only public monitors, never URLs', async ({ page,
   await expect(visitor.getByTestId('status-banner')).toContainText('All systems operational')
   await expect(visitor.getByTestId('service')).toHaveCount(2)
   await expect(visitor.getByTestId('service').first()).toContainText('Payments API')
-  await expect(visitor.getByTestId('service').first()).toContainText('Operational')
+  await expect(visitor.getByTestId('service').first()).toHaveAttribute('data-status', 'UP')
   await expect(visitor.locator('body')).not.toContainText('Internal DB')
   await expect(visitor.locator('body')).not.toContainText('127.0.0.1')
-  await expect(visitor.locator('.day')).toHaveCount(60)
+  await expect(visitor.locator('.seg')).toHaveCount(180)
+  await expect(visitor.getByRole('tab', { name: '1 day' })).toHaveAttribute('aria-selected', 'true')
+  expect(visitor.url()).not.toContain('granularity')
+  await visitor.getByRole('tab', { name: '1 week' }).click()
+  await expect(visitor.locator('.seg')).toHaveCount(52)
+  await expect(visitor.getByText('26 weeks ago')).toBeVisible()
+  expect(visitor.url()).toContain('granularity=week')
+  await visitor.getByRole('tab', { name: '1 month' }).click()
+  await expect(visitor.locator('.seg')).toHaveCount(24)
+  await expect(visitor.getByText('12 months ago')).toBeVisible()
+  await visitor.getByRole('tab', { name: '1 day' }).click()
+  await expect(visitor.locator('.seg')).toHaveCount(180)
+  await expect(visitor.locator('.seg-up').first()).toBeAttached()
   expect((await visitor.request.get('/api/monitors')).status()).toBe(401)
   await visitor.screenshot({ path: 'screenshots/07-public.png', fullPage: true })
 

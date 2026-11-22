@@ -37,6 +37,16 @@ interface CheckRepo extends JpaRepository<Check, Long> {
     int deleteOlderThan(Instant before);
 }
 
+interface DailyStatRepo extends JpaRepository<DailyStat, Long> {
+
+    Optional<DailyStat> findByMonitorIdAndStatDay(Long monitorId, java.time.LocalDate statDay);
+
+    List<DailyStat> findByStatDayGreaterThanEqual(java.time.LocalDate from);
+
+    @Modifying
+    void deleteByMonitorId(Long monitorId);
+}
+
 interface IncidentRepo extends JpaRepository<Incident, Long> {
 
     Optional<Incident> findFirstByMonitorIdAndResolvedAtIsNull(Long monitorId);

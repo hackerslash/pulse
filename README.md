@@ -10,7 +10,7 @@ e2e/       Playwright tests that boot both and drive the real UI
 
 ## Pages
 
-- **`/`** is the public status page: overall status, daily uptime bars for 30 days, and recent outages. It shows monitor names only, never URLs or error details. A monitor appears there unless you switch off "Show on public status page" or pause it.
+- **`/`** is the public status page: overall status, uptime bars, active and past incidents. Visitors choose the bar size: **1 day** (last 90 days), **1 week** (last 26 weeks) or **1 month** (last 12 months), also settable with `?granularity=week`. It shows monitor names only, never URLs or error details. A monitor appears there unless you switch off "Show on public status page" or pause it.
 - **`/admin`** is the dashboard, behind a password login (HttpOnly session cookie, 30 days). Scripts can use HTTP Basic instead (any username). Changing the password signs everyone out.
 
 ## Run it
@@ -22,7 +22,7 @@ docker compose up -d --build        # http://localhost:8080 (status) · /admin (
 
 If `PULSE_PASSWORD` is unset, no one can log in to the admin side. The public page still works.
 
-Data lives in the `pulse-data` volume (`/data/pulse.mv.db`). Checks older than 30 days are pruned nightly.
+Data lives in the `pulse-data` volume (`/data/pulse.mv.db`). Raw checks older than 30 days are pruned nightly; per-day uptime totals (`daily_stats`) are kept, which is what the weekly and monthly bars use. Existing history is backfilled into them on first start.
 
 ## Develop
 
@@ -68,7 +68,7 @@ Everything except `/api/public/*`, `/api/login` and `/api/logout` needs a sessio
 
 | Method | Path | |
 |---|---|---|
-| GET | `/api/public/status` | public: published monitors, 30 daily uptime buckets, last 10 incidents |
+| GET | `/api/public/status?granularity=day\|week\|month` | public: published monitors with uptime buckets (90 days, 26 weeks or 12 months), last 10 incidents |
 | POST | `/api/login` · `/api/logout` | `{password}` sets / clears the session cookie |
 | GET | `/api/monitors` | monitors + 24h/30d uptime, avg latency, last 60 checks |
 | POST/PUT/DELETE | `/api/monitors[/{id}]` | `{name, url, intervalSeconds, isPublic}` |

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-11-22T07:22:39+00:00",
+  "generatedAt": "2026-11-22T08:30:08+00:00",
   "title": "Design System: Pulse",
   "extensions": {
     "colorMeta": {
@@ -382,17 +382,13 @@
       }
     },
     "typographyMeta": {
-      "display": {
-        "displayName": "Display",
-        "purpose": "Public verdict only."
-      },
       "headline": {
         "displayName": "Headline",
         "purpose": "Page section heads; detail title at 34px; dialog heads at 24px."
       },
       "title": {
         "displayName": "Title",
-        "purpose": "Panel, log and public section heads."
+        "purpose": "Panel and log heads."
       },
       "figure": {
         "displayName": "Figure",
@@ -400,7 +396,7 @@
       },
       "column-head": {
         "displayName": "Column Head",
-        "purpose": "Table heads, ledger labels, public masthead line."
+        "purpose": "Table heads and ledger labels."
       },
       "body": {
         "displayName": "Body",
@@ -408,7 +404,7 @@
       },
       "control": {
         "displayName": "Control",
-        "purpose": "Buttons, badges, verdict, back link."
+        "purpose": "Buttons, badges, back link."
       },
       "label": {
         "displayName": "Label",
@@ -416,11 +412,15 @@
       },
       "public-headline": {
         "displayName": "Public Headline",
-        "purpose": "Public status page verdict headline (Public Sans 600, 18px); the page is set entirely in Public Sans via the .public override."
+        "purpose": "Public hero verdict (Mona Sans 500, 52px, -0.03em; 34px on phones). The public page is set entirely in Mona Sans via the .public override."
+      },
+      "public-section": {
+        "displayName": "Public Section",
+        "purpose": "Public section heads: Active incidents, Services, Past incidents (Mona Sans 500, 15px)."
       },
       "public-body": {
         "displayName": "Public Body",
-        "purpose": "Public status page service names, states and controls (Public Sans 500, 14px)."
+        "purpose": "Public service names, incident titles and uptime percentages (Mona Sans 500, 15px)."
       },
       "mono": {
         "displayName": "Mono",
@@ -436,17 +436,12 @@
       {
         "name": "panel",
         "value": "inset 0 1px 0 rgba(255, 255, 255, 0.06), 0 0 0 1px rgba(255, 255, 255, 0.07)",
-        "purpose": "Log, detail ledger, chart and data panels, public sections."
+        "purpose": "Log, detail ledger, chart and data panels, and the public cards."
       },
       {
         "name": "table-lift",
         "value": "inset 0 1px 0 rgba(255, 255, 255, 0.06), 0 0 0 1px rgba(255, 255, 255, 0.07), 0 20px 40px -24px rgba(0, 0, 0, 0.6)",
         "purpose": "The monitor table panel."
-      },
-      {
-        "name": "verdict-lift",
-        "value": "inset 0 1px 0 rgba(255, 255, 255, 0.06), 0 0 0 1px rgba(255, 255, 255, 0.07), 0 24px 60px -30px rgba(0, 0, 0, 0.7)",
-        "purpose": "Public verdict card (ring swaps to the state colour)."
       },
       {
         "name": "sheet",
@@ -612,30 +607,38 @@
       "css": ":host{--ink:#eceff4} .ds-brand{display:inline-flex;align-items:center;gap:10px;color:var(--ink)} .ds-logo{width:32px;height:32px;display:block} .ds-wordmark{font:800 22px/1 'Manrope',system-ui,sans-serif;letter-spacing:-.02em}"
     },
     {
-      "name": "Public Verdict Card",
+      "name": "Public Hero",
       "kind": "card",
-      "refersTo": "glass-card-public",
-      "description": "Verdict block on the public page: 40px state circle, 18px 600 headline, one ink-3 line.",
-      "html": "<section class=\"ds-verdict\"><span class=\"ds-vicon\"><svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"m5 12 5 5 9-10\"/></svg></span><div><h1>All systems operational</h1><p>Every service is responding normally.</p></div></section>",
-      "css": ":host{--ink:#eceff4;--ink-3:#8a93a3;--hair:rgba(255,255,255,.07);--glass:rgba(26,31,40,.58);--green:#30d158;--public-font:'Public Sans',-apple-system,BlinkMacSystemFont,system-ui,sans-serif} .ds-verdict{display:flex;align-items:center;gap:16px;width:420px;padding:20px;border-radius:16px;background:var(--glass);box-shadow:inset 0 1px 0 rgba(255,255,255,.06),0 0 0 1px var(--hair);color:var(--ink);font-family:var(--public-font);letter-spacing:-.006em} .ds-vicon{flex:none;display:grid;place-items:center;width:40px;height:40px;border-radius:50%;background:var(--green);color:#0a0d12} .ds-verdict h1{margin:0;font:600 18px/1.2 var(--public-font);letter-spacing:-.015em} .ds-verdict p{margin:2px 0 0;font:14px/1.3 var(--public-font);color:var(--ink-3)}"
+      "refersTo": "public-headline",
+      "description": "Full-bleed public hero: 36px status square icon beside the 52px 500 headline, an ink-3 subline, a hairline divider.",
+      "html": "<section class=\"ds-hero\"><div class=\"ds-hline\"><span class=\"ds-hico\"></span><h1>All systems operational</h1></div><p>5 of 5 services operational · Updated 12s ago</p></section>",
+      "css": ":host{--ink:#eceff4;--ink-2:#b4bcc8;--ink-3:#8a93a3;--hair:rgba(255,255,255,.07);--hair-2:rgba(255,255,255,.12);--fill:rgba(255,255,255,.06);--glass:rgba(26,31,40,.58);--green:#30d158;--green-tint:rgba(48,209,88,.14);--red:#ff453a;--red-ink:#ff6b62;--red-tint:rgba(255,69,58,.16);--orange:#ff9f0a;--public-font:'Mona Sans',-apple-system,BlinkMacSystemFont,system-ui,sans-serif} .ds-hero{width:560px;padding:40px 0 36px;border-bottom:1px solid var(--hair);color:var(--ink);font-family:var(--public-font)} .ds-hline{display:flex;align-items:center;gap:16px} .ds-hico{flex:none;display:grid;place-items:center;width:36px;height:36px;border-radius:11px;background:var(--green-tint);box-shadow:inset 0 0 0 1px rgba(48,209,88,.3)} .ds-hico::after{content:'';width:14px;height:14px;border-radius:4px;background:var(--green)} .ds-hero h1{margin:0;font:500 40px/1.04 var(--public-font);letter-spacing:-.03em} .ds-hero p{margin:14px 0 0 52px;font-size:15px;color:var(--ink-3)}"
     },
     {
-      "name": "Public Day Strip",
-      "kind": "custom",
-      "refersTo": "",
-      "description": "Thirty daily uptime cells per service on the public page, 32px tall.",
-      "html": "<div class=\"ds-days\"><span class=\"ds-day ds-e\"></span><span class=\"ds-day ds-e\"></span><span class=\"ds-day ds-e\"></span><span class=\"ds-day ds-e\"></span><span class=\"ds-day ds-e\"></span><span class=\"ds-day ds-e\"></span><span class=\"ds-day ds-e\"></span><span class=\"ds-day ds-e\"></span><span class=\"ds-day ds-e\"></span><span class=\"ds-day ds-e\"></span><span class=\"ds-day ds-e\"></span><span class=\"ds-day ds-e\"></span><span class=\"ds-day ds-e\"></span><span class=\"ds-day ds-e\"></span><span class=\"ds-day ds-e\"></span><span class=\"ds-day ds-e\"></span><span class=\"ds-day ds-e\"></span><span class=\"ds-day ds-e\"></span><span class=\"ds-day ds-e\"></span><span class=\"ds-day ds-e\"></span><span class=\"ds-day ds-u\"></span><span class=\"ds-day ds-u\"></span><span class=\"ds-day ds-u\"></span><span class=\"ds-day ds-u\"></span><span class=\"ds-day ds-u\"></span><span class=\"ds-day ds-m\"></span><span class=\"ds-day ds-w\"></span><span class=\"ds-day ds-u\"></span><span class=\"ds-day ds-x\"></span><span class=\"ds-day ds-u\"></span></div>",
-      "css": ":host{--bg:#0a0d12;--ink:#eceff4;--ink-2:#b4bcc8;--ink-3:#8a93a3;--hair:rgba(255,255,255,.07);--hair-2:rgba(255,255,255,.12);--fill:rgba(255,255,255,.06);--fill-2:rgba(255,255,255,.1);--fill-3:rgba(255,255,255,.14);--glass:rgba(26,31,40,.58);--blue:#0a84ff;--blue-2:#409cff;--green:#30d158;--green-tint:rgba(48,209,88,.14);--red:#ff453a;--red-ink:#ff6b62;--red-tint:rgba(255,69,58,.16);--red-wash:rgba(255,69,58,.07);--r-s:8px;--r-m:12px;--r-l:16px;--ease:cubic-bezier(.22,.8,.24,1);--sans:'Public Sans',-apple-system,system-ui,sans-serif;--serif:'Source Serif 4',Georgia,serif;--mono:ui-monospace,'SF Mono',Menlo,monospace} .ds-days{display:grid;grid-template-columns:repeat(30,minmax(0,1fr));gap:3px;width:560px} .ds-day{height:32px;border-radius:2px;transition:filter 160ms var(--ease)} .ds-day:hover{filter:brightness(1.25)} .ds-u{background:rgba(48,209,88,.8)} .ds-m{background:rgba(48,209,88,.45)} .ds-w{background:#ff9f0a} .ds-x{background:var(--red)} .ds-e{background:var(--fill)}"
+      "name": "Public Service Row",
+      "kind": "card",
+      "refersTo": "public-service-row",
+      "description": "Services card row: 16px state icon, name, thin uptime bar segments, uptime percentage; the bar size follows the 1 day / 1 week / 1 month control.",
+      "html": "<div class=\"ds-card\"><article class=\"ds-svc\"><span class=\"ds-sico\"></span><h3>API</h3><div class=\"ds-segs\"><span class=\"ds-seg e\"></span><span class=\"ds-seg e\"></span><span class=\"ds-seg e\"></span><span class=\"ds-seg e\"></span><span class=\"ds-seg e\"></span><span class=\"ds-seg e\"></span><span class=\"ds-seg e\"></span><span class=\"ds-seg e\"></span><span class=\"ds-seg u\"></span><span class=\"ds-seg u\"></span><span class=\"ds-seg u\"></span><span class=\"ds-seg u\"></span><span class=\"ds-seg u\"></span><span class=\"ds-seg u\"></span><span class=\"ds-seg u\"></span><span class=\"ds-seg u\"></span><span class=\"ds-seg u\"></span><span class=\"ds-seg u\"></span><span class=\"ds-seg u\"></span><span class=\"ds-seg u\"></span><span class=\"ds-seg u\"></span><span class=\"ds-seg u\"></span><span class=\"ds-seg m\"></span><span class=\"ds-seg u\"></span><span class=\"ds-seg u\"></span><span class=\"ds-seg w\"></span><span class=\"ds-seg u\"></span><span class=\"ds-seg u\"></span><span class=\"ds-seg x\"></span><span class=\"ds-seg u\"></span><span class=\"ds-seg u\"></span><span class=\"ds-seg u\"></span><span class=\"ds-seg m\"></span><span class=\"ds-seg u\"></span></div><span class=\"ds-pct\">99.98%</span></article></div><div class=\"ds-axis\"><span>90 days ago</span><span>Today</span></div>",
+      "css": ":host{--ink:#eceff4;--ink-2:#b4bcc8;--ink-3:#8a93a3;--hair:rgba(255,255,255,.07);--hair-2:rgba(255,255,255,.12);--fill:rgba(255,255,255,.06);--glass:rgba(26,31,40,.58);--green:#30d158;--green-tint:rgba(48,209,88,.14);--red:#ff453a;--red-ink:#ff6b62;--red-tint:rgba(255,69,58,.16);--orange:#ff9f0a;--public-font:'Mona Sans',-apple-system,BlinkMacSystemFont,system-ui,sans-serif} .ds-card{width:560px;border-radius:12px;background:var(--glass);box-shadow:inset 0 1px 0 rgba(255,255,255,.06),0 0 0 1px var(--hair);font-family:var(--public-font);color:var(--ink)} .ds-svc{display:grid;grid-template-columns:16px 80px minmax(0,1fr) 64px;align-items:center;gap:16px;min-height:58px;padding:0 20px} .ds-svc h3{margin:0;font:500 15px/1.3 var(--public-font);letter-spacing:-.01em} .ds-sico{display:grid;place-items:center;width:16px;height:16px;border-radius:5px;background:var(--green-tint);box-shadow:inset 0 0 0 1px rgba(48,209,88,.3)} .ds-sico::after{content:'';width:6px;height:6px;border-radius:50%;background:var(--green)} .ds-pct{text-align:right;font:500 15px var(--public-font)} .ds-segs{display:flex;gap:1.5px;height:28px} .ds-seg{flex:1;min-width:0;border-radius:1.5px;transition:filter 160ms cubic-bezier(.22,.8,.24,1)} .ds-seg:hover{filter:brightness(1.3)} .ds-u{background:rgba(48,209,88,.85)} .ds-m{background:rgba(48,209,88,.5)} .ds-w{background:var(--orange)} .ds-x{background:var(--red)} .ds-e{background:var(--fill)} .ds-axis{display:flex;justify-content:space-between;width:560px;padding:10px 20px 0;box-sizing:border-box;font:12.5px var(--public-font);color:var(--ink-3)}"
+    },
+    {
+      "name": "Public Incident Tags",
+      "kind": "chip",
+      "refersTo": "public-tag-red",
+      "description": "Capsule tags on public incident entries: red Outage, amber Ongoing, green Resolved.",
+      "html": "<span class=\"ds-tag ds-tr\">Outage</span> <span class=\"ds-tag ds-ta\">Ongoing</span> <span class=\"ds-tag ds-tg\">Resolved</span>",
+      "css": ":host{--ink:#eceff4;--ink-2:#b4bcc8;--ink-3:#8a93a3;--hair:rgba(255,255,255,.07);--hair-2:rgba(255,255,255,.12);--fill:rgba(255,255,255,.06);--glass:rgba(26,31,40,.58);--green:#30d158;--green-tint:rgba(48,209,88,.14);--red:#ff453a;--red-ink:#ff6b62;--red-tint:rgba(255,69,58,.16);--orange:#ff9f0a;--public-font:'Mona Sans',-apple-system,BlinkMacSystemFont,system-ui,sans-serif} :host{--yellow:#ffd60a;--yellow-tint:rgba(255,214,10,.14)} .ds-tag{display:inline-flex;align-items:center;padding:2px 9px;border-radius:999px;border:1px solid transparent;font:500 12px/1.5 var(--public-font)} .ds-tr{color:var(--red-ink);background:var(--red-tint);border-color:rgba(255,69,58,.3)} .ds-ta{color:var(--yellow);background:var(--yellow-tint);border-color:rgba(255,214,10,.28)} .ds-tg{color:var(--green);background:var(--green-tint);border-color:rgba(48,209,88,.3)}"
     }
   ],
   "narrative": {
     "northStar": "The Native Instrument",
-    "overview": "Pulse reads like a first-party macOS dark-mode utility that happens to keep a ledger. A deep slate ground carries translucent slate panels, with true blurred glass kept for the chrome that floats above the page; inside the panels, the structure is the old almanac's: ruled ledger figures, hairline tables, small-caps column heads in a book serif, and a banded response-time \"tide\" chart. The glass is the material, the ledger is the grammar. Nothing decorates; every colour on screen is a state or an action.\n\nDensity is operator-grade. A monitor row is 60px tall and carries name, host or error, state, 24-hour uptime, response, a 40-check tick strip and last-checked time on one line. The public page is the same world at a slower reading pace: one verdict card, then each service's 30-day day strip.\n\nTwo earlier worlds were rejected by the user and are anti-references. The neon aurora glassmorphism (multicolour blobs, glow, gradient text) was rejected first. The light paper almanac (warm paper #f7f5ef, ink rules, magenta hazard) was rejected next as \"very AI\" and not modern. This world keeps the almanac's layout, fonts and tide chart and drops its paper; it keeps glass and drops the aurora's colour.",
+    "overview": "Pulse reads like a first-party macOS dark-mode utility that happens to keep a ledger. A deep slate ground carries translucent slate panels, with true blurred glass kept for the chrome that floats above the page; inside the panels, the structure is the old almanac's: ruled ledger figures, hairline tables, small-caps column heads in a book serif, and a banded response-time \"tide\" chart. The glass is the material, the ledger is the grammar. Nothing decorates; every colour on screen is a state or an action.\n\nDensity is operator-grade. A monitor row is 60px tall and carries name, host or error, state, 24-hour uptime, response, a 40-check tick strip and last-checked time on one line. The public page is the same world at a slower reading pace, laid out like a hosted status page (status.altare.gg is the layout reference): a full-bleed hero verdict, then incident cards and one \"Services\" card of rows, each ending in a strip of uptime bars.\n\nTwo earlier worlds were rejected by the user and are anti-references. The neon aurora glassmorphism (multicolour blobs, glow, gradient text) was rejected first. The light paper almanac (warm paper #f7f5ef, ink rules, magenta hazard) was rejected next as \"very AI\" and not modern. This world keeps the almanac's layout, fonts and tide chart and drops its paper; it keeps glass and drops the aurora's colour.",
     "keyCharacteristics": [
       "Deep slate ground lit only by faint monochrome slate radial light, never hued blobs.",
       "Blurred glass (28px blur, 170% saturation) only on floating chrome: the sticky bar, dialogs, toasts and tooltips. In-flow panels are translucent slate fills without blur. Both are edged by a white hairline and an inset top highlight.",
       "Apple dark system colours carry meaning only: green up, red down, yellow pending, blue action/focus/selection.",
-      "Source Serif 4 for headings, figures and small-caps heads; Public Sans for every control and body line; tabular numerals everywhere.",
+      "Source Serif 4 for dashboard headings, figures and small-caps heads; Public Sans for every dashboard control and body line; Mona Sans for the whole public page; tabular numerals everywhere.",
       "Continuous corners on an 8 / 12 / 16 / 20px scale; capsules for state badges.",
       "Short ease-out motion (200ms state, 240ms entry) and full reduced-motion and reduced-transparency fallbacks."
     ],
@@ -652,7 +655,7 @@
       },
       {
         "name": "The Two-Voice Rule",
-        "body": "Serif speaks for structure (headings, figures, column heads, tide soundings in italic); sans speaks for everything you click or read in running text. A control is never set in the serif.",
+        "body": "On the dashboard, serif speaks for structure (headings, figures, column heads, tide soundings in italic); sans speaks for everything you click or read in running text. A control is never set in the serif. The public page is the one exception: it is one voice, Mona Sans, with no serif.",
         "section": "typography"
       },
       {
@@ -662,7 +665,7 @@
       },
       {
         "name": "The Glass-For-Chrome Rule",
-        "body": "Backdrop blur is for surfaces that float over content: the sticky bar, dialogs, toasts and tooltips. In-flow containers (table, log, panels, ledger, verdict card, public sections, login) are translucent fills without blur. Rows, cells and controls are never their own glass.",
+        "body": "Backdrop blur is for surfaces that float over content: the sticky bar, dialogs, toasts and tooltips. In-flow containers (table, log, panels, ledger, public cards, login) are translucent fills without blur. Rows, cells and controls are never their own glass.",
         "section": "elevation"
       },
       {
@@ -674,11 +677,12 @@
     "dos": [
       "**Do** give new in-flow containers a translucent glass fill without blur, reserve backdrop blur for floating chrome, and edge both with the 1px white ring and the 6–8% inset top highlight.",
       "**Do** bind each system colour to its one meaning: green up, red down, yellow pending, blue action, focus and selection.",
-      "**Do** set headings, figures and column heads in Source Serif 4 600, and every control in Public Sans 500.",
+      "**Do** set dashboard headings, figures and column heads in Source Serif 4 600, and every dashboard control in Public Sans 500; set the whole public page in Mona Sans (hero 500, everything else 500, never bold).",
       "**Do** keep numerals tabular and lining, and right-align numeric columns.",
       "**Do** keep motion to state changes: 200ms colour and background transitions, 240ms entries, all on `cubic-bezier(0.22, 0.8, 0.24, 1)`. A down mark pulses twice (0.8s each) when it appears and then holds still; only loading skeletons loop.",
       "**Do** stay on the 8 / 12 / 16 / 20px corner scale, with capsules only for state badges.",
-      "**Do** keep the public page free of URLs and error details; it shows names, states and uptime only."
+      "**Do** keep the public page free of URLs and error details; it shows names, states and uptime only.",
+      "**Do** keep public status colour to the icon, the bar segments and the capsule tags, using the same green, red and yellow meanings."
     ],
     "donts": [
       "**Don't** use multicolour blobs, hued ambient gradients, glow, coloured drop shadows or gradient text; the aurora world was rejected for exactly this. Drop shadows are neutral black; colour appears in box-shadow only as 1px state rings and the 3px blue input focus ring.",
@@ -687,6 +691,7 @@
       "**Don't** make rows, cells or controls their own glass, or stack glass inside glass.",
       "**Don't** add row sparklines; the 40-check tick strip carries the row.",
       "**Don't** set controls in the serif or use the system face for display type.",
+      "**Don't** introduce another family on the public page or carry Mona Sans into the dashboard; it is there because the user asked for status.altare.gg's font.",
       "**Don't** add kickers or eyebrow labels above headings."
     ]
   }

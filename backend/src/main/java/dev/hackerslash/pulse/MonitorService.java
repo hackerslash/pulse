@@ -2,12 +2,16 @@ package dev.hackerslash.pulse;
 
 import java.time.Duration;
 import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneOffset;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,16 +25,18 @@ public class MonitorService {
     private final MonitorRepo monitors;
     private final CheckRepo checks;
     private final IncidentRepo incidents;
+    private final DailyStatRepo dailyStats;
     private final Prober prober;
     private final Notifier notifier;
     private final TransactionTemplate tx;
     private final ExecutorService pool = Executors.newVirtualThreadPerTaskExecutor();
     private final Set<Long> inFlight = ConcurrentHashMap.newKeySet();
 
-    MonitorService(MonitorRepo monitors, CheckRepo checks, IncidentRepo incidents, Prober prober, Notifier notifier, TransactionTemplate tx) {
+    MonitorService(MonitorRepo monitors, CheckRepo checks, IncidentRepo incidents, DailyStatRepo dailyStats, Prober prober, Notifier notifier, TransactionTemplate tx) {
         this.monitors = monitors;
         this.checks = checks;
         this.incidents = incidents;
+        this.dailyStats = dailyStats;
         this.prober = prober;
         this.notifier = notifier;
         this.tx = tx;
@@ -68,6 +74,11 @@ public class MonitorService {
         tx.executeWithoutResult(s -> {
             if (!monitors.existsById(id)) return;
             checks.save(new Check(id, now, r));
+            LocalDate day = LocalDate.ofInstant(now, ZoneOffset.UTC);
+            DailyStat stat = dailyStats.findByMonitorIdAndStatDay(id, day).orElseGet(() -> new DailyStat(id, day));
+            stat.total++;
+            if (r.up()) stat.up++;
+            dailyStats.save(stat);
             monitors.recordCheck(id, next, changed ? now : m.statusSince, now, r.latencyMs(), r.statusCode(), r.error());
             if (!changed) return;
             if (next == Monitor.Status.DOWN) {
@@ -88,7 +99,21 @@ public class MonitorService {
     public void delete(Long id) {
         checks.deleteByMonitorId(id);
         incidents.deleteByMonitorId(id);
+        dailyStats.deleteByMonitorId(id);
         monitors.deleteById(id);
+    }
+
+    @EventListener(ApplicationReadyEvent.class)
+    @Transactional
+    void backfillDailyStats() {
+        if (dailyStats.count() > 0) return;
+        for (Object[] r : checks.daily(Instant.EPOCH)) {
+            LocalDate day = r[1] instanceof java.sql.Date d ? d.toLocalDate() : (LocalDate) r[1];
+            DailyStat s = new DailyStat(((Number) r[0]).longValue(), day);
+            s.total = ((Number) r[2]).longValue();
+            s.up = ((Number) r[3]).longValue();
+            dailyStats.save(s);
+        }
     }
 
     @Scheduled(cron = "0 17 3 * * *")

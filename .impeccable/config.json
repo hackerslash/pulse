@@ -1,0 +1,14 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "overused-font",
+        "value": "mona sans",
+        "createdAt": "2026-11-22T08:26:17.814Z",
+        "reason": "user confirmed: asked to bring the font, UI and UX of status.altare.gg, which is set in Mona Sans"
+      }
+    ]
+  }
+}

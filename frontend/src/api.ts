@@ -52,8 +52,11 @@ export interface Webhook {
 
 export type MonitorForm = Pick<Monitor, 'name' | 'url' | 'intervalSeconds' | 'isPublic'>
 
+export type Granularity = 'day' | 'week' | 'month'
+
 export interface PublicStatus {
-  monitors: { id: number; name: string; status: Status; statusSince: string; uptime30d: number | null; avgMs24h: number | null; days: { date: string; uptime: number | null }[] }[]
+  granularity: Granularity
+  monitors: { id: number; name: string; status: Status; statusSince: string; uptime: number | null; buckets: { start: string; uptime: number | null }[] }[]
   incidents: { id: number; monitor: string; startedAt: string; resolvedAt: string | null }[]
 }
 export type WebhookForm = Pick<Webhook, 'name' | 'url' | 'enabled'>
@@ -73,7 +76,7 @@ async function call<T>(method: string, path: string, body?: unknown): Promise<T>
 }
 
 export const api = {
-  publicStatus: () => call<PublicStatus>('GET', '/public/status'),
+  publicStatus: (granularity: Granularity) => call<PublicStatus>('GET', `/public/status?granularity=${granularity}`),
   me: () => call<{ ok: boolean }>('GET', '/me'),
   login: (password: string) => call<{ ok: boolean }>('POST', '/login', { password }),
   logout: () => call<void>('POST', '/logout'),
