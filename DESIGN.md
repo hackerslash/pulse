@@ -76,6 +76,12 @@ typography:
     fontSize: "13px"
     fontWeight: 500
     lineHeight: 1.35
+  wordmark:
+    fontFamily: "Manrope, Public Sans, system-ui, sans-serif"
+    fontSize: "22px"
+    fontWeight: 800
+    lineHeight: 1
+    letterSpacing: "-0.02em"
   public-headline:
     fontFamily: "Public Sans, -apple-system, BlinkMacSystemFont, system-ui, sans-serif"
     fontSize: "18px"
@@ -210,7 +216,7 @@ A near-monochrome slate field where the only saturated colour is Apple's dark sy
 - **Light System Blue** (system-blue-light): primary hover, caret, tide curve, crest label and cursor dot.
 
 ### Secondary (status palette)
-- **System Green** (system-green): up. Up marks, tick strips, day cells at 99.9%+, capsule badge text, the "on" switch track, and the green stroke in the logo.
+- **System Green** (system-green): up. Up marks, tick strips, day cells at 99.9%+, capsule badge text, the "on" switch track, and the green of the logo mark.
 - **System Red** (system-red) and **Red Ink** (red-ink): down. Solid red for marks, ticks, day cells and the danger button; the lighter red-ink for down text on glass (row error, badge, ledger alert, ongoing incidents). **Red Tint** backs capsules, alert strips and form errors; **Red Wash** tints a whole down row.
 - **System Yellow** (system-yellow): pending, plus the config notice bar on its tint.
 - **System Orange** (system-orange): only the 95–99% day cell on the public strip.
@@ -241,7 +247,7 @@ Both families are self-hosted as variable woff2 (latin and latin-ext subsets) fr
 ### Hierarchy
 - **Display** (600, 42px, 1.2, -0.025em): the public verdict ("All systems operational", "Partial outage"); 30px on phones.
 - **Headline** (600, 30px, 1.2): page sections ("Monitors"); the detail title runs at 34px, -0.02em (28px on phones); dialog heads at 24px.
-- **Title** (600, 19px): panel and log heads ("Incident log", "Response time"); public section heads at 21px; the wordmark at 21px.
+- **Title** (600, 19px): panel and log heads ("Incident log", "Response time"); public section heads at 21px.
 - **Figure** (600, 20px, tabular lining): ledger values. The first figure in the Monitors ledger is the hero at 32px, -0.02em; detail ledger values at 24px.
 - **Column Head** (600, 15px, all small caps, 0.05em, ink-3): table heads and ledger labels. The public masthead line uses the same voice at 500.
 - **Body** (400, 15px, 1.5): running text; descriptions cap at 56ch.
@@ -322,7 +328,7 @@ The filter tabs (All / Up / Down / Paused), chart range and check-interval picke
 - **Switch:** 42×26px native-style switch, grey 32% track, white 22px knob, system green when on, 240ms slide.
 
 ### Navigation
-The sticky 56px glass bar (bar-bg rgba(14, 18, 24, 0.74) under the 28px blur, 7% hairline below): logo mark and serif wordmark, the verdict ("All systems operational" in ink-2, or "2 services down" in red-ink 600 with the red diamond), then right-aligned quiet actions, the filled blue "New monitor" with its `N` kbd, and an icon-only sign-out. On phones it wraps to two lines with icon-only actions.
+The sticky 56px glass bar (bar-bg rgba(14, 18, 24, 0.74) under the 28px blur, 7% hairline below): logo mark and the Manrope wordmark, the verdict ("All systems operational" in ink-2, or "2 services down" in red-ink 600 with the red diamond), then right-aligned quiet actions, the filled blue "New monitor" with its `N` kbd, and an icon-only sign-out. On phones it wraps to two lines with icon-only actions.
 
 ### Monitor Row
 The core unit. A full-width button row in the table panel: mark, name (15px 600, lock icon if private) over the host in 12.5px mono, or, when down, the error in Public Sans 500 13px red-ink, state badge, uptime and response in tabular 14px 500, the tick strip, and checked time over its interval. Hover lifts to 4% white; a down row carries the red wash throughout and red-tint on hover; a paused row goes ink-3 and fades its ticks to 40%. Loading rows are a slow skeleton sweep.
@@ -337,7 +343,7 @@ The response-time chart, carried from the almanac. A 240px plot on a banded, non
 Thirty equal cells, 32px tall, 3px gaps, 2px corners, per service: 80% green at 99.9%+, 45% green at 99–99.9%, orange at 95–99%, red under 95%, fill when empty. Hover brightens a cell and shows a blurred glass-strong tooltip with date and uptime. One "30 days ago … Today" axis closes the card; no per-row dates, no legend.
 
 ### Public page
-Hosted-status-page layout, set entirely in Public Sans (`.public` points --serif at --sans, so headings drop the serif here while the dashboard keeps Source Serif 4). Header: logo, 17px wordmark, hairline-divided "Status", and "Updated …" at right (hidden on phones). A glass verdict card with a 40px solid circle (green check, red alert, grey while loading), an 18px/600 headline and one ink-3 line; outages add a red 30% ring. "System status" card with the date range at right; each row is name + 7px dot, ink-3 state (only down is coloured), "100% uptime", then 32px day cells. Section titles 15px/600; table heads 12px sans.
+Hosted-status-page layout, set entirely in Public Sans (`.public` points --serif at --sans, so headings drop the serif here while the dashboard keeps Source Serif 4). Header: logo, 20px Manrope wordmark, hairline-divided "Status", and "Updated …" at right (hidden on phones). A glass verdict card with a 40px solid circle (green check, red alert, grey while loading), an 18px/600 headline and one ink-3 line; outages add a red 30% ring. "System status" card with the date range at right; each row is name + 7px dot, ink-3 state (only down is coloured), "100% uptime", then 32px day cells. Section titles 15px/600; table heads 12px sans.
 
 ### Disclosure
 The webhook payload `<details>` hides the native marker and leads its summary (ink-2, 500) with a drawn 14px chevron that rotates 90° over 200ms when open; the sample sits in a 12px-corner, 30% black inset block in 12.5px mono.

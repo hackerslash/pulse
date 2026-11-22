@@ -23,6 +23,14 @@
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 @font-face {
+  font-family: 'Manrope';
+  font-style: normal;
+  font-weight: 200 800;
+  font-display: swap;
+  src: url('/fonts/manrope-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
   font-family: 'Public Sans';
   font-style: normal;
   font-weight: 100 900;
@@ -170,8 +178,8 @@ kbd {
   border-bottom: 1px solid var(--hair);
 }
 .brand { display: inline-flex; align-items: center; gap: 10px; color: var(--ink); text-decoration: none; }
-.logo { width: 28px; height: 28px; display: block; border-radius: 7px; }
-.wordmark { font: 600 21px/1 var(--serif); letter-spacing: -0.015em; }
+.logo { display: block; width: 32px; height: 32px; }
+.wordmark { font: 800 22px/1 'Manrope', var(--sans); letter-spacing: -0.02em; color: var(--ink); }
 .verdict { display: inline-flex; align-items: center; gap: 9px; font-size: 14px; font-weight: 500; color: var(--ink-2); }
 .verdict-down { color: var(--red-ink); font-weight: 600; }
 .bar-actions { margin-left: auto; display: flex; align-items: center; gap: 4px; }
@@ -472,8 +480,8 @@ input.mono { font: 14px var(--mono); }
   animation: enter 240ms var(--ease);
 }
 .public-mast { display: flex; align-items: center; gap: 12px; height: 76px; }
-.public-mast .logo { width: 26px; height: 26px; }
-.public-mast .wordmark { font-size: 17px; letter-spacing: -0.02em; }
+.public-mast .logo { width: 30px; height: 30px; }
+.public-mast .wordmark { font-size: 20px; }
 .public-kind { padding-left: 12px; border-left: 1px solid var(--hair-2); font-size: 14px; color: var(--ink-3); line-height: 18px; }
 .mast-stamp { margin-left: auto; font-size: 13px; color: var(--ink-3); }
 .verdict-block {

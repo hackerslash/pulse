@@ -168,7 +168,7 @@ export function useToasts() {
 }
 
 export function Logo() {
-  return <img className="logo" src="/logo.png" width="28" height="28" alt="" />
+  return <img className="logo" src="/logo.png" width="32" height="32" alt="" />
 }
 
 export function Icon({ name, size = 16 }: { name: keyof typeof ICONS; size?: number }) {
