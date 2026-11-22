@@ -24,6 +24,8 @@ export function StatusPage() {
   const operational = monitors.filter(m => m.status === 'UP' && !m.degraded).length
   const level = !data ? 'idle' : down > 0 ? (down * 2 >= monitors.length ? 'major' : 'partial') : degraded > 0 ? 'degraded' : 'up'
   const headline = { idle: 'Checking status…', up: 'All systems operational', degraded: 'Degraded performance', partial: 'Partial outage', major: 'Major outage' }[level]
+  useEffect(() => { if (data?.title) document.title = `${data.title} · Status` }, [data?.title])
+
   const option = OPTIONS.find(o => o.id === data?.granularity) ?? OPTIONS[0]
   const active = data?.incidents.filter(i => !i.resolvedAt) ?? []
   const past = data?.incidents.filter(i => i.resolvedAt) ?? []
@@ -32,7 +34,9 @@ export function StatusPage() {
     <div className="public">
       <header className="public-mast">
         <div className="public-in">
-          <span className="brand"><Logo /><span className="wordmark">Pulse</span></span>
+          <span className="brand">
+            {data?.title ? <strong className="wordmark">{data.title}</strong> : (data || offline) && <><Logo /><span className="wordmark">Pulse</span></>}
+          </span>
           <span className="public-kind">Status</span>
         </div>
       </header>
@@ -93,11 +97,13 @@ export function StatusPage() {
           ) : (
             <>
               <div className="pcard">
-                {monitors.map(m => (
-                  <article className="svc" key={m.id} data-testid="service" data-status={m.degraded && m.status === 'UP' ? 'DEGRADED' : m.status}>
-                    <span className={`svc-ico svc-ico-${m.degraded && m.status === 'UP' ? 'degraded' : m.status.toLowerCase()}`} aria-hidden />
+                {monitors.map(m => {
+                  const state = m.status === 'UP' && m.degraded ? 'DEGRADED' : m.status
+                  return (
+                  <article className="svc" key={m.id} data-testid="service" data-status={state}>
+                    <span className={`svc-ico svc-ico-${state.toLowerCase()}`} aria-hidden />
                     <h3>{m.name}{m.detail && <small className="svc-detail">{m.detail}</small>}</h3>
-                    <span className="sr-only">{m.status === 'UP' ? (m.degraded ? 'Degraded' : 'Operational') : m.status === 'DOWN' ? `Down for ${since(m.statusSince, now)}` : 'Checking'}</span>
+                    <span className="sr-only">{{ UP: 'Operational', DEGRADED: 'Degraded', DOWN: `Down for ${since(m.statusSince, now)}`, PENDING: 'Checking' }[state]}</span>
                     <div className="segs" role="img" aria-label={`${m.name}: uptime over the last ${option.span}`}>
                       {m.buckets.map(b => (
                         <span key={b.start} className={`seg ${segClass(b.uptime, b.degraded)}`}>
@@ -107,7 +113,8 @@ export function StatusPage() {
                     </div>
                     <span className="svc-pct">{pct(m.uptime)}</span>
                   </article>
-                ))}
+                  )
+                })}
               </div>
               {monitors.length > 0 && (
                 <div className="svc-axis" aria-hidden>

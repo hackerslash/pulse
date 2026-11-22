@@ -58,6 +58,7 @@ export type MonitorForm = Pick<Monitor, 'name' | 'url' | 'intervalSeconds' | 'is
 export type Granularity = 'day' | 'week' | 'month'
 
 export interface PublicStatus {
+  title: string | null
   granularity: Granularity
   bucketSeconds: number
   monitors: { id: number; name: string; status: Status; degraded: boolean; detail: string | null; statusSince: string; uptime: number | null; buckets: { start: string; uptime: number | null; degraded: number | null }[] }[]

@@ -15,7 +15,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
-@SpringBootTest(properties = {"spring.datasource.url=jdbc:h2:mem:flow", "pulse.tick=1h", "pulse.password=pw"})
+@SpringBootTest(properties = {"spring.datasource.url=jdbc:h2:mem:flow", "pulse.tick=1h", "pulse.password=pw", "pulse.title= LinkGenie "})
 @AutoConfigureMockMvc
 class MonitorFlowTest {
 
@@ -105,6 +105,7 @@ class MonitorFlowTest {
             assertThat(incidents.findAll()).isEmpty();
             String mine = "$.monitors[?(@.id == " + id + ")]";
             mvc.perform(get("/api/public/status"))
+                    .andExpect(jsonPath("$.title").value("LinkGenie"))
                     .andExpect(jsonPath(mine + ".degraded", contains(true)))
                     .andExpect(jsonPath(mine + ".detail", contains("4/10 up")))
                     .andExpect(jsonPath(mine + ".buckets[-1:].degraded", contains(100.0)));

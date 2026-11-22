@@ -41,7 +41,7 @@ docker compose up -d --build
 2. Add a monitor with a name, an HTTP or HTTPS URL, and a check interval. Enable public visibility for any service you want to publish.
 3. Open [the public status page](http://localhost:8080/) to see what visitors see. In the dashboard’s **Settings**, choose **1 day**, **1 week**, or **1 month** of uptime history.
 
-Compose stores the H2 database in the `pulse-data` volume at `/data`. Pulse prunes raw checks older than 30 days each night. Admin sign-in is disabled when `PULSE_PASSWORD` is empty. To change the password, update `.env` and run `docker compose up -d --force-recreate` to recreate the container. Existing sessions expire immediately after the new password takes effect.
+Compose stores the H2 database in the `pulse-data` volume at `/data`. Pulse prunes raw checks older than 30 days each night. Admin sign-in is disabled when `PULSE_PASSWORD` is empty. Set `PULSE_TITLE` in `.env` to name the public page after your service; the header shows it in place of the Pulse logo. To change the password, update `.env` and run `docker compose up -d --force-recreate` to recreate the container. Existing sessions expire immediately after the new password takes effect.
 
 ## Development
 
@@ -104,7 +104,7 @@ Send a session cookie or HTTP Basic credentials for admin API calls. For HTTP Ba
 
 | Method | Path | Purpose |
 |---|---|---|
-| GET | `/api/public/status` | public: published monitors with uptime buckets for the configured window (96 × 15 min, 84 × 2 h or 90 × 8 h), last 10 incidents |
+| GET | `/api/public/status` | public: the page title, published monitors with uptime buckets for the configured window (96 × 15 min, 84 × 2 h or 90 × 8 h), last 10 incidents |
 | GET/PUT | `/api/settings` | `{granularity: "day"\|"week"\|"month"}`, sets the public window |
 | POST | `/api/login` | Submit `{password}` to set the session cookie |
 | POST | `/api/logout` | Clear the session cookie |

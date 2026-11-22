@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Limit;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,18 +33,21 @@ public class PublicController {
 
     record PublicIncident(Long id, String monitor, Instant startedAt, Instant resolvedAt) {}
 
-    record Status(String granularity, long bucketSeconds, List<PublicMonitor> monitors, List<PublicIncident> incidents) {}
+    record Status(String title, String granularity, long bucketSeconds, List<PublicMonitor> monitors, List<PublicIncident> incidents) {}
 
     private final MonitorRepo monitors;
     private final CheckRepo checks;
     private final IncidentRepo incidents;
     private final SettingsController settings;
+    private final String title;
 
-    PublicController(MonitorRepo monitors, CheckRepo checks, IncidentRepo incidents, SettingsController settings) {
+    PublicController(MonitorRepo monitors, CheckRepo checks, IncidentRepo incidents, SettingsController settings,
+                     @Value("${pulse.title:}") String title) {
         this.monitors = monitors;
         this.checks = checks;
         this.incidents = incidents;
         this.settings = settings;
+        this.title = title.isBlank() ? null : title.strip();
     }
 
     @GetMapping({"/admin", "/admin/"})
@@ -89,6 +93,6 @@ public class PublicController {
         List<PublicIncident> recent = incidents.findAllByOrderByStartedAtDesc(Limit.of(100)).stream()
                 .filter(i -> names.containsKey(i.monitorId)).limit(10)
                 .map(i -> new PublicIncident(i.id, names.get(i.monitorId), i.startedAt, i.resolvedAt)).toList();
-        return new Status(g.name().toLowerCase(), g.seconds, list, recent);
+        return new Status(title, g.name().toLowerCase(), g.seconds, list, recent);
     }
 }
