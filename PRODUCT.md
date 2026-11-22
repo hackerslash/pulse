@@ -21,7 +21,7 @@ A single self-hosted container that holds both the private operator console and 
 
 ## Operating Context
 
-- It runs on a LAN home server (192.168.0.180:8095) in Docker, with data in an H2 file volume.
+- It runs on a self-hosted Docker instance, with data in an H2 file volume.
 - The operator usually arrives from a Slack, Discord or Telegram webhook alert and wants the failing monitor and its error immediately.
 - The dashboard polls every 5 seconds and the public page every 30 seconds.
 
@@ -37,7 +37,7 @@ A single self-hosted container that holds both the private operator console and 
 
 ## Brand Commitments
 
-- Name: **Pulse**. The ECG/heartbeat line mark is the only existing asset (`frontend/public/favicon.svg`).
+- Name: **Pulse**. The ECG/heartbeat line mark is the only existing asset (`frontend/public/logo.png`).
 - The user rejected the first visual world outright: aurora gradient blobs, glassmorphism, purple-cyan gradients. None of it may return.
 
 ## Evidence on Hand

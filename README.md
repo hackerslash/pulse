@@ -1,49 +1,72 @@
-# Pulse
+<p align="center">
+  <img src="frontend/public/logo.png" alt="Pulse heartbeat logo" width="80" height="80">
+</p>
 
-Self-hosted uptime monitor: a Spring Boot API that checks your URLs on a schedule, plus a glassmorphism React dashboard. It records every check, opens and resolves incidents, and sends an outage webhook when a monitor goes down or comes back up.
+<h1 align="center">Pulse</h1>
 
-```
-backend/   Spring Boot 4 · Java 21 · JPA + H2 (file) · virtual-thread checker
-frontend/  React 19 · Vite · TypeScript · hand-rolled SVG charts, no UI libs
-e2e/       Playwright tests that boot both and drive the real UI
-```
+<p align="center">Self-hosted uptime monitoring and a public status page for your websites, APIs, and homelab services.</p>
 
-## Pages
+Pulse checks your URLs on a schedule, records uptime and latency, and sends webhooks when a service goes down or recovers. Spring Boot serves the React dashboard, public status page, and API from a single container. Check history is stored in an embedded H2 database.
 
-- **`/`** is the public status page: overall status, active and past incidents, and an uptime bar per service. The admin picks the window in **Settings** (gear icon in the dashboard): **1 day** (last 24 hours, one bar per 15 minutes, the default), **1 week** (7 days, 2 hours per bar) or **1 month** (30 days, 8 hours per bar). Visitors can't change it. Bars with no checks are grey; hovering a bar shows its date and time range.
-- **`/admin`** is the dashboard, behind a password login (HttpOnly session cookie, 30 days). Scripts can use HTTP Basic instead (any username). Changing the password signs everyone out.
+## Features
 
-## Run it
+- **HTTP monitoring** with per-service intervals from 10 seconds to 24 hours, manual checks, and pause controls.
+- **Admin dashboard** at `/admin` with password sign-in, recent checks, latency, uptime, and incident history.
+- **Public status page** at `/` with uptime bars and recent incidents for published, unpaused monitors. It shows service names and status while keeping monitored URLs and error details private.
+- **Outage and recovery webhooks** with delivery status and a test button. Payloads include fields for Slack and Discord.
 
-```bash
-echo "PULSE_PASSWORD=$(openssl rand -base64 12)" > .env
-docker compose up -d --build        # http://localhost:8080 (status) · /admin (dashboard)
-```
+## Quick start
 
-If `PULSE_PASSWORD` is unset, no one can log in to the admin side. The public page still works.
-
-Data lives in the `pulse-data` volume (`/data/pulse.mv.db`). Raw checks older than 30 days are pruned nightly, which is also the longest window the public page can show.
-
-## Develop
+Install Git, OpenSSL, and Docker with the Compose plugin, then run these commands from a fresh checkout.
 
 ```bash
-cd backend && ./mvnw spring-boot:run          # API on :8080 (needs JDK 21)
-cd frontend && npm i && npm run dev           # UI on :5173, proxies /api to :8080
+git clone https://github.com/hackerslash/pulse.git
+cd pulse
+(umask 077 && printf 'PULSE_PASSWORD=%s\n' "$(openssl rand -hex 24)" > .env)
+docker compose up -d --build
 ```
 
-## Test
+1. Open [the admin dashboard](http://localhost:8080/admin) and sign in with the `PULSE_PASSWORD` value in `.env`.
+2. Add a monitor with a name, an HTTP or HTTPS URL, and a check interval. Enable public visibility for any service you want to publish.
+3. Open [the public status page](http://localhost:8080/) to see what visitors see. In the dashboard’s **Settings**, choose **1 day**, **1 week**, or **1 month** of uptime history.
+
+Compose stores the H2 database in the `pulse-data` volume at `/data`. Pulse prunes raw checks older than 30 days each night. Admin sign-in is disabled when `PULSE_PASSWORD` is empty. To change the password, update `.env` and run `docker compose up -d --force-recreate` to recreate the container. Existing sessions expire immediately after the new password takes effect.
+
+## Development
+
+Use Java 21 and Node.js 24. The Maven wrapper is included. From the repository root, run the backend and frontend in separate terminals.
 
 ```bash
-cd backend && ./mvnw test                     # prober, lifecycle, webhooks, auth, public page
-cd frontend && npm test                       # formatters
-cd backend && ./mvnw -DskipTests package && cd ../e2e && npm i && npx playwright install chromium && npm test
+cd backend
+PULSE_PASSWORD=local-dev-password ./mvnw spring-boot:run
 ```
+
+```bash
+cd frontend
+npm ci
+npm run dev
+```
+
+Vite serves the UI at [localhost:5173](http://localhost:5173) and proxies API requests to Spring Boot on port 8080. The backend stores local data in `backend/data` by default.
+
+### Tests
+
+From the repository root, install frontend dependencies with the development steps above, then run:
+
+```bash
+(cd backend && ./mvnw test)
+(cd frontend && npm test)
+(cd backend && ./mvnw -DskipTests package)
+(cd e2e && npm ci && npx playwright install chromium && npm test)
+```
+
+The Playwright suite starts its own backend and frontend with a temporary database.
 
 ## How checks work
 
 - Every second the scheduler picks monitors that are due (interval 10 s – 24 h) and probes each on a virtual thread.
 - `GET` with a 10 s timeout, following redirects. Status below 400 = **up**; anything else, a timeout, or a DNS/TLS/connect error = **down**.
-- A status change records an incident and fires every enabled webhook.
+- An outage opens an incident and a recovery resolves it. Each transition triggers enabled webhooks.
 
 ## Webhooks
 
@@ -64,13 +87,15 @@ Managed in the UI (bell icon). Each enabled webhook gets a JSON `POST`:
 
 ## API
 
-Everything except `/api/public/*`, `/api/login` and `/api/logout` needs a session cookie or HTTP Basic.
+Send a session cookie or HTTP Basic credentials for admin API calls. For HTTP Basic, use any username and the configured admin password. The public status, login, and logout endpoints also accept unauthenticated requests.
 
-| Method | Path | |
+| Method | Path | Purpose |
 |---|---|---|
 | GET | `/api/public/status` | public: published monitors with uptime buckets for the configured window (96 × 15 min, 84 × 2 h or 90 × 8 h), last 10 incidents |
 | GET/PUT | `/api/settings` | `{granularity: "day"\|"week"\|"month"}`, sets the public window |
-| POST | `/api/login` · `/api/logout` | `{password}` sets / clears the session cookie |
+| POST | `/api/login` | Submit `{password}` to set the session cookie |
+| POST | `/api/logout` | Clear the session cookie |
+| GET | `/api/me` | Verify the current admin session or HTTP Basic credentials |
 | GET | `/api/monitors` | monitors + 24h/30d uptime, avg latency, last 60 checks |
 | POST/PUT/DELETE | `/api/monitors[/{id}]` | `{name, url, intervalSeconds, isPublic}` |
 | POST | `/api/monitors/{id}/check` | check now |
@@ -81,3 +106,7 @@ Everything except `/api/public/*`, `/api/login` and `/api/logout` needs a sessio
 | POST | `/api/webhooks/{id}/test` | send a test payload |
 
 Keyboard: `N` new monitor · `/` search · `Esc` close.
+
+## Third-party fonts
+
+The bundled fonts ship with their upstream license notices in [`frontend/public/fonts/`](frontend/public/fonts).
